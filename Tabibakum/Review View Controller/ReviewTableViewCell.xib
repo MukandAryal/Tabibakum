@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Nova-Bold.ttf">
+            <string>ProximaNova-Bold</string>
+        </array>
+        <array key="Nova-Regular.ttf">
+            <string>ProximaNova-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="114" id="KGk-i7-Jjw" customClass="ReviewTableViewCell" customModule="Tabibakum" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="114"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="113.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FMq-6X-Dae">
+                        <rect key="frame" x="10" y="10" width="300" height="103.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QWu-vY-xqP">
+                                <rect key="frame" x="0.0" y="0.0" width="3" height="103.5"/>
+                                <color key="backgroundColor" red="0.0" green="0.33725490196078434" blue="0.49411764705882355" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="3" id="des-q2-XWj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Slot Booked" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7SU-sQ-NPf">
+                                <rect key="frame" x="63" y="23" width="187" height="14"/>
+                                <fontDescription key="fontDescription" name="ProximaNova-Bold" family="Proxima Nova" pointSize="12"/>
+                                <color key="textColor" red="0.1058823529" green="0.1058823529" blue="0.1058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Good Service" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JmZ-bm-hGm">
+                                <rect key="frame" x="10" y="78.5" width="190" height="11"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="11" id="k6x-lL-GZy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="11"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product-image-444101571_1200x1200.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="3On-ya-eA5">
+                                <rect key="frame" x="13" y="10" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="cAb-fm-TQ2"/>
+                                    <constraint firstAttribute="height" constant="40" id="y35-W0-eWr"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TTi-ej-QAJ">
+                                <rect key="frame" x="10" y="60" width="100" height="8.5"/>
+                                <color key="backgroundColor" red="0.74117647060000003" green="0.89019607840000003" blue="0.71372549019999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="PwC-ay-jUW"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="29-05-2019" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ho9-FW-n8R">
+                                <rect key="frame" x="222.5" y="67" width="57.5" height="9.5"/>
+                                <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="11"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="TTi-ej-QAJ" firstAttribute="leading" secondItem="QWu-vY-xqP" secondAttribute="leading" constant="10" id="06x-O5-DtG"/>
+                            <constraint firstItem="QWu-vY-xqP" firstAttribute="leading" secondItem="FMq-6X-Dae" secondAttribute="leading" id="6ey-VZ-zHc"/>
+                            <constraint firstItem="QWu-vY-xqP" firstAttribute="top" secondItem="FMq-6X-Dae" secondAttribute="top" id="8Bc-u3-MjX"/>
+                            <constraint firstItem="JmZ-bm-hGm" firstAttribute="top" secondItem="Ho9-FW-n8R" secondAttribute="bottom" constant="2" id="9Ay-tl-msf"/>
+                            <constraint firstAttribute="trailing" secondItem="7SU-sQ-NPf" secondAttribute="trailing" constant="50" id="AoI-X4-75O"/>
+                            <constraint firstItem="Ho9-FW-n8R" firstAttribute="top" secondItem="7SU-sQ-NPf" secondAttribute="bottom" constant="30" id="DeK-Vf-DoH"/>
+                            <constraint firstAttribute="bottom" secondItem="JmZ-bm-hGm" secondAttribute="bottom" constant="14" id="FQi-WB-U95"/>
+                            <constraint firstItem="7SU-sQ-NPf" firstAttribute="leading" secondItem="3On-ya-eA5" secondAttribute="trailing" constant="10" id="SgM-fe-oZj"/>
+                            <constraint firstAttribute="trailing" secondItem="Ho9-FW-n8R" secondAttribute="trailing" constant="20" id="Xxw-bm-8eC"/>
+                            <constraint firstItem="3On-ya-eA5" firstAttribute="leading" secondItem="QWu-vY-xqP" secondAttribute="trailing" constant="10" id="e0j-R7-AEb"/>
+                            <constraint firstItem="JmZ-bm-hGm" firstAttribute="leading" secondItem="QWu-vY-xqP" secondAttribute="leading" constant="10" id="hSU-IR-hsI"/>
+                            <constraint firstItem="3On-ya-eA5" firstAttribute="top" secondItem="FMq-6X-Dae" secondAttribute="top" constant="10" id="ifW-g0-kUT"/>
+                            <constraint firstItem="7SU-sQ-NPf" firstAttribute="centerY" secondItem="3On-ya-eA5" secondAttribute="centerY" id="u8V-Q2-z4i"/>
+                            <constraint firstAttribute="bottom" secondItem="QWu-vY-xqP" secondAttribute="bottom" id="uPa-0m-JrL"/>
+                            <constraint firstItem="JmZ-bm-hGm" firstAttribute="top" secondItem="TTi-ej-QAJ" secondAttribute="bottom" constant="10" id="vYs-eP-aUz"/>
+                            <constraint firstAttribute="trailing" secondItem="JmZ-bm-hGm" secondAttribute="trailing" constant="100" id="xSV-a2-Cyf"/>
+                            <constraint firstItem="TTi-ej-QAJ" firstAttribute="top" secondItem="3On-ya-eA5" secondAttribute="bottom" constant="10" id="y29-fB-SJa"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="FMq-6X-Dae" secondAttribute="bottom" id="6bd-O0-PmR"/>
+                    <constraint firstAttribute="trailing" secondItem="FMq-6X-Dae" secondAttribute="trailing" constant="10" id="InG-VO-f2e"/>
+                    <constraint firstItem="FMq-6X-Dae" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="hgs-SG-SeV"/>
+                    <constraint firstItem="FMq-6X-Dae" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="sgx-xH-bmG"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="background_view" destination="FMq-6X-Dae" id="yMc-jG-C4j"/>
+                <outlet property="profile_imgView" destination="3On-ya-eA5" id="Oed-2L-GJf"/>
+            </connections>
+            <point key="canvasLocation" x="132.80000000000001" y="145.72713643178412"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="product-image-444101571_1200x1200.jpg" width="800" height="800"/>
+    </resources>
+</document>
