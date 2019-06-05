@@ -7,5 +7,9 @@ target 'Tabibakum' do
 
   pod 'IQKeyboardManagerSwift'
   pod 'SideMenu'
+  pod 'Cosmos'
+  pod 'Alamofire'
+  pod 'SDWebImage'
+  pod 'DropDown'
 
 end

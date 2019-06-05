@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Nova-Bold.ttf">
+        <array key="ProximaNova-Bold.ttf">
             <string>ProximaNova-Bold</string>
         </array>
-        <array key="Nova-Regular.ttf">
+        <array key="ProximaNova-Regular.ttf">
             <string>ProximaNova-Regular</string>
         </array>
     </customFonts>
@@ -95,6 +95,9 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="background_view" destination="kTm-FD-gs9" id="nPS-0c-f2q"/>
+                <outlet property="notification_DateLbl" destination="cAs-cw-Q8x" id="Z7f-uC-fnd"/>
+                <outlet property="notification_DescriptionLbl" destination="tnP-Ql-efw" id="lZS-C3-L7r"/>
+                <outlet property="notification_NameLbl" destination="fEU-yV-caX" id="dTx-gk-JBr"/>
             </connections>
             <point key="canvasLocation" x="84.799999999999997" y="39.580209895052477"/>
         </tableViewCell>

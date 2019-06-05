@@ -62,11 +62,11 @@ extension MenuViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.row == 0 {
-            let bookingObj = self.storyboard?.instantiateViewController(withIdentifier: "BookingsPatientViewController") as! BookingsPatientViewController
+            let bookingObj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
             self.navigationController?.pushViewController(bookingObj, animated: true)
             
         }else if indexPath.row == 1 {
-            let historyObj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+            let historyObj = self.storyboard?.instantiateViewController(withIdentifier: "BookingsPatientViewController") as! BookingsPatientViewController
            self.navigationController?.pushViewController(historyObj, animated: true)
             
         }else if indexPath.row == 2{

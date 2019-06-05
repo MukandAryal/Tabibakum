@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		25F705A2EEC3C4A40E675360 /* Pods_Tabibakum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060244CA0C591EEB11C525C5 /* Pods_Tabibakum.framework */; };
+		5102F7B4229F98AE00C96F4D /* DoctorProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5102F7B3229F98AE00C96F4D /* DoctorProfileViewController.swift */; };
+		5102F808229FE86400C96F4D /* AcariSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5102F7FE229FE86400C96F4D /* AcariSans-SemiBold.ttf */; };
+		5102F809229FE86400C96F4D /* CabinCondensed-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5102F800229FE86400C96F4D /* CabinCondensed-SemiBold.ttf */; };
+		5102F80A229FE86400C96F4D /* ProximaNovaCond-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5102F802229FE86400C96F4D /* ProximaNovaCond-Bold.ttf */; };
+		5102F80B229FE86400C96F4D /* ProximaNova-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5102F804229FE86400C96F4D /* ProximaNova-Bold.ttf */; };
+		5102F80C229FE86400C96F4D /* ProximaNova-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5102F805229FE86400C96F4D /* ProximaNova-Thin.ttf */; };
+		5102F80D229FE86400C96F4D /* SFOldRepublic-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5102F806229FE86400C96F4D /* SFOldRepublic-Bold.ttf */; };
+		5102F80E229FE86400C96F4D /* ProximaNova-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5102F807229FE86400C96F4D /* ProximaNova-Regular.ttf */; };
 		510344FC2297AE4200F0562D /* SignUpAsDoctorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510344FB2297AE4200F0562D /* SignUpAsDoctorViewController.swift */; };
 		510345002297F2D300F0562D /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510344FF2297F2D300F0562D /* ForgotPasswordViewController.swift */; };
 		510D2F23229BC894009FDB31 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D2F22229BC894009FDB31 /* MenuViewController.swift */; };
@@ -18,7 +26,6 @@
 		510D2F2E229BE35C009FDB31 /* menuHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510D2F2C229BE35C009FDB31 /* menuHeaderView.xib */; };
 		510D2F35229C0231009FDB31 /* BookingHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D2F33229C0231009FDB31 /* BookingHistoryTableViewCell.swift */; };
 		510D2F36229C0231009FDB31 /* BookingHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510D2F34229C0231009FDB31 /* BookingHistoryTableViewCell.xib */; };
-		510D2F38229C0C28009FDB31 /* product-image-444101571_1200x1200.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 510D2F37229C0C28009FDB31 /* product-image-444101571_1200x1200.jpg */; };
 		510FE77E229E4AF900E80C16 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510FE77D229E4AF900E80C16 /* ReviewViewController.swift */; };
 		510FE781229E4B9600E80C16 /* ReviewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510FE77F229E4B9600E80C16 /* ReviewHeaderView.swift */; };
 		510FE782229E4B9600E80C16 /* ReviewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510FE780229E4B9600E80C16 /* ReviewHeaderView.xib */; };
@@ -29,8 +36,11 @@
 		510FE78D229EA4D900E80C16 /* AvailableDoctorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510FE78C229EA4D900E80C16 /* AvailableDoctorsViewController.swift */; };
 		510FE790229EA50400E80C16 /* AvailableDoctorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510FE78E229EA50400E80C16 /* AvailableDoctorsTableViewCell.swift */; };
 		510FE791229EA50400E80C16 /* AvailableDoctorsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510FE78F229EA50400E80C16 /* AvailableDoctorsTableViewCell.xib */; };
+		51188C5D22A1338700448A04 /* Configurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51188C5C22A1338700448A04 /* Configurator.swift */; };
+		51188C5F22A133CA00448A04 /* ApiEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51188C5E22A133CA00448A04 /* ApiEndPoints.swift */; };
+		511F50B822A51F6B00D0C0A9 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511F50B722A51F6B00D0C0A9 /* LoadingIndicatorView.swift */; };
+		511F50BA22A52D1400D0C0A9 /* dropDownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511F50B922A52D0D00D0C0A9 /* dropDownCell.swift */; };
 		51356B87229556C6003ABBFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51356B86229556C6003ABBFA /* AppDelegate.swift */; };
-		51356B89229556C6003ABBFA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51356B88229556C6003ABBFA /* ViewController.swift */; };
 		51356B8C229556C6003ABBFA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51356B8A229556C6003ABBFA /* Main.storyboard */; };
 		51356B8F229556C6003ABBFA /* Tabibakum.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 51356B8D229556C6003ABBFA /* Tabibakum.xcdatamodeld */; };
 		51356B91229556C8003ABBFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51356B90229556C8003ABBFA /* Assets.xcassets */; };
@@ -51,8 +61,15 @@
 
 /* Begin PBXFileReference section */
 		060244CA0C591EEB11C525C5 /* Pods_Tabibakum.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tabibakum.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5102F7B3229F98AE00C96F4D /* DoctorProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorProfileViewController.swift; sourceTree = "<group>"; };
+		5102F7FF229FE86400C96F4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = "en.lproj/AcariSans-SemiBold.ttf"; sourceTree = "<group>"; };
+		5102F801229FE86400C96F4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = "en.lproj/CabinCondensed-SemiBold.ttf"; sourceTree = "<group>"; };
+		5102F803229FE86400C96F4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = "en.lproj/ProximaNovaCond-Bold.ttf"; sourceTree = "<group>"; };
+		5102F804229FE86400C96F4D /* ProximaNova-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Bold.ttf"; sourceTree = "<group>"; };
+		5102F805229FE86400C96F4D /* ProximaNova-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Thin.ttf"; sourceTree = "<group>"; };
+		5102F806229FE86400C96F4D /* SFOldRepublic-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFOldRepublic-Bold.ttf"; sourceTree = "<group>"; };
+		5102F807229FE86400C96F4D /* ProximaNova-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Regular.ttf"; sourceTree = "<group>"; };
 		510344FB2297AE4200F0562D /* SignUpAsDoctorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpAsDoctorViewController.swift; sourceTree = "<group>"; };
-		510344FD2297C92C00F0562D /* Acaria-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Acaria-SemiBold.ttf"; sourceTree = "<group>"; };
 		510344FF2297F2D300F0562D /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		510D2F22229BC894009FDB31 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		510D2F25229BCA44009FDB31 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -62,7 +79,6 @@
 		510D2F2C229BE35C009FDB31 /* menuHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = menuHeaderView.xib; sourceTree = "<group>"; };
 		510D2F33229C0231009FDB31 /* BookingHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		510D2F34229C0231009FDB31 /* BookingHistoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookingHistoryTableViewCell.xib; sourceTree = "<group>"; };
-		510D2F37229C0C28009FDB31 /* product-image-444101571_1200x1200.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "product-image-444101571_1200x1200.jpg"; sourceTree = "<group>"; };
 		510FE77D229E4AF900E80C16 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		510FE77F229E4B9600E80C16 /* ReviewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewHeaderView.swift; sourceTree = "<group>"; };
 		510FE780229E4B9600E80C16 /* ReviewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReviewHeaderView.xib; sourceTree = "<group>"; };
@@ -73,21 +89,18 @@
 		510FE78C229EA4D900E80C16 /* AvailableDoctorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableDoctorsViewController.swift; sourceTree = "<group>"; };
 		510FE78E229EA50400E80C16 /* AvailableDoctorsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableDoctorsTableViewCell.swift; sourceTree = "<group>"; };
 		510FE78F229EA50400E80C16 /* AvailableDoctorsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AvailableDoctorsTableViewCell.xib; sourceTree = "<group>"; };
+		51188C5C22A1338700448A04 /* Configurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurator.swift; sourceTree = "<group>"; };
+		51188C5E22A133CA00448A04 /* ApiEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEndPoints.swift; sourceTree = "<group>"; };
+		511F50B722A51F6B00D0C0A9 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
+		511F50B922A52D0D00D0C0A9 /* dropDownCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dropDownCell.swift; sourceTree = "<group>"; };
 		51356B83229556C6003ABBFA /* Tabibakum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tabibakum.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51356B86229556C6003ABBFA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		51356B88229556C6003ABBFA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		51356B8B229556C6003ABBFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		51356B8E229556C6003ABBFA /* Tabibakum.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tabibakum.xcdatamodel; sourceTree = "<group>"; };
 		51356B90229556C8003ABBFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		51356B93229556C8003ABBFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		51356B95229556C8003ABBFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51356B9C22955944003ABBFA /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
-		51356BA022956FE5003ABBFA /* Nova-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nova-Bold.ttf"; sourceTree = "<group>"; };
-		51356BA122956FE5003ABBFA /* Republic-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Republic-Bold.ttf"; sourceTree = "<group>"; };
-		51356BA322956FE5003ABBFA /* Nova-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nova-Regular.ttf"; sourceTree = "<group>"; };
-		51356BA522956FE5003ABBFA /* Web-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Web-Bold.ttf"; sourceTree = "<group>"; };
-		51356BA622956FE5003ABBFA /* Nova-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nova-Thin.ttf"; sourceTree = "<group>"; };
-		51356BA722956FE5003ABBFA /* Cabin-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cabin-SemiBold.ttf"; sourceTree = "<group>"; };
 		51356BA922957858003ABBFA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		51356BAB22957DB3003ABBFA /* SelectLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLanguageViewController.swift; sourceTree = "<group>"; };
 		513C64D922969C3D009FD598 /* SingUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingUpViewController.swift; sourceTree = "<group>"; };
@@ -123,6 +136,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5102F7FD229FE86400C96F4D /* Font Family */ = {
+			isa = PBXGroup;
+			children = (
+				5102F7FE229FE86400C96F4D /* AcariSans-SemiBold.ttf */,
+				5102F800229FE86400C96F4D /* CabinCondensed-SemiBold.ttf */,
+				5102F802229FE86400C96F4D /* ProximaNovaCond-Bold.ttf */,
+				5102F804229FE86400C96F4D /* ProximaNova-Bold.ttf */,
+				5102F805229FE86400C96F4D /* ProximaNova-Thin.ttf */,
+				5102F806229FE86400C96F4D /* SFOldRepublic-Bold.ttf */,
+				5102F807229FE86400C96F4D /* ProximaNova-Regular.ttf */,
+			);
+			name = "Font Family";
+			path = "Font Family 2";
+			sourceTree = "<group>";
+		};
 		510344FE2297F28A00F0562D /* ForgetPassword ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,8 +175,8 @@
 			isa = PBXGroup;
 			children = (
 				510D2F25229BCA44009FDB31 /* HomeViewController.swift */,
-				510D2F33229C0231009FDB31 /* BookingHistoryTableViewCell.swift */,
-				510D2F34229C0231009FDB31 /* BookingHistoryTableViewCell.xib */,
+				51F9EE98229D0A3E006632F9 /* BookingPatientTableViewCell.swift */,
+				51F9EE99229D0A3E006632F9 /* BookingPatientTableViewCell.xib */,
 			);
 			path = "Home ViewController";
 			sourceTree = "<group>";
@@ -196,19 +224,18 @@
 		51356B85229556C6003ABBFA /* Tabibakum */ = {
 			isa = PBXGroup;
 			children = (
-				51356B9E22956F8D003ABBFA /* Font Family */,
+				5102F7FD229FE86400C96F4D /* Font Family */,
 				51356B86229556C6003ABBFA /* AppDelegate.swift */,
-				51356B88229556C6003ABBFA /* ViewController.swift */,
 				51356B8A229556C6003ABBFA /* Main.storyboard */,
-				510D2F37229C0C28009FDB31 /* product-image-444101571_1200x1200.jpg */,
 				51356B90229556C8003ABBFA /* Assets.xcassets */,
 				51356B92229556C8003ABBFA /* LaunchScreen.storyboard */,
 				51356B95229556C8003ABBFA /* Info.plist */,
+				51356B8D229556C6003ABBFA /* Tabibakum.xcdatamodeld */,
+				51389BD022A65C1100D8439D /* Constant ViewController */,
 				510FE78B229EA48C00E80C16 /* Doctor Available List ViewController */,
 				510FE77C229E4AD300E80C16 /* Review View Controller */,
 				51F9EEA3229D2F37006632F9 /* Profile Setting */,
 				51F9EE9C229D1358006632F9 /* Notification ViewController */,
-				51356B8D229556C6003ABBFA /* Tabibakum.xcdatamodeld */,
 				51F9EE95229D0971006632F9 /* Bookings ViewController */,
 				510D2F24229BCA16009FDB31 /* Home ViewController */,
 				510D2F21229BC849009FDB31 /* MenuBar ViewController */,
@@ -229,20 +256,6 @@
 			path = "Welcome ViewController";
 			sourceTree = "<group>";
 		};
-		51356B9E22956F8D003ABBFA /* Font Family */ = {
-			isa = PBXGroup;
-			children = (
-				510344FD2297C92C00F0562D /* Acaria-SemiBold.ttf */,
-				51356BA522956FE5003ABBFA /* Web-Bold.ttf */,
-				51356BA722956FE5003ABBFA /* Cabin-SemiBold.ttf */,
-				51356BA022956FE5003ABBFA /* Nova-Bold.ttf */,
-				51356BA322956FE5003ABBFA /* Nova-Regular.ttf */,
-				51356BA622956FE5003ABBFA /* Nova-Thin.ttf */,
-				51356BA122956FE5003ABBFA /* Republic-Bold.ttf */,
-			);
-			path = "Font Family";
-			sourceTree = "<group>";
-		};
 		51356BA82295782A003ABBFA /* Login ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -251,11 +264,22 @@
 			path = "Login ViewController";
 			sourceTree = "<group>";
 		};
+		51389BD022A65C1100D8439D /* Constant ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				51188C5E22A133CA00448A04 /* ApiEndPoints.swift */,
+				51188C5C22A1338700448A04 /* Configurator.swift */,
+				511F50B722A51F6B00D0C0A9 /* LoadingIndicatorView.swift */,
+			);
+			path = "Constant ViewController";
+			sourceTree = "<group>";
+		};
 		513C64D822969BBA009FD598 /* SingUp ViewController */ = {
 			isa = PBXGroup;
 			children = (
 				513C64D922969C3D009FD598 /* SingUpViewController.swift */,
 				510344FB2297AE4200F0562D /* SignUpAsDoctorViewController.swift */,
+				511F50B922A52D0D00D0C0A9 /* dropDownCell.swift */,
 			);
 			path = "SingUp ViewController";
 			sourceTree = "<group>";
@@ -264,8 +288,8 @@
 			isa = PBXGroup;
 			children = (
 				51F9EE96229D09F1006632F9 /* BookingsPatientViewController.swift */,
-				51F9EE98229D0A3E006632F9 /* BookingPatientTableViewCell.swift */,
-				51F9EE99229D0A3E006632F9 /* BookingPatientTableViewCell.xib */,
+				510D2F33229C0231009FDB31 /* BookingHistoryTableViewCell.swift */,
+				510D2F34229C0231009FDB31 /* BookingHistoryTableViewCell.xib */,
 			);
 			path = "Bookings ViewController";
 			sourceTree = "<group>";
@@ -287,6 +311,7 @@
 				51F9EEA6229D5BC6006632F9 /* ProfileUpdateViewController.swift */,
 				510FE787229E5B6700E80C16 /* DoctorProfileSettingViewController.swift */,
 				510FE789229E6BCE00E80C16 /* PatientProfileUpdateViewController.swift */,
+				5102F7B3229F98AE00C96F4D /* DoctorProfileViewController.swift */,
 			);
 			path = "Profile Setting";
 			sourceTree = "<group>";
@@ -361,7 +386,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				51F9EEA2229D13A1006632F9 /* NotificationPatientTableViewCell.xib in Resources */,
-				510D2F38229C0C28009FDB31 /* product-image-444101571_1200x1200.jpg in Resources */,
+				5102F80C229FE86400C96F4D /* ProximaNova-Thin.ttf in Resources */,
+				5102F80B229FE86400C96F4D /* ProximaNova-Bold.ttf in Resources */,
 				51F9EE9B229D0A3E006632F9 /* BookingPatientTableViewCell.xib in Resources */,
 				510D2F2E229BE35C009FDB31 /* menuHeaderView.xib in Resources */,
 				51356B94229556C8003ABBFA /* LaunchScreen.storyboard in Resources */,
@@ -369,8 +395,13 @@
 				510D2F36229C0231009FDB31 /* BookingHistoryTableViewCell.xib in Resources */,
 				51356B91229556C8003ABBFA /* Assets.xcassets in Resources */,
 				510FE791229EA50400E80C16 /* AvailableDoctorsTableViewCell.xib in Resources */,
+				5102F809229FE86400C96F4D /* CabinCondensed-SemiBold.ttf in Resources */,
 				510D2F2A229BCB45009FDB31 /* MenuTableViewCell.xib in Resources */,
+				5102F808229FE86400C96F4D /* AcariSans-SemiBold.ttf in Resources */,
 				51356B8C229556C6003ABBFA /* Main.storyboard in Resources */,
+				5102F80A229FE86400C96F4D /* ProximaNovaCond-Bold.ttf in Resources */,
+				5102F80E229FE86400C96F4D /* ProximaNova-Regular.ttf in Resources */,
+				5102F80D229FE86400C96F4D /* SFOldRepublic-Bold.ttf in Resources */,
 				510FE786229E4D2500E80C16 /* ReviewTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -387,14 +418,22 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Tabibakum/Pods-Tabibakum-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SideMenu.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -437,33 +476,61 @@
 				510D2F23229BC894009FDB31 /* MenuViewController.swift in Sources */,
 				510D2F29229BCB45009FDB31 /* MenuTableViewCell.swift in Sources */,
 				510FE790229EA50400E80C16 /* AvailableDoctorsTableViewCell.swift in Sources */,
+				51188C5D22A1338700448A04 /* Configurator.swift in Sources */,
 				510D2F2D229BE35C009FDB31 /* menuHeaderView.swift in Sources */,
 				513C64DA22969C3D009FD598 /* SingUpViewController.swift in Sources */,
 				51F9EE97229D09F1006632F9 /* BookingsPatientViewController.swift in Sources */,
 				51F9EEA1229D13A1006632F9 /* NotificationPatientTableViewCell.swift in Sources */,
 				51F9EE9E229D1387006632F9 /* NotificationPatientViewController.swift in Sources */,
-				51356B89229556C6003ABBFA /* ViewController.swift in Sources */,
 				510FE781229E4B9600E80C16 /* ReviewHeaderView.swift in Sources */,
 				510FE788229E5B6700E80C16 /* DoctorProfileSettingViewController.swift in Sources */,
 				510FE78A229E6BCE00E80C16 /* PatientProfileUpdateViewController.swift in Sources */,
 				51F9EE9A229D0A3E006632F9 /* BookingPatientTableViewCell.swift in Sources */,
 				51356B9D22955944003ABBFA /* WelcomeViewController.swift in Sources */,
+				5102F7B4229F98AE00C96F4D /* DoctorProfileViewController.swift in Sources */,
 				51356B8F229556C6003ABBFA /* Tabibakum.xcdatamodeld in Sources */,
 				510345002297F2D300F0562D /* ForgotPasswordViewController.swift in Sources */,
 				510D2F26229BCA44009FDB31 /* HomeViewController.swift in Sources */,
+				511F50B822A51F6B00D0C0A9 /* LoadingIndicatorView.swift in Sources */,
 				510D2F35229C0231009FDB31 /* BookingHistoryTableViewCell.swift in Sources */,
 				51F9EEA5229D2F5F006632F9 /* ProfileSettingViewController.swift in Sources */,
 				510344FC2297AE4200F0562D /* SignUpAsDoctorViewController.swift in Sources */,
+				511F50BA22A52D1400D0C0A9 /* dropDownCell.swift in Sources */,
 				51356BAA22957858003ABBFA /* LoginViewController.swift in Sources */,
 				510FE785229E4D2500E80C16 /* ReviewTableViewCell.swift in Sources */,
 				51356B87229556C6003ABBFA /* AppDelegate.swift in Sources */,
 				510FE78D229EA4D900E80C16 /* AvailableDoctorsViewController.swift in Sources */,
+				51188C5F22A133CA00448A04 /* ApiEndPoints.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		5102F7FE229FE86400C96F4D /* AcariSans-SemiBold.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5102F7FF229FE86400C96F4D /* en */,
+			);
+			name = "AcariSans-SemiBold.ttf";
+			sourceTree = "<group>";
+		};
+		5102F800229FE86400C96F4D /* CabinCondensed-SemiBold.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5102F801229FE86400C96F4D /* en */,
+			);
+			name = "CabinCondensed-SemiBold.ttf";
+			sourceTree = "<group>";
+		};
+		5102F802229FE86400C96F4D /* ProximaNovaCond-Bold.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5102F803229FE86400C96F4D /* en */,
+			);
+			name = "ProximaNovaCond-Bold.ttf";
+			sourceTree = "<group>";
+		};
 		51356B8A229556C6003ABBFA /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

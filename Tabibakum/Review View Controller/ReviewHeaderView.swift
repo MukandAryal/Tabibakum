@@ -12,10 +12,11 @@ class ReviewHeaderView: UITableViewHeaderFooterView {
     
     @IBOutlet weak var Userprofile_imgView: UIImageView!
     
+    @IBOutlet weak var userName_Lbl: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
-     //   Userprofile_imgView.layer.cornerRadius = Userprofile_imgView.frame.height/2
-       // Userprofile_imgView.clipsToBounds = true
+        Userprofile_imgView.layer.cornerRadius = Userprofile_imgView.frame.height/2
+        Userprofile_imgView.clipsToBounds = true
         
     }
 }

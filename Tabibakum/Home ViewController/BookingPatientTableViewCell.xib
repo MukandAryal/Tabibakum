@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Nova-Bold.ttf">
+        <array key="ProximaNova-Bold.ttf">
             <string>ProximaNova-Bold</string>
         </array>
-        <array key="Nova-Regular.ttf">
+        <array key="ProximaNova-Regular.ttf">
             <string>ProximaNova-Regular</string>
         </array>
     </customFonts>
@@ -150,7 +150,7 @@
                 <outlet property="background_view" destination="i3a-Cd-vhv" id="mqM-1B-k1d"/>
                 <outlet property="date_Lbl" destination="mNF-yd-ad2" id="awU-wE-MNg"/>
                 <outlet property="spcialist_Lbl" destination="ndY-Qi-wEM" id="SKX-PX-eNw"/>
-                <outlet property="time_lbl" destination="mNF-yd-ad2" id="ojg-xm-hG7"/>
+                <outlet property="time_lbl" destination="glu-1q-n48" id="TwN-al-3q4"/>
                 <outlet property="userImg_view" destination="uJ9-nI-wkm" id="TPD-SE-Rli"/>
                 <outlet property="user_NameLbl" destination="GsH-Zd-veJ" id="eFj-kj-oE4"/>
             </connections>

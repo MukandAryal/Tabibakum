@@ -1,20 +1,38 @@
 PODS:
+  - Alamofire (4.8.1)
+  - Cosmos (18.0.1)
+  - DropDown (2.3.12)
   - IQKeyboardManagerSwift (6.2.0)
+  - SDWebImage (4.4.5):
+    - SDWebImage/Core (= 4.4.5)
+  - SDWebImage/Core (4.4.5)
   - SideMenu (5.0.3)
 
 DEPENDENCIES:
+  - Alamofire
+  - Cosmos
+  - DropDown
   - IQKeyboardManagerSwift
+  - SDWebImage
   - SideMenu
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - Cosmos
+    - DropDown
     - IQKeyboardManagerSwift
+    - SDWebImage
     - SideMenu
 
 SPEC CHECKSUMS:
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  Cosmos: 7dfaa3f52584ca5f94ab74b5c2e264019cc9f7f5
+  DropDown: 0bcc278799ec11a3d34ce1aac9367fbbaf5423d9
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
+  SDWebImage: ecc03494e973b93b80213649d32175f8d2d17d4d
   SideMenu: 1dcaabce84538c53325c287f7fe62999379a641c
 
-PODFILE CHECKSUM: 4eff3ea08eb24bf226326658338add7ceba01312
+PODFILE CHECKSUM: f5639fcb0faa23c2f47f9f196c9b69b5011129ee
 
 COCOAPODS: 1.5.3

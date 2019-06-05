@@ -55,6 +55,10 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <connections>
+                <outlet property="Userprofile_imgView" destination="yFw-vv-WZb" id="PIU-sp-4Bi"/>
+                <outlet property="userName_Lbl" destination="mtQ-xU-fnu" id="Utj-Dx-41q"/>
+            </connections>
             <point key="canvasLocation" x="-221.59999999999999" y="-79.610194902548727"/>
         </view>
     </objects>

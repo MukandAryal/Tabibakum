@@ -10,6 +10,11 @@ import UIKit
 
 class NotificationPatientTableViewCell: UITableViewCell {
 @IBOutlet weak var background_view: UIView!
+    
+    @IBOutlet weak var notification_NameLbl: UILabel!
+    
+    @IBOutlet weak var notification_DescriptionLbl: UILabel!
+    @IBOutlet weak var notification_DateLbl: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         background_view.layer.cornerRadius = 10

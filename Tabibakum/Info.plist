@@ -22,14 +22,29 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Acaria-SemiBold.ttf</string>
-		<string>Web-Bold.ttf</string>
-		<string>Cabin-SemiBold.ttf</string>
-		<string>Nova-Bold.ttf</string>
-		<string>Nova-Regular.ttf</string>
-		<string>Nova-Thin.ttf</string>
-		<string>Republic-Bold.ttf</string>
+		<string>AcariSans-SemiBold.ttf</string>
+		<string>ProximaNovaCond-Bold.ttf</string>
+		<string>CabinCondensed-SemiBold.ttf</string>
+		<string>ProximaNova-Bold.ttf</string>
+		<string>ProximaNova-Regular.ttf</string>
+		<string>ProximaNova-Thin.ttf</string>
+		<string>SFOldRepublic-Bold.ttf</string>
 	</array>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <key>example.com</key>
+            <dict>
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+            </dict>
+        </dict>
+    </dict>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

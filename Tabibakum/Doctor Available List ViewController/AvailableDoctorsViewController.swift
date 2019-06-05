@@ -12,9 +12,7 @@ class AvailableDoctorsViewController: UIViewController {
 
     @IBOutlet weak var availbleDoctorsTblView: UITableView!
     @IBOutlet weak var search_View: UIView!
-    
     @IBOutlet weak var search_txtFld: UITextField!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,9 +44,8 @@ extension AvailableDoctorsViewController : UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "AvailableDoctorsTableViewCell") as! AvailableDoctorsTableViewCell
         return cell
     }
-    
-    
 }
+
 extension AvailableDoctorsViewController : UITableViewDelegate{
     
 }
