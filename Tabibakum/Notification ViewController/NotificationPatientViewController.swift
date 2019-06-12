@@ -81,12 +81,10 @@ class NotificationPatientViewController: UIViewController {
     }
     
     func notoificationApi(){
-        let param: [String: String] = [
-            "patient_id" : "311"
-        ]
         LoadingIndicatorView.show()
-        //  let api = Configurator.baseURL + ApiEndPoints.currentbooking
-        Alamofire.request("http://18.224.27.255:8000/api/notification?id=311", method: .get, parameters: nil, encoding: JSONEncoding.default)
+        let userId = UserDefaults.standard.integer(forKey: "userId")
+        let api = Configurator.baseURL + ApiEndPoints.notification + "?id=\(userId)"
+        Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
                 let resultDict = response.value as? NSDictionary

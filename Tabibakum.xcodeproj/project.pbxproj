@@ -18,6 +18,12 @@
 		5102F80E229FE86400C96F4D /* ProximaNova-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5102F807229FE86400C96F4D /* ProximaNova-Regular.ttf */; };
 		510344FC2297AE4200F0562D /* SignUpAsDoctorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510344FB2297AE4200F0562D /* SignUpAsDoctorViewController.swift */; };
 		510345002297F2D300F0562D /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510344FF2297F2D300F0562D /* ForgotPasswordViewController.swift */; };
+		510C368322B0B475001563A8 /* QueestionNaireImgeAndTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510C368222B0B475001563A8 /* QueestionNaireImgeAndTextViewController.swift */; };
+		510C368522B103C9001563A8 /* QuestionNaireSingalTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510C368422B103C9001563A8 /* QuestionNaireSingalTabViewController.swift */; };
+		510C368722B103EF001563A8 /* QuestionNaireMultipleTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510C368622B103EF001563A8 /* QuestionNaireMultipleTabViewController.swift */; };
+		510C368A22B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510C368822B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.swift */; };
+		510C368B22B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510C368922B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.xib */; };
+		510C368D22B120A0001563A8 /* singUpPatientWelcomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510C368C22B120A0001563A8 /* singUpPatientWelcomeScreenViewController.swift */; };
 		510D2F23229BC894009FDB31 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D2F22229BC894009FDB31 /* MenuViewController.swift */; };
 		510D2F26229BCA44009FDB31 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D2F25229BCA44009FDB31 /* HomeViewController.swift */; };
 		510D2F29229BCB45009FDB31 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D2F27229BCB45009FDB31 /* MenuTableViewCell.swift */; };
@@ -36,6 +42,10 @@
 		510FE78D229EA4D900E80C16 /* AvailableDoctorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510FE78C229EA4D900E80C16 /* AvailableDoctorsViewController.swift */; };
 		510FE790229EA50400E80C16 /* AvailableDoctorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510FE78E229EA50400E80C16 /* AvailableDoctorsTableViewCell.swift */; };
 		510FE791229EA50400E80C16 /* AvailableDoctorsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510FE78F229EA50400E80C16 /* AvailableDoctorsTableViewCell.xib */; };
+		5114367022AF731E006D5827 /* ListQuestionNaireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114366F22AF731E006D5827 /* ListQuestionNaireViewController.swift */; };
+		5114367622AF8E39006D5827 /* QuestionYesNoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114367522AF8E39006D5827 /* QuestionYesNoViewController.swift */; };
+		5114367822AF966B006D5827 /* QuestionNaireTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114367722AF966B006D5827 /* QuestionNaireTextViewController.swift */; };
+		5114367A22AFA4C5006D5827 /* QuestionNaireImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114367922AFA4C5006D5827 /* QuestionNaireImageViewController.swift */; };
 		51188C5D22A1338700448A04 /* Configurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51188C5C22A1338700448A04 /* Configurator.swift */; };
 		51188C5F22A133CA00448A04 /* ApiEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51188C5E22A133CA00448A04 /* ApiEndPoints.swift */; };
 		511F50B822A51F6B00D0C0A9 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511F50B722A51F6B00D0C0A9 /* LoadingIndicatorView.swift */; };
@@ -49,6 +59,7 @@
 		51356BAA22957858003ABBFA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51356BA922957858003ABBFA /* LoginViewController.swift */; };
 		51356BAC22957DB3003ABBFA /* SelectLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51356BAB22957DB3003ABBFA /* SelectLanguageViewController.swift */; };
 		513C64DA22969C3D009FD598 /* SingUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513C64D922969C3D009FD598 /* SingUpViewController.swift */; };
+		5182322122AE172D00750787 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5182322022AE172D00750787 /* GoogleService-Info.plist */; };
 		51F9EE97229D09F1006632F9 /* BookingsPatientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F9EE96229D09F1006632F9 /* BookingsPatientViewController.swift */; };
 		51F9EE9A229D0A3E006632F9 /* BookingPatientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F9EE98229D0A3E006632F9 /* BookingPatientTableViewCell.swift */; };
 		51F9EE9B229D0A3E006632F9 /* BookingPatientTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51F9EE99229D0A3E006632F9 /* BookingPatientTableViewCell.xib */; };
@@ -71,6 +82,12 @@
 		5102F807229FE86400C96F4D /* ProximaNova-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Regular.ttf"; sourceTree = "<group>"; };
 		510344FB2297AE4200F0562D /* SignUpAsDoctorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpAsDoctorViewController.swift; sourceTree = "<group>"; };
 		510344FF2297F2D300F0562D /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		510C368222B0B475001563A8 /* QueestionNaireImgeAndTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueestionNaireImgeAndTextViewController.swift; sourceTree = "<group>"; };
+		510C368422B103C9001563A8 /* QuestionNaireSingalTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionNaireSingalTabViewController.swift; sourceTree = "<group>"; };
+		510C368622B103EF001563A8 /* QuestionNaireMultipleTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionNaireMultipleTabViewController.swift; sourceTree = "<group>"; };
+		510C368822B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionNaireSingalTabCollectionViewCell.swift; sourceTree = "<group>"; };
+		510C368922B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionNaireSingalTabCollectionViewCell.xib; sourceTree = "<group>"; };
+		510C368C22B120A0001563A8 /* singUpPatientWelcomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = singUpPatientWelcomeScreenViewController.swift; sourceTree = "<group>"; };
 		510D2F22229BC894009FDB31 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		510D2F25229BCA44009FDB31 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		510D2F27229BCB45009FDB31 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
@@ -89,6 +106,10 @@
 		510FE78C229EA4D900E80C16 /* AvailableDoctorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableDoctorsViewController.swift; sourceTree = "<group>"; };
 		510FE78E229EA50400E80C16 /* AvailableDoctorsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableDoctorsTableViewCell.swift; sourceTree = "<group>"; };
 		510FE78F229EA50400E80C16 /* AvailableDoctorsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AvailableDoctorsTableViewCell.xib; sourceTree = "<group>"; };
+		5114366F22AF731E006D5827 /* ListQuestionNaireViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListQuestionNaireViewController.swift; sourceTree = "<group>"; };
+		5114367522AF8E39006D5827 /* QuestionYesNoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionYesNoViewController.swift; sourceTree = "<group>"; };
+		5114367722AF966B006D5827 /* QuestionNaireTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionNaireTextViewController.swift; sourceTree = "<group>"; };
+		5114367922AFA4C5006D5827 /* QuestionNaireImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionNaireImageViewController.swift; sourceTree = "<group>"; };
 		51188C5C22A1338700448A04 /* Configurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurator.swift; sourceTree = "<group>"; };
 		51188C5E22A133CA00448A04 /* ApiEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEndPoints.swift; sourceTree = "<group>"; };
 		511F50B722A51F6B00D0C0A9 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -104,6 +125,7 @@
 		51356BA922957858003ABBFA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		51356BAB22957DB3003ABBFA /* SelectLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLanguageViewController.swift; sourceTree = "<group>"; };
 		513C64D922969C3D009FD598 /* SingUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingUpViewController.swift; sourceTree = "<group>"; };
+		5182322022AE172D00750787 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		51F9EE96229D09F1006632F9 /* BookingsPatientViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingsPatientViewController.swift; sourceTree = "<group>"; };
 		51F9EE98229D0A3E006632F9 /* BookingPatientTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingPatientTableViewCell.swift; sourceTree = "<group>"; };
 		51F9EE99229D0A3E006632F9 /* BookingPatientTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookingPatientTableViewCell.xib; sourceTree = "<group>"; };
@@ -203,6 +225,22 @@
 			path = "Doctor Available List ViewController";
 			sourceTree = "<group>";
 		};
+		5114366E22AF72DD006D5827 /* QuestionNaire ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5114366F22AF731E006D5827 /* ListQuestionNaireViewController.swift */,
+				5114367522AF8E39006D5827 /* QuestionYesNoViewController.swift */,
+				5114367722AF966B006D5827 /* QuestionNaireTextViewController.swift */,
+				5114367922AFA4C5006D5827 /* QuestionNaireImageViewController.swift */,
+				510C368222B0B475001563A8 /* QueestionNaireImgeAndTextViewController.swift */,
+				510C368422B103C9001563A8 /* QuestionNaireSingalTabViewController.swift */,
+				510C368622B103EF001563A8 /* QuestionNaireMultipleTabViewController.swift */,
+				510C368822B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.swift */,
+				510C368922B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.xib */,
+			);
+			path = "QuestionNaire ViewController";
+			sourceTree = "<group>";
+		};
 		51356B7A229556C6003ABBFA = {
 			isa = PBXGroup;
 			children = (
@@ -224,13 +262,15 @@
 		51356B85229556C6003ABBFA /* Tabibakum */ = {
 			isa = PBXGroup;
 			children = (
-				5102F7FD229FE86400C96F4D /* Font Family */,
 				51356B86229556C6003ABBFA /* AppDelegate.swift */,
 				51356B8A229556C6003ABBFA /* Main.storyboard */,
 				51356B90229556C8003ABBFA /* Assets.xcassets */,
 				51356B92229556C8003ABBFA /* LaunchScreen.storyboard */,
 				51356B95229556C8003ABBFA /* Info.plist */,
 				51356B8D229556C6003ABBFA /* Tabibakum.xcdatamodeld */,
+				5182322022AE172D00750787 /* GoogleService-Info.plist */,
+				5102F7FD229FE86400C96F4D /* Font Family */,
+				5114366E22AF72DD006D5827 /* QuestionNaire ViewController */,
 				51389BD022A65C1100D8439D /* Constant ViewController */,
 				510FE78B229EA48C00E80C16 /* Doctor Available List ViewController */,
 				510FE77C229E4AD300E80C16 /* Review View Controller */,
@@ -280,6 +320,7 @@
 				513C64D922969C3D009FD598 /* SingUpViewController.swift */,
 				510344FB2297AE4200F0562D /* SignUpAsDoctorViewController.swift */,
 				511F50B922A52D0D00D0C0A9 /* dropDownCell.swift */,
+				510C368C22B120A0001563A8 /* singUpPatientWelcomeScreenViewController.swift */,
 			);
 			path = "SingUp ViewController";
 			sourceTree = "<group>";
@@ -396,10 +437,12 @@
 				51356B91229556C8003ABBFA /* Assets.xcassets in Resources */,
 				510FE791229EA50400E80C16 /* AvailableDoctorsTableViewCell.xib in Resources */,
 				5102F809229FE86400C96F4D /* CabinCondensed-SemiBold.ttf in Resources */,
+				5182322122AE172D00750787 /* GoogleService-Info.plist in Resources */,
 				510D2F2A229BCB45009FDB31 /* MenuTableViewCell.xib in Resources */,
 				5102F808229FE86400C96F4D /* AcariSans-SemiBold.ttf in Resources */,
 				51356B8C229556C6003ABBFA /* Main.storyboard in Resources */,
 				5102F80A229FE86400C96F4D /* ProximaNovaCond-Bold.ttf in Resources */,
+				510C368B22B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.xib in Resources */,
 				5102F80E229FE86400C96F4D /* ProximaNova-Regular.ttf in Resources */,
 				5102F80D229FE86400C96F4D /* SFOldRepublic-Bold.ttf in Resources */,
 				510FE786229E4D2500E80C16 /* ReviewTableViewCell.xib in Resources */,
@@ -421,7 +464,9 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework",
 			);
@@ -432,7 +477,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SideMenu.framework",
 			);
@@ -472,28 +519,37 @@
 			files = (
 				51356BAC22957DB3003ABBFA /* SelectLanguageViewController.swift in Sources */,
 				51F9EEA7229D5BC6006632F9 /* ProfileUpdateViewController.swift in Sources */,
+				5114367022AF731E006D5827 /* ListQuestionNaireViewController.swift in Sources */,
+				5114367822AF966B006D5827 /* QuestionNaireTextViewController.swift in Sources */,
 				510FE77E229E4AF900E80C16 /* ReviewViewController.swift in Sources */,
+				510C368322B0B475001563A8 /* QueestionNaireImgeAndTextViewController.swift in Sources */,
 				510D2F23229BC894009FDB31 /* MenuViewController.swift in Sources */,
+				510C368D22B120A0001563A8 /* singUpPatientWelcomeScreenViewController.swift in Sources */,
 				510D2F29229BCB45009FDB31 /* MenuTableViewCell.swift in Sources */,
 				510FE790229EA50400E80C16 /* AvailableDoctorsTableViewCell.swift in Sources */,
 				51188C5D22A1338700448A04 /* Configurator.swift in Sources */,
 				510D2F2D229BE35C009FDB31 /* menuHeaderView.swift in Sources */,
 				513C64DA22969C3D009FD598 /* SingUpViewController.swift in Sources */,
+				510C368522B103C9001563A8 /* QuestionNaireSingalTabViewController.swift in Sources */,
+				510C368A22B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.swift in Sources */,
 				51F9EE97229D09F1006632F9 /* BookingsPatientViewController.swift in Sources */,
 				51F9EEA1229D13A1006632F9 /* NotificationPatientTableViewCell.swift in Sources */,
 				51F9EE9E229D1387006632F9 /* NotificationPatientViewController.swift in Sources */,
 				510FE781229E4B9600E80C16 /* ReviewHeaderView.swift in Sources */,
+				5114367A22AFA4C5006D5827 /* QuestionNaireImageViewController.swift in Sources */,
 				510FE788229E5B6700E80C16 /* DoctorProfileSettingViewController.swift in Sources */,
 				510FE78A229E6BCE00E80C16 /* PatientProfileUpdateViewController.swift in Sources */,
 				51F9EE9A229D0A3E006632F9 /* BookingPatientTableViewCell.swift in Sources */,
 				51356B9D22955944003ABBFA /* WelcomeViewController.swift in Sources */,
 				5102F7B4229F98AE00C96F4D /* DoctorProfileViewController.swift in Sources */,
+				5114367622AF8E39006D5827 /* QuestionYesNoViewController.swift in Sources */,
 				51356B8F229556C6003ABBFA /* Tabibakum.xcdatamodeld in Sources */,
 				510345002297F2D300F0562D /* ForgotPasswordViewController.swift in Sources */,
 				510D2F26229BCA44009FDB31 /* HomeViewController.swift in Sources */,
 				511F50B822A51F6B00D0C0A9 /* LoadingIndicatorView.swift in Sources */,
 				510D2F35229C0231009FDB31 /* BookingHistoryTableViewCell.swift in Sources */,
 				51F9EEA5229D2F5F006632F9 /* ProfileSettingViewController.swift in Sources */,
+				510C368722B103EF001563A8 /* QuestionNaireMultipleTabViewController.swift in Sources */,
 				510344FC2297AE4200F0562D /* SignUpAsDoctorViewController.swift in Sources */,
 				511F50BA22A52D1400D0C0A9 /* dropDownCell.swift in Sources */,
 				51356BAA22957858003ABBFA /* LoginViewController.swift in Sources */,

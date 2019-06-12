@@ -134,7 +134,11 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="background_view" destination="FMq-6X-Dae" id="yMc-jG-C4j"/>
+                <outlet property="date_Lbl" destination="Ho9-FW-n8R" id="j6c-cK-y0e"/>
+                <outlet property="description_Lbl" destination="JmZ-bm-hGm" id="7yR-hD-ZfL"/>
+                <outlet property="name_Lbl" destination="7SU-sQ-NPf" id="W1q-tK-bvU"/>
                 <outlet property="profile_imgView" destination="3On-ya-eA5" id="Oed-2L-GJf"/>
+                <outlet property="star_View" destination="TTi-ej-QAJ" id="Y2I-if-2C9"/>
             </connections>
             <point key="canvasLocation" x="132.80000000000001" y="145.72713643178412"/>
         </tableViewCell>

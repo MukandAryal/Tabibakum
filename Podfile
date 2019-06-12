@@ -11,5 +11,6 @@ target 'Tabibakum' do
   pod 'Alamofire'
   pod 'SDWebImage'
   pod 'DropDown'
+  pod 'Firebase/Messaging'
 
 end

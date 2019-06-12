@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 import IQKeyboardManagerSwift
+import Firebase
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +21,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
          IQKeyboardManager.shared.enable = true
         // Override point for customization after application launch.
+       FirebaseApp.configure()
+        Messaging.messaging().delegate = self
+        // [START register_for_notifications]
+       if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+         //  UNUserNotificationCenter.current().delegate = self
+
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+               UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+
+        application.registerForRemoteNotifications()
         return true
     }
     
@@ -97,5 +117,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+}
+
+//// [START ios_10_message_handling]
+//@available(iOS 10, *)
+//extension AppDelegate : UNUserNotificationCenterDelegate {
+//
+//    // Receive displayed notifications for iOS 10 devices.
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                willPresent notification: UNNotification,
+//                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//
+//        //completionHandler()
+//    }
+//}
+
+extension AppDelegate : MessagingDelegate {
+    // [START refresh_token]
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        print("Firebase registration token: \(fcmToken)")
+        UserDefaults.standard.set(fcmToken, forKey: "DeviceToken")
+
+        // TODO: If necessary send token to application server.
+        // Note: This callback is fired at each app startup and whenever a new token is generated.
+    }
+    // [END refresh_token]
+    // [START ios_10_data_message]
+    // Receive data messages on iOS 10+ directly from FCM (bypassing APNs) when the app is in the foreground.
+    // To enable direct data messages, you can set Messaging.messaging().shouldEstablishDirectChannel to true.
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+        print("Received data message: \(remoteMessage.appData)")
+    }
+    // [END ios_10_data_message]
 }
 

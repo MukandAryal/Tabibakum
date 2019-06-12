@@ -41,11 +41,12 @@ class LoginViewController: UIViewController {
     
     func loginApi(){
         LoadingIndicatorView.show()
+        let deviceToken = UserDefaults.standard.string(forKey: "DeviceToken")
         let param: [String: String] = [
             "phone" : phoneNumber_txtFld.text!,
             "country_code" : "+964",
             "password" : password_txtFld.text!,
-            "device_token" : "fIcOhEIJwpE:APA91bGSNKBqmQOr3BnXL5aOLH-iAJ5M5VvbdpQT4FzSVxW8dw7U-3BTT35cm52JfsobjVMJ183cDAqVIEBLMylRg-h5k8U7H_2PoJJoA3t0cqwh-ZMjko1VjfFdk6ifq2cNEt4B35JL"
+            "device_token" : deviceToken!
         ]
         
         print(param)
@@ -57,6 +58,8 @@ class LoginViewController: UIViewController {
                 LoadingIndicatorView.hide()
                 let resultDict = response.value as? [String: AnyObject]
                 if ((resultDict?.keys.contains("token"))!) {
+                    let token = resultDict!["token"] as? String
+                    UserDefaults.standard.set(token, forKey: "loginToken") //setObject
                     // contains key
                     let loginObj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
                     self.navigationController?.pushViewController(loginObj

@@ -42,12 +42,10 @@ class DoctorProfileSettingViewController: UIViewController {
     }
     
     func userProfileApi(){
-        let param: [String: String] = [
-            "patient_id" : "311"
-        ]
         LoadingIndicatorView.show()
-        //  let api = Configurator.baseURL + ApiEndPoints.currentbooking
-        Alamofire.request("http://18.224.27.255:8000/api/userdata?user_id=311", method: .get, parameters: nil, encoding: JSONEncoding.default)
+        let useid = UserDefaults.standard.integer(forKey: "userId")
+        let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(useid)"
+        Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
                 let resultDict = response.value as? NSDictionary
@@ -69,6 +67,8 @@ class DoctorProfileSettingViewController: UIViewController {
                 }
         }
     }
+    
+    
     
     @IBAction func actionUpdateBtn(_ sender: Any) {
         let Obj = self.storyboard?.instantiateViewController(withIdentifier: "ProfileUpdateViewController") as! ProfileUpdateViewController

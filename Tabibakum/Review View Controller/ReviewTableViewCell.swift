@@ -7,11 +7,17 @@
 //
 
 import UIKit
+import Cosmos
 
 class ReviewTableViewCell: UITableViewCell {
 
     @IBOutlet weak var profile_imgView: UIImageView!
     @IBOutlet weak var background_view: UIView!
+    @IBOutlet weak var star_View: CosmosView!
+    @IBOutlet weak var name_Lbl: UILabel!
+    @IBOutlet weak var description_Lbl: UILabel!
+    @IBOutlet weak var date_Lbl: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

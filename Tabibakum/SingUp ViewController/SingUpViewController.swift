@@ -177,7 +177,6 @@ class SingUpViewController: UIViewController,UIImagePickerControllerDelegate,UIN
         self.navigationController?.pushViewController(loginObj, animated: true)
     }
     
-    
     @IBAction func actionSubmitBtn(_ sender: Any) {
         let img = UIImage(named: "user_pic")
         if userImg_View.image == img {

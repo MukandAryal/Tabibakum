@@ -40,12 +40,10 @@ class ProfileSettingViewController: UIViewController {
     }
     
     func userProfileApi(){
-        let param: [String: String] = [
-            "patient_id" : "311"
-        ]
         LoadingIndicatorView.show()
-        //  let api = Configurator.baseURL + ApiEndPoints.currentbooking
-        Alamofire.request("http://18.224.27.255:8000/api/userdata?user_id=311", method: .get, parameters: nil, encoding: JSONEncoding.default)
+        let useid = UserDefaults.standard.integer(forKey: "userId")
+        let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(useid)"
+        Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
                 let resultDict = response.value as? NSDictionary
@@ -56,6 +54,7 @@ class ProfileSettingViewController: UIViewController {
                     let img =  userData["avatar"] as? String
                     let imageStr = Configurator.imageBaseUrl + img!
                     self.profile_ImgView.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))
+                    self.phoneNumber_Lbl.text = userData["phone"] as? String
                     self.emailId_Lbl.text = userData["email"] as? String
                     self.dateofBirth_Lbl.text = userData["date_of_birth"] as? String
                     self.gender_Lbl.text = userData["gender"] as? String
