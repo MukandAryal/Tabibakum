@@ -46,6 +46,9 @@
 		5114367622AF8E39006D5827 /* QuestionYesNoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114367522AF8E39006D5827 /* QuestionYesNoViewController.swift */; };
 		5114367822AF966B006D5827 /* QuestionNaireTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114367722AF966B006D5827 /* QuestionNaireTextViewController.swift */; };
 		5114367A22AFA4C5006D5827 /* QuestionNaireImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5114367922AFA4C5006D5827 /* QuestionNaireImageViewController.swift */; };
+		51184B3822B214A80016A5B2 /* doctorSingUpCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51184B3722B214A80016A5B2 /* doctorSingUpCompleteViewController.swift */; };
+		51184B3A22B219640016A5B2 /* TermsAndConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51184B3922B219640016A5B2 /* TermsAndConditionsViewController.swift */; };
+		51184B3C22B27B6D0016A5B2 /* patientSingUpSucessfullyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51184B3B22B27B6D0016A5B2 /* patientSingUpSucessfullyViewController.swift */; };
 		51188C5D22A1338700448A04 /* Configurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51188C5C22A1338700448A04 /* Configurator.swift */; };
 		51188C5F22A133CA00448A04 /* ApiEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51188C5E22A133CA00448A04 /* ApiEndPoints.swift */; };
 		511F50B822A51F6B00D0C0A9 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511F50B722A51F6B00D0C0A9 /* LoadingIndicatorView.swift */; };
@@ -110,6 +113,9 @@
 		5114367522AF8E39006D5827 /* QuestionYesNoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionYesNoViewController.swift; sourceTree = "<group>"; };
 		5114367722AF966B006D5827 /* QuestionNaireTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionNaireTextViewController.swift; sourceTree = "<group>"; };
 		5114367922AFA4C5006D5827 /* QuestionNaireImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionNaireImageViewController.swift; sourceTree = "<group>"; };
+		51184B3722B214A80016A5B2 /* doctorSingUpCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = doctorSingUpCompleteViewController.swift; sourceTree = "<group>"; };
+		51184B3922B219640016A5B2 /* TermsAndConditionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsViewController.swift; sourceTree = "<group>"; };
+		51184B3B22B27B6D0016A5B2 /* patientSingUpSucessfullyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = patientSingUpSucessfullyViewController.swift; sourceTree = "<group>"; };
 		51188C5C22A1338700448A04 /* Configurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurator.swift; sourceTree = "<group>"; };
 		51188C5E22A133CA00448A04 /* ApiEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEndPoints.swift; sourceTree = "<group>"; };
 		511F50B722A51F6B00D0C0A9 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -321,6 +327,9 @@
 				510344FB2297AE4200F0562D /* SignUpAsDoctorViewController.swift */,
 				511F50B922A52D0D00D0C0A9 /* dropDownCell.swift */,
 				510C368C22B120A0001563A8 /* singUpPatientWelcomeScreenViewController.swift */,
+				51184B3722B214A80016A5B2 /* doctorSingUpCompleteViewController.swift */,
+				51184B3922B219640016A5B2 /* TermsAndConditionsViewController.swift */,
+				51184B3B22B27B6D0016A5B2 /* patientSingUpSucessfullyViewController.swift */,
 			);
 			path = "SingUp ViewController";
 			sourceTree = "<group>";
@@ -538,11 +547,13 @@
 				510FE781229E4B9600E80C16 /* ReviewHeaderView.swift in Sources */,
 				5114367A22AFA4C5006D5827 /* QuestionNaireImageViewController.swift in Sources */,
 				510FE788229E5B6700E80C16 /* DoctorProfileSettingViewController.swift in Sources */,
+				51184B3C22B27B6D0016A5B2 /* patientSingUpSucessfullyViewController.swift in Sources */,
 				510FE78A229E6BCE00E80C16 /* PatientProfileUpdateViewController.swift in Sources */,
 				51F9EE9A229D0A3E006632F9 /* BookingPatientTableViewCell.swift in Sources */,
 				51356B9D22955944003ABBFA /* WelcomeViewController.swift in Sources */,
 				5102F7B4229F98AE00C96F4D /* DoctorProfileViewController.swift in Sources */,
 				5114367622AF8E39006D5827 /* QuestionYesNoViewController.swift in Sources */,
+				51184B3A22B219640016A5B2 /* TermsAndConditionsViewController.swift in Sources */,
 				51356B8F229556C6003ABBFA /* Tabibakum.xcdatamodeld in Sources */,
 				510345002297F2D300F0562D /* ForgotPasswordViewController.swift in Sources */,
 				510D2F26229BCA44009FDB31 /* HomeViewController.swift in Sources */,
@@ -551,6 +562,7 @@
 				51F9EEA5229D2F5F006632F9 /* ProfileSettingViewController.swift in Sources */,
 				510C368722B103EF001563A8 /* QuestionNaireMultipleTabViewController.swift in Sources */,
 				510344FC2297AE4200F0562D /* SignUpAsDoctorViewController.swift in Sources */,
+				51184B3822B214A80016A5B2 /* doctorSingUpCompleteViewController.swift in Sources */,
 				511F50BA22A52D1400D0C0A9 /* dropDownCell.swift in Sources */,
 				51356BAA22957858003ABBFA /* LoginViewController.swift in Sources */,
 				510FE785229E4D2500E80C16 /* ReviewTableViewCell.swift in Sources */,

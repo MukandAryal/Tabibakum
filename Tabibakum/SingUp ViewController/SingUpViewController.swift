@@ -63,6 +63,10 @@ class SingUpViewController: UIViewController,UIImagePickerControllerDelegate,UIN
         userImg_View.clipsToBounds = true
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
     }
@@ -178,48 +182,50 @@ class SingUpViewController: UIViewController,UIImagePickerControllerDelegate,UIN
     }
     
     @IBAction func actionSubmitBtn(_ sender: Any) {
-        let img = UIImage(named: "user_pic")
-        if userImg_View.image == img {
-            let alert = UIAlertController(title: "Alert", message: "Please choose profile photo!", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }else if fullName_txtFld.text == ""{
-            let alert = UIAlertController(title: "Alert", message: "Please enter full name!", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }else if (phoneNumber_txtFld.text?.count)!<10{
-            let alert = UIAlertController(title: "Alert", message: "Please enter valid number!", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }else if emailAddress_txtFld.text == "" {
-            let alert = UIAlertController(title: "Alert", message: "Please enter email Id!", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }else if ((yourPassword_txtFld.text?.count)!)<8 {
-            let alert = UIAlertController(title: "Alert", message: "Password set minimum 8 character!", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }else if yourPassword_txtFld.text == "" {
-            let alert = UIAlertController(title: "Alert", message: "Please enter password number!", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }else if confirmPassword_txtFld.text == "" {
-            let alert = UIAlertController(title: "Alert", message: "Please enter confirm password number!", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }else if yourPassword_txtFld.text != confirmPassword_txtFld.text {
-            let alert = UIAlertController(title: "Alert", message: "Password does not match!", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }else if emailAddress_txtFld.text != nil {
-            if !isValidEmail(testStr: emailAddress_txtFld.text!)  {
-                let alert = UIAlertController(title: "Alert", message: "Please enter valid email id!", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            }else{
-                self.singUp(name: fullName_txtFld.text!, email: emailAddress_txtFld.text!, phone: phoneNumber_txtFld.text!, password: phoneNumber_txtFld.text!, type: "0", countyCode: "+964", device_token: "fIcOhEIJwpE:APA91bGSNKBqmQOr3BnXL5aOLH-iAJ5M5VvbdpQT4FzSVxW8dw7U-3BTT35cm52JfsobjVMJ183cDAqVIEBLMylRg-h5k8U7H_2PoJJoA3t0cqwh-ZMjko1VjfFdk6ifq2cNEt4B35JL", profileImg: imgToUpload)
-            }
-        }
+//        let img = UIImage(named: "user_pic")
+//        if userImg_View.image == img {
+//            let alert = UIAlertController(title: "Alert", message: "Please choose profile photo!", preferredStyle: UIAlertController.Style.alert)
+//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+//            self.present(alert, animated: true, completion: nil)
+//        }else if fullName_txtFld.text == ""{
+//            let alert = UIAlertController(title: "Alert", message: "Please enter full name!", preferredStyle: UIAlertController.Style.alert)
+//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+//            self.present(alert, animated: true, completion: nil)
+//        }else if (phoneNumber_txtFld.text?.count)!<10{
+//            let alert = UIAlertController(title: "Alert", message: "Please enter valid number!", preferredStyle: UIAlertController.Style.alert)
+//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+//            self.present(alert, animated: true, completion: nil)
+//        }else if emailAddress_txtFld.text == "" {
+//            let alert = UIAlertController(title: "Alert", message: "Please enter email Id!", preferredStyle: UIAlertController.Style.alert)
+//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+//            self.present(alert, animated: true, completion: nil)
+//        }else if ((yourPassword_txtFld.text?.count)!)<8 {
+//            let alert = UIAlertController(title: "Alert", message: "Password set minimum 8 character!", preferredStyle: UIAlertController.Style.alert)
+//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+//            self.present(alert, animated: true, completion: nil)
+//        }else if yourPassword_txtFld.text == "" {
+//            let alert = UIAlertController(title: "Alert", message: "Please enter password number!", preferredStyle: UIAlertController.Style.alert)
+//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+//            self.present(alert, animated: true, completion: nil)
+//        }else if confirmPassword_txtFld.text == "" {
+//            let alert = UIAlertController(title: "Alert", message: "Please enter confirm password number!", preferredStyle: UIAlertController.Style.alert)
+//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+//            self.present(alert, animated: true, completion: nil)
+//        }else if yourPassword_txtFld.text != confirmPassword_txtFld.text {
+//            let alert = UIAlertController(title: "Alert", message: "Password does not match!", preferredStyle: UIAlertController.Style.alert)
+//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+//            self.present(alert, animated: true, completion: nil)
+//        }else if emailAddress_txtFld.text != nil {
+//            if !isValidEmail(testStr: emailAddress_txtFld.text!)  {
+//                let alert = UIAlertController(title: "Alert", message: "Please enter valid email id!", preferredStyle: UIAlertController.Style.alert)
+//                alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+//                self.present(alert, animated: true, completion: nil)
+//            }else{
+//                self.singUp(name: fullName_txtFld.text!, email: emailAddress_txtFld.text!, phone: phoneNumber_txtFld.text!, password: phoneNumber_txtFld.text!, type: "0", countyCode: "+964", device_token: "fIcOhEIJwpE:APA91bGSNKBqmQOr3BnXL5aOLH-iAJ5M5VvbdpQT4FzSVxW8dw7U-3BTT35cm52JfsobjVMJ183cDAqVIEBLMylRg-h5k8U7H_2PoJJoA3t0cqwh-ZMjko1VjfFdk6ifq2cNEt4B35JL", profileImg: imgToUpload)
+//            }
+//        }
+        let loginObj = self.storyboard?.instantiateViewController(withIdentifier: "singUpPatientWelcomeScreenViewController") as! singUpPatientWelcomeScreenViewController
+        self.navigationController?.pushViewController(loginObj, animated: true)
     }
 }
 

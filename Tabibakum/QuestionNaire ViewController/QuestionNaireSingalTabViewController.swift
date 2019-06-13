@@ -52,8 +52,51 @@ class QuestionNaireSingalTabViewController: UIViewController {
         }
     }
     
+    @IBAction func actionSaveAndNext(_ sender: Any) {
+        if indexingValue.questionType.count == indexingValue.indexValue {
+            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "patientSingUpSucessfullyViewController")as! patientSingUpSucessfullyViewController
+            self.navigationController?.pushViewController(Obj, animated:true)
+            print("last index")
+        }else if indexingValue.questionType[indexingValue.indexValue] == "text"{
+            print("text")
+            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
+            self.navigationController?.pushViewController(Obj, animated:true)
+        }else  if indexingValue.questionType[indexingValue.indexValue] == "text"{
+            print("text")
+            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
+            self.navigationController?.pushViewController(Obj, animated:true)
+        }else if indexingValue.questionType[indexingValue.indexValue] == "yesno"{
+            print("yes")
+            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
+            self.navigationController?.pushViewController(Obj, animated:true)
+        }else if indexingValue.questionType[indexingValue.indexValue] == "list"{
+            print("list")
+            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "ListQuestionNaireViewController")as! ListQuestionNaireViewController
+            self.navigationController?.pushViewController(Obj, animated:true)
+        }else if indexingValue.questionType[indexingValue.indexValue] == "image"{
+            print("image")
+            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireImageViewController")as! QuestionNaireImageViewController
+            self.navigationController?.pushViewController(Obj, animated:true)
+        }else if indexingValue.questionType[indexingValue.indexValue] == "tab1"{
+            print("tab1")
+            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireSingalTabViewController")as! QuestionNaireSingalTabViewController
+            self.navigationController?.pushViewController(Obj, animated:true)
+        }else if indexingValue.questionType[indexingValue.indexValue] == "tab2"{
+            print("tab2")
+            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireMultipleTabViewController")as! QuestionNaireMultipleTabViewController
+            self.navigationController?.pushViewController(Obj, animated:true)
+        }else if indexingValue.questionType[indexingValue.indexValue] == "tai"{
+            print("tai")
+            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
+            self.navigationController?.pushViewController(Obj, animated:true)
+        }
+        indexingValue.indexValue = indexingValue.indexValue + 1
+    }
+    
+    
     @IBAction func actionBackBtn(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
+         indexingValue.indexValue = indexingValue.indexValue - 1
     }
     
     @IBAction func actionSkipBtn(_ sender: Any) {

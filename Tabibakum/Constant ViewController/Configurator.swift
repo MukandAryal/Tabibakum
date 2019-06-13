@@ -12,5 +12,9 @@ class Configurator: NSObject {
     
  static let baseURL = "http://18.224.27.255:8000/api/"
  static let imageBaseUrl = "http://18.224.27.255:8000/storage/avatars/"
-    
+}
+
+class indexingValue : NSObject{
+    static var indexValue = Int()
+    static var questionType = [String]()
 }

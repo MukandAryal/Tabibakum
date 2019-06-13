@@ -33,6 +33,11 @@ class LoginViewController: UIViewController {
         password_txtFld.text = "12345678"
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
@@ -61,7 +66,7 @@ class LoginViewController: UIViewController {
                     let token = resultDict!["token"] as? String
                     UserDefaults.standard.set(token, forKey: "loginToken") //setObject
                     // contains key
-                    let loginObj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                    let loginObj = self.storyboard?.instantiateViewController(withIdentifier: "singUpPatientWelcomeScreenViewController") as! singUpPatientWelcomeScreenViewController
                     self.navigationController?.pushViewController(loginObj
                         , animated:true)
                     

@@ -21,3 +21,5 @@ class ApiEndPoints: NSObject {
  static let user_details = "user"
  static let patientquestion = "patientquestion"
 }
+
+
