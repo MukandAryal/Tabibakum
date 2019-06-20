@@ -35,6 +35,9 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var singOut_View: UIView!
     @IBOutlet weak var logout_Btn: UIButton!
     @IBOutlet weak var stayLoggedIn_Btn: UIButton!
+    @IBOutlet weak var description_lbl: UILabel!
+    @IBOutlet weak var clieckHere_Btn: UIButton!
+    @IBOutlet weak var howcanHelp_lbl: UILabel!
     var doctorInfoArr = [allDoctorInfo.docotrDetails]()
     var userId = Int()
     
@@ -48,20 +51,24 @@ class HomeViewController: UIViewController {
         bookingHistoryTblView.separatorStyle = .none
         // bookingHistoryTblView.separatorInset = .zero
         bookingHistoryTblView.separatorInset = UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50)
+        clieckHere_Btn.layer.cornerRadius = 5
+        clieckHere_Btn.clipsToBounds = true
+        clieckHere_Btn.isHidden = true
+        description_lbl.isHidden = true
+        howcanHelp_lbl.isHidden = true
         
-        singOut_View.layer.cornerRadius = 10
-        singOut_View.clipsToBounds = true
+       // singOut_View.layer.cornerRadius = 10
+       // singOut_View.clipsToBounds = true
         
-        logout_Btn.layer.cornerRadius = logout_Btn.frame.height/2
-        logout_Btn.clipsToBounds = true
+       // logout_Btn.layer.cornerRadius = logout_Btn.frame.height/2
+     //   logout_Btn.clipsToBounds = true
         
-        stayLoggedIn_Btn.layer.cornerRadius = stayLoggedIn_Btn.frame.height/2
-        stayLoggedIn_Btn.clipsToBounds = true
-        singOut_View.isHidden = true
-        // bookingPatientListApi()
+        //stayLoggedIn_Btn.layer.cornerRadius = stayLoggedIn_Btn.frame.height/2
+        //stayLoggedIn_Btn.clipsToBounds = true
+       // singOut_View.isHidden = true
         bookingHistoryTblView.reloadData()
         getUserDetails()
-        // bookingPatientListApi()
+        indexingValue.questionType.removeAll()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,7 +80,7 @@ class HomeViewController: UIViewController {
         SideMenuManager.default.menuLeftNavigationController = storyboard!.instantiateViewController(withIdentifier: "LeftMenuNavigationController") as? UISideMenuNavigationController
         
         SideMenuManager.default.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
-        SideMenuManager.default.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
+       SideMenuManager.default.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
         
     }
     
@@ -101,6 +108,12 @@ class HomeViewController: UIViewController {
                 LoadingIndicatorView.hide()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
+                if dataDict!.count == 0 {
+                    self.bookingHistoryTblView.isHidden = true
+                    self.clieckHere_Btn.isHidden = false
+                    self.description_lbl.isHidden = false
+                    self.howcanHelp_lbl.isHidden = false
+                }
                 for specialistObj in dataDict! {
                     print(specialistObj)
                     var doctorDetails = [String:AnyObject]()
@@ -150,7 +163,80 @@ class HomeViewController: UIViewController {
                 self.bookingPatientListApi()
         }
     }
+    
+    func complaintQuestionNaireApi(){
+        LoadingIndicatorView.show()
+        let api = Configurator.baseURL + ApiEndPoints.complaintquestions
+        Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
+            .responseJSON { response in
+                LoadingIndicatorView.hide()
+                print(response)
+                let resultDict = response.value as? NSDictionary
+                let dataDict = resultDict!["data"] as? [[String:AnyObject]]
+                if let sucessStr = resultDict!["success"] as? Bool{
+                    print(sucessStr)
+                    if sucessStr{
+                        print("sucessss")
+                        indexingValue.questionNaireType = "complaintQuestionNaire"
+                        for specialistObj in dataDict! {
+                            print(specialistObj)
+                            let type = specialistObj["type"] as? String
+                            indexingValue.questionType.append(type!)
+                            print(indexingValue.questionType)
+                            indexingValue.indexValue = 0
+                        }
+                        if indexingValue.questionType.count == indexingValue.indexValue {
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController")as! AvailableDoctorsViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                            print("last index")
+                        }
+                        else if indexingValue.questionType[indexingValue.indexValue] == "text"{
+                            print("text")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }else if indexingValue.questionType[indexingValue.indexValue] == "yesno"{
+                            print("yes")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }else if indexingValue.questionType[indexingValue.indexValue] == "list"{
+                            print("list")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "ListQuestionNaireViewController")as! ListQuestionNaireViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }else if indexingValue.questionType[indexingValue.indexValue] == "image"{
+                            print("image")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireImageViewController")as! QuestionNaireImageViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }else if indexingValue.questionType[indexingValue.indexValue] == "tab1"{
+                            print("tab1")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireSingalTabViewController")as! QuestionNaireSingalTabViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }else if indexingValue.questionType[indexingValue.indexValue] == "tab2"{
+                            print("tab2")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireMultipleTabViewController")as! QuestionNaireMultipleTabViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }else if indexingValue.questionType[indexingValue.indexValue] == "tai"{
+                            print("tai")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }
+                        indexingValue.indexValue = indexingValue.indexValue + 1
+                    }else{
+                        let alert = UIAlertController(title: "Alert", message: "sumthing went wrong please try again!", preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                }
+        }
+    }
+    
+    @IBAction func actionClickHereBtn(_ sender: Any) {
+        //complaintQuestionNaireApi()
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController") as! AvailableDoctorsViewController
+       // obj.whtsAppIcon = "whtsAppIcon"
+        self.navigationController?.pushViewController(obj, animated: true)
+    }
 }
+
 
 extension HomeViewController : UITableViewDataSource{
     
@@ -188,7 +274,6 @@ extension HomeViewController : UITableViewDataSource{
         return cell
     }
 }
-
 
 extension HomeViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

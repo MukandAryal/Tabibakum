@@ -8,13 +8,14 @@
 
 import UIKit
 import Alamofire
+import SideMenu
 
 class MenuViewController: UIViewController {
     
     @IBOutlet weak var menuTblView: UITableView!
     
     let patientMenuBarItem = ["BOOKINGS","HISTORY","NOTIFICATION","UPDATE QUESTIONNAIRE","PROFILE SETTING"]
-
+    
     var patientMenuBarICon: [UIImage] = [
         UIImage(named: "booking_nav_dark.png")!,
         UIImage(named: "history.png")!,UIImage(named: "notification.png")!,UIImage(named: "updateQuestionNaire.png")!,UIImage(named: "ProfileSetting.png")!]
@@ -27,7 +28,7 @@ class MenuViewController: UIViewController {
     
     
     var loginType = Int()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getUserDetails()
@@ -39,21 +40,92 @@ class MenuViewController: UIViewController {
         
     }
     
+    func questionNaireApi(){
+        LoadingIndicatorView.show()
+        let api = Configurator.baseURL + ApiEndPoints.patientquestion
+        Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
+            .responseJSON { response in
+                LoadingIndicatorView.hide()
+                print(response)
+                let resultDict = response.value as? NSDictionary
+                let dataDict = resultDict!["data"] as? [[String:AnyObject]]
+                for specialistObj in dataDict! {
+                    print(specialistObj)
+                    let type = specialistObj["type"] as? String
+                    indexingValue.questionType.append(type!)
+                    print(indexingValue.questionType)
+                    indexingValue.indexValue = 0
+                }
+                if indexingValue.questionType[indexingValue.indexValue] == "text"{
+                    print("text")
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                }else if indexingValue.questionType[indexingValue.indexValue] == "yesno"{
+                    print("yes")
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionYesNoViewController")as! QuestionYesNoViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                }else if indexingValue.questionType[indexingValue.indexValue] == "list"{
+                    print("list")
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "ListQuestionNaireViewController")as! ListQuestionNaireViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                }else if indexingValue.questionType[indexingValue.indexValue] == "image"{
+                    print("image")
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireImageViewController")as! QuestionNaireImageViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                }else if indexingValue.questionType[indexingValue.indexValue] == "tab1"{
+                    print("tab1")
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireSingalTabViewController")as! QuestionNaireSingalTabViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                }else if indexingValue.questionType[indexingValue.indexValue] == "tab2"{
+                    print("tab2")
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireMultipleTabViewController")as! QuestionNaireMultipleTabViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                }else if indexingValue.questionType[indexingValue.indexValue] == "tai"{
+                    print("tai")
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                }
+                indexingValue.indexValue = +1
+         }
+    }
+    
     func getUserDetails(){
         let loginToken = UserDefaults.standard.string(forKey: "loginToken")
-       // LoadingIndicatorView.show()
+        // LoadingIndicatorView.show()
         let api = Configurator.baseURL + ApiEndPoints.user_details + "?token=\(loginToken ?? "")"
         
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
-               // LoadingIndicatorView.hide()
+                // LoadingIndicatorView.hide()
                 let resultDict = response.value as? NSDictionary
                 let userDetails = resultDict!["user"] as? NSDictionary
                 self.loginType = userDetails?.object(forKey: "type") as! Int
                 print(self.loginType)
                 self.menuTblView.reloadData()
         }
+    }
+    
+    fileprivate func setupSideMenu() {
+        // Define the menus
+        SideMenuManager.default.menuLeftNavigationController = storyboard!.instantiateViewController(withIdentifier: "LeftMenuNavigationController") as? UISideMenuNavigationController
+        
+        SideMenuManager.default.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
+        SideMenuManager.default.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
+        
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    fileprivate func setDefaults() {
+        let modes:[SideMenuManager.MenuPresentMode] = [.menuSlideIn, .viewSlideOut, .menuDissolveIn]
+    }
+    
+    @IBAction func actionSingOutBtn(_ sender: Any) {
+        print("signOut")
+        SideMenuManager.default.menuLeftNavigationController?.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -81,8 +153,8 @@ extension MenuViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuTableViewCell") as! MenuTableViewCell
         if loginType == 0 {
-        cell.menuBar_Lbl.text = patientMenuBarItem[indexPath.row]
-        cell.menuBar_Img.image = patientMenuBarICon[indexPath.row]
+            cell.menuBar_Lbl.text = patientMenuBarItem[indexPath.row]
+            cell.menuBar_Img.image = patientMenuBarICon[indexPath.row]
         }else{
             cell.menuBar_Lbl.text = doctorMenuBarItem[indexPath.row]
             cell.menuBar_Img.image = doctorMenuBarICon[indexPath.row]
@@ -94,27 +166,26 @@ extension MenuViewController : UITableViewDataSource{
 extension MenuViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if loginType == 0{
-        if indexPath.row == 0 {
-            let bookingObj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-            self.navigationController?.pushViewController(bookingObj, animated: true)
-            
-        }else if indexPath.row == 1 {
-            let historyObj = self.storyboard?.instantiateViewController(withIdentifier: "BookingsPatientViewController") as! BookingsPatientViewController
-           self.navigationController?.pushViewController(historyObj, animated: true)
-            
-        }else if indexPath.row == 2{
-            let notificationObj = self.storyboard?.instantiateViewController(withIdentifier: "NotificationPatientViewController") as! NotificationPatientViewController
-            self.navigationController?.pushViewController(notificationObj, animated: true)
-        }else if indexPath.row == 3{
-            let obj = self.storyboard?.instantiateViewController(withIdentifier: "singUpPatientWelcomeScreenViewController") as? singUpPatientWelcomeScreenViewController
-            self.navigationController?.pushViewController(obj!, animated: true)
-//            let reviewObj = self.storyboard?.instantiateViewController(withIdentifier: "ListQuestionNaireViewController") as! ListQuestionNaireViewController
-//            self.navigationController?.pushViewController(reviewObj, animated: true)
-        }
-        else if indexPath.row == 4{
-            let profilesettingObj = self.storyboard?.instantiateViewController(withIdentifier: "ProfileSettingViewController") as! ProfileSettingViewController
-            self.navigationController?.pushViewController(profilesettingObj, animated: true)
-        }
+            if indexPath.row == 0 {
+                let bookingObj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                self.navigationController?.pushViewController(bookingObj, animated: true)
+                
+            }else if indexPath.row == 1 {
+                let historyObj = self.storyboard?.instantiateViewController(withIdentifier: "BookingsPatientViewController") as! BookingsPatientViewController
+                self.navigationController?.pushViewController(historyObj, animated: true)
+                
+            }else if indexPath.row == 2{
+                let notificationObj = self.storyboard?.instantiateViewController(withIdentifier: "NotificationPatientViewController") as! NotificationPatientViewController
+                self.navigationController?.pushViewController(notificationObj, animated: true)
+            }else if indexPath.row == 3{
+                indexingValue.questionType.removeAll()
+                indexingValue.questionNaireType = "updateQuestionNaire"
+                questionNaireApi()
+            }
+            else if indexPath.row == 4{
+                let profilesettingObj = self.storyboard?.instantiateViewController(withIdentifier: "ProfileSettingViewController") as! ProfileSettingViewController
+                self.navigationController?.pushViewController(profilesettingObj, animated: true)
+            }
         }else{
             if indexPath.row == 0 {
                 let bookingObj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController

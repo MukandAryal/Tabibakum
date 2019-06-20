@@ -11,7 +11,7 @@ import Alamofire
 import Photos
 
 class QuestionNaireImageViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-
+    
     @IBOutlet weak var questionNaire_Lbl: UILabel!
     @IBOutlet weak var uploadImg_ViewFirst: UIView!
     @IBOutlet weak var uploading_ViewSecond: UIView!
@@ -42,7 +42,6 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
     @IBOutlet weak var second_viewTralingConstraints: NSLayoutConstraint!
     @IBOutlet weak var third_viewTralingConstraints: NSLayoutConstraint!
     @IBOutlet weak var fourth_viewTralingConstraints: NSLayoutConstraint!
-    
     @IBOutlet weak var second_viewDeleteIcon: UIButton!
     @IBOutlet weak var first_crossBtn: UIButton!
     @IBOutlet weak var second_crossBtn: UIButton!
@@ -50,9 +49,13 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
     @IBOutlet weak var third_deleteBtn: UIButton!
     @IBOutlet weak var fourth_crossBtn: UIButton!
     @IBOutlet weak var fourth_deleteBtn: UIButton!
+    var questionId = Int()
+    var imgToUpload = [Data]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("questionType>>>>>",indexingValue.questionType)
         uploadImg_ViewFirst.layer.cornerRadius = 5
         uploadImg_ViewFirst.clipsToBounds = true
         uploadImg_ViewFirst.layer.borderWidth = 0.5
@@ -74,12 +77,6 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
         uploading_viewSecondHeightConstraints.constant = 0
         uploding_viewThirdHeightConstraints.constant = 0
         upload_viewFourthHeightConstraints.constant = 0
-        //secondCamara_heightConstrants.constant = 0
-       // thirdCamera_heightConstraints.constant = 0
-        //fourthCamera_heightConstraints.constant = 0
-        //secondupload_txtHeightCons.constant = 0
-       // thiedupload_txtThirdHeightCons.constant = 0
-       // upload_txtFourrthHeightCons.constant = 0
         second_viewDeleteIcon.isHidden = true
         second_crossBtn.isHidden = true
         first_crossBtn.isHidden = true
@@ -89,16 +86,21 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
         third_deleteBtn.isHidden = true
         fourth_crossBtn.isHidden = true
         fourth_deleteBtn.isHidden = true
+        submit_Btn.backgroundColor = UiInterFace.appThemeColor
         questionNaireApi()
     }
     
     func questionNaireApi(){
-        // LoadingIndicatorView.show()
-        let userId = UserDefaults.standard.integer(forKey: "userId")
-        let api = Configurator.baseURL + ApiEndPoints.patientquestion + "?id=\(userId)"
+        LoadingIndicatorView.show()
+        var api = String()
+        if indexingValue.questionNaireType == "complaintQuestionNaire"{
+            api = Configurator.baseURL + ApiEndPoints.complaintquestions
+        }else{
+            api = Configurator.baseURL + ApiEndPoints.patientquestion
+        }
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                // LoadingIndicatorView.hide()
+                LoadingIndicatorView.hide()
                 print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
@@ -106,10 +108,113 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
                     print(specialistObj)
                     let type = specialistObj["type"] as? String
                     if type == "image"{
-                    self.questionNaire_Lbl.text = specialistObj["question"] as? String
+                        self.questionId = specialistObj["id"] as! Int
+                        self.questionNaire_Lbl.text = specialistObj["question"] as? String
+                        let skip = specialistObj["skip"] as? String
+                        if skip != "1" {
+                            self.navigationItem.rightBarButtonItem = nil
+                        }
                     }
                 }
-          }
+        }
+    }
+    
+    
+    func questionNaireAnswer(question_id:String,type:String,token:String,profileImg:[Data]){
+        LoadingIndicatorView.show()
+        var api = String()
+        if indexingValue.questionNaireType == "complaintQuestionNaire"{
+            api = Configurator.baseURL + ApiEndPoints.complaintanswer
+        }else{
+            api = Configurator.baseURL + ApiEndPoints.patientanswer
+        }
+        Alamofire.upload(
+            multipartFormData: { multipartFormData in
+                
+                multipartFormData.append(question_id.data(using: String.Encoding.utf8)!, withName: "question_id")
+                multipartFormData.append(type.data(using: String.Encoding.utf8)!, withName: "type")
+                multipartFormData.append(token.data(using: String.Encoding.utf8)!, withName: "token")
+                for img in profileImg {
+                    multipartFormData.append(img, withName: "image", fileName: "\(String(NSDate().timeIntervalSince1970).replacingOccurrences(of: ".", with: "")).jpeg", mimeType: "image/jpeg")
+                }
+                print(multipartFormData)
+        },
+            to:api,
+            encodingCompletion: { encodingResult in
+                
+                switch encodingResult {
+                case .success(let upload, _, _):
+                    upload.responseJSON { response in
+                        print(response)
+                        LoadingIndicatorView.hide()
+                        var resultDict = response.value as? [String:Any]
+                        if let sucessStr = resultDict!["success"] as? Bool{
+                            print(sucessStr)
+                            if sucessStr{
+                                print("sucessss")
+                                if indexingValue.questionType.count == indexingValue.indexValue {
+                                    if indexingValue.questionNaireType == "singUpQuestionNaire" {
+                                        let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
+                                        self.navigationController?.pushViewController(Obj, animated:true)
+                                        print("last index")
+                                    }
+                                    else if indexingValue.questionNaireType == "complaintQuestionNaire" {
+                                        let Obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController")as! AvailableDoctorsViewController
+                                        self.navigationController?.pushViewController(Obj, animated:true)
+                                        print("last index")
+                                    }else {
+                                        let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
+                                        self.navigationController?.pushViewController(Obj, animated:true)
+                                        print("last index")
+                                    }
+                                }
+                                else if indexingValue.questionType[indexingValue.indexValue] == "text"{
+                                    print("text")
+                                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
+                                    self.navigationController?.pushViewController(Obj, animated:true)
+                                }else if indexingValue.questionType[indexingValue.indexValue] == "yesno"{
+                                    print("yes")
+                                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionYesNoViewController")as! QuestionYesNoViewController
+                                    self.navigationController?.pushViewController(Obj, animated:true)
+                                }else if indexingValue.questionType[indexingValue.indexValue] == "list"{
+                                    print("list")
+                                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "ListQuestionNaireViewController")as! ListQuestionNaireViewController
+                                    self.navigationController?.pushViewController(Obj, animated:true)
+                                }else if indexingValue.questionType[indexingValue.indexValue] == "image"{
+                                    print("image")
+                                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireImageViewController")as! QuestionNaireImageViewController
+                                    self.navigationController?.pushViewController(Obj, animated:true)
+                                }else if indexingValue.questionType[indexingValue.indexValue] == "tab1"{
+                                    print("tab1")
+                                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireSingalTabViewController")as! QuestionNaireSingalTabViewController
+                                    self.navigationController?.pushViewController(Obj, animated:true)
+                                }else if indexingValue.questionType[indexingValue.indexValue] == "tab2"{
+                                    print("tab2")
+                                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireMultipleTabViewController")as! QuestionNaireMultipleTabViewController
+                                    self.navigationController?.pushViewController(Obj, animated:true)
+                                }else if indexingValue.questionType[indexingValue.indexValue] == "tai"{
+                                    print("tai")
+                                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
+                                    self.navigationController?.pushViewController(Obj, animated:true)
+                                }
+                                indexingValue.indexValue = indexingValue.indexValue + 1
+                                
+                            }else{
+                                let msg = resultDict!["message"] as? String
+                                let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: UIAlertController.Style.alert)
+                                alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+                                self.present(alert, animated: true, completion: nil)
+                            }
+                        }
+                        }
+                        .uploadProgress { progress in // main queue by default
+                            print("Upload Progress: \(progress.fractionCompleted)")
+                    }
+                    return
+                case .failure(let encodingError):
+                    debugPrint(encodingError)
+                }
+        })
     }
     
     func showAlert() {
@@ -141,9 +246,14 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
         guard let selectedImage = info[.originalImage] as? UIImage else {
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
+        
+        if let imageData = selectedImage.jpegData(compressionQuality: 0.5) {
+            imgToUpload = [imageData]
+        }
+        
         if firstUpload_imgBtn.tag == 222{
-           upload_photoFirstLbl.text = "Document 1.jpg"
-           first_crossBtn.isHidden = false
+            upload_photoFirstLbl.text = "Document 1.jpg"
+            first_crossBtn.isHidden = false
         }else if secondUpload_ImgBtn.tag == 333{
             upload_photoSecondLbl.text = "Document 2.jpg"
             second_viewDeleteIcon.isHidden = false
@@ -165,19 +275,21 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
     }
     
     @IBAction func actionAddMoreBtn(_ sender: Any) {
-         if firstUpload_imgBtn.tag == 222{
+        if firstUpload_imgBtn.tag == 222{
             uploading_viewSecondHeightConstraints.constant = 40
-          //  secondupload_txtHeightCons.constant = 15
-          //  secondCamara_heightConstrants.constant = 30
+            //  secondupload_txtHeightCons.constant = 15
+            //  secondCamara_heightConstrants.constant = 30
             second_viewDeleteIcon.isHidden = true
             second_crossBtn.isHidden = true
+            firstUpload_imgBtn.tag = 0
+            //secondUpload_ImgBtn.tag = 333
         }else if secondUpload_ImgBtn.tag == 333 {
             uploding_viewThirdHeightConstraints.constant = 40
             //thiedupload_txtThirdHeightCons.constant = 15
             //thirdCamera_heightConstraints.constant = 30
         }else if thirdUpload_ImgBtn.tag == 444 {
             upload_viewFourthHeightConstraints.constant = 40
-           // upload_txtFourrthHeightCons.constant = 15
+            // upload_txtFourrthHeightCons.constant = 15
             //fourthCamera_heightConstraints.constant = 30
             addmore_Btn.isHidden = true
         }else{
@@ -196,11 +308,11 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
     }
     
     @IBAction func actionSeconfImgUploadBtn(_ sender: Any) {
-      secondUpload_ImgBtn.tag = 333
-      firstUpload_imgBtn.tag = 0
-      thirdUpload_ImgBtn.tag = 0
-      fourthUpload_ImgBtn.tag = 0
-       showAlert()
+        secondUpload_ImgBtn.tag = 333
+        firstUpload_imgBtn.tag = 0
+        thirdUpload_ImgBtn.tag = 0
+        fourthUpload_ImgBtn.tag = 0
+        showAlert()
     }
     
     @IBAction func upload_thirdImgBtn(_ sender: Any) {
@@ -216,7 +328,7 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
         firstUpload_imgBtn.tag = 0
         secondUpload_ImgBtn.tag = 0
         thirdUpload_ImgBtn.tag = 0
-          showAlert()
+        showAlert()
     }
     
     @IBAction func actionFirstCrossBtn(_ sender: Any) {
@@ -245,6 +357,9 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
         secondUpload_ImgBtn.tag = 0
         thirdUpload_ImgBtn.tag = 0
         fourthUpload_ImgBtn.tag = 0
+        firstUpload_imgBtn.tag = 222
+        upload_photoSecondLbl.text = "Upload photo"
+        addmore_Btn.isHidden = false
     }
     
     @IBAction func actionThirdCrossBtn(_ sender: Any) {
@@ -255,12 +370,13 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
         secondUpload_ImgBtn.tag = 0
         thirdUpload_ImgBtn.tag = 0
         fourthUpload_ImgBtn.tag = 0
+        
     }
     
     @IBAction func actionFourthCrossBtn(_ sender: Any) {
         upload_photoFourthLbl.text = "Upload photo"
         fourth_crossBtn.isHidden = true
-         addmore_Btn.isHidden = false
+        addmore_Btn.isHidden = false
         firstUpload_imgBtn.tag = 0
         secondUpload_ImgBtn.tag = 0
         thirdUpload_ImgBtn.tag = 0
@@ -269,6 +385,7 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
     
     @IBAction func actionThirdDeleteBtn(_ sender: Any) {
         uploding_viewThirdHeightConstraints.constant = 0
+        uploading_viewSecondHeightConstraints.constant = 40
         third_crossBtn.isHidden = true
         third_deleteBtn.isHidden = true
         addmore_Btn.isHidden = false
@@ -276,6 +393,9 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
         secondUpload_ImgBtn.tag = 0
         thirdUpload_ImgBtn.tag = 0
         fourthUpload_ImgBtn.tag = 0
+        upload_photoSecondLbl.text = "Upload photo"
+        secondUpload_ImgBtn.tag = 333
+        addmore_Btn.isHidden = false
     }
     
     @IBAction func actionfourthDeleteBtn(_ sender: Any) {
@@ -286,43 +406,20 @@ class QuestionNaireImageViewController: UIViewController,UIImagePickerController
         secondUpload_ImgBtn.tag = 0
         thirdUpload_ImgBtn.tag = 0
         fourthUpload_ImgBtn.tag = 0
+        upload_photoFourthLbl.text = "Upload photo"
+        thirdUpload_ImgBtn.tag = 444
+        addmore_Btn.isHidden = false
     }
     
     @IBAction func actionSaveNextBtn(_ sender: Any) {
-        if indexingValue.questionType.count == indexingValue.indexValue {
-            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "patientSingUpSucessfullyViewController")as! patientSingUpSucessfullyViewController
-            self.navigationController?.pushViewController(Obj, animated:true)
-            print("last index")
-        }else if indexingValue.questionType[indexingValue.indexValue] == "text"{
-            print("text")
-            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
-            self.navigationController?.pushViewController(Obj, animated:true)
-        }else if indexingValue.questionType[indexingValue.indexValue] == "yesno"{
-            print("yes")
-            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
-            self.navigationController?.pushViewController(Obj, animated:true)
-        }else if indexingValue.questionType[indexingValue.indexValue] == "list"{
-            print("list")
-            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "ListQuestionNaireViewController")as! ListQuestionNaireViewController
-            self.navigationController?.pushViewController(Obj, animated:true)
-        }else if indexingValue.questionType[indexingValue.indexValue] == "image"{
-            print("image")
-            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireImageViewController")as! QuestionNaireImageViewController
-            self.navigationController?.pushViewController(Obj, animated:true)
-        }else if indexingValue.questionType[indexingValue.indexValue] == "tab1"{
-            print("tab1")
-            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireSingalTabViewController")as! QuestionNaireSingalTabViewController
-            self.navigationController?.pushViewController(Obj, animated:true)
-        }else if indexingValue.questionType[indexingValue.indexValue] == "tab2"{
-            print("tab2")
-            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireMultipleTabViewController")as! QuestionNaireMultipleTabViewController
-            self.navigationController?.pushViewController(Obj, animated:true)
-        }else if indexingValue.questionType[indexingValue.indexValue] == "tai"{
-            print("tai")
-            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
-            self.navigationController?.pushViewController(Obj, animated:true)
+        let loginToken = UserDefaults.standard.string(forKey: "loginToken")
+        if  imgToUpload.count == 0 {
+            let alert = UIAlertController(title: "Alert", message: "please select one document!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else{
+            questionNaireAnswer(question_id: questionId.description, type: "image", token: loginToken!, profileImg: imgToUpload)
         }
-        indexingValue.indexValue = indexingValue.indexValue + 1
     }
     
     @IBAction func actionSkipBtn(_ sender: Any) {

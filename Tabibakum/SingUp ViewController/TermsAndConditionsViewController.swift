@@ -21,23 +21,26 @@ class TermsAndConditionsViewController: UIViewController {
         accept_Btn.clipsToBounds = true
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
     }
     
     @IBAction func actionDeclineBtn(_ sender: Any) {
-        decline_Btn.backgroundColor =  UIColor(red: 61/254, green: 151/254, blue: 49/254, alpha: 1.0)
+        decline_Btn.backgroundColor = UiInterFace.appThemeColor
         decline_Btn.setTitleColor(UIColor.white, for: .normal)
         accept_Btn.backgroundColor =  UIColor(red: 240/254, green: 240/254, blue: 240/254, alpha: 1.0)
         accept_Btn.setTitleColor(UIColor.gray, for: .normal)
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+        self.navigationController?.pushViewController(obj, animated: true)
+        
     }
     
     @IBAction func actionAcceptBtn(_ sender: Any) {
-        accept_Btn.backgroundColor =  UIColor(red: 61/254, green: 151/254, blue: 49/254, alpha: 1.0)
+        accept_Btn.backgroundColor =  UiInterFace.appThemeColor
         accept_Btn.setTitleColor(UIColor.white, for: .normal)
         decline_Btn.backgroundColor =  UIColor(red: 240/254, green: 240/254, blue: 240/254, alpha: 1.0)
         decline_Btn.setTitleColor(UIColor.gray, for: .normal)
-        let obj = self.storyboard?.instantiateViewController(withIdentifier: "doctorSingUpCompleteViewController") as! doctorSingUpCompleteViewController
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: "patientSingUpSucessfullyViewController") as! patientSingUpSucessfullyViewController
         self.navigationController?.pushViewController(obj, animated: true)
     }
     

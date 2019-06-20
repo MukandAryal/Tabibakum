@@ -156,7 +156,7 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
                     self.height_Lbl.text = userData["height"] as? String
                     self.description_txtView.text = userData["description"] as? String
                 }
-        }
+          }
     }
     
     func profileUpdateApi(name:String,age:String,gender:String,email:String,weight:String,height:String,bloodType:String,address:String,dateOfBirth:String,facebookLink:String,device_token:String,description:String,profileImg:Data){
@@ -176,7 +176,7 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
                 multipartFormData.append(dateOfBirth.data(using: String.Encoding.utf8)!, withName: "date_of_birth")
                 multipartFormData.append(facebookLink.data(using: String.Encoding.utf8)!, withName: "facebook")
                 multipartFormData.append(description.data(using: String.Encoding.utf8)!, withName: "description")
-                multipartFormData.append(device_token.data(using: String.Encoding.utf8)!, withName: "device_token")
+                multipartFormData.append(device_token.data(using: String.Encoding.utf8)!, withName: "token")
                 multipartFormData.append(self.imgToUpload, withName: "avatar", fileName: "\(String(NSDate().timeIntervalSince1970).replacingOccurrences(of: ".", with: "")).jpeg", mimeType: "image/jpeg")
                 print(multipartFormData)
         },
@@ -185,7 +185,7 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
                 
                 switch encodingResult {
                 case .success(let upload, _, _):
-                    upload.responseJSON { response in
+                    upload.responseString { response in
                         print(response)
                         LoadingIndicatorView.hide()
                         var resultDict = response.value as? [String:AnyObject]
@@ -372,6 +372,7 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
         self.dropDownSingle.show()
     }
     @IBAction func actionProfileBtn(_ sender: Any) {
+        let loginToken = UserDefaults.standard.string(forKey: "loginToken")
         let img = UIImage(named: "user_pic")
         if profile_imgView.image == img {
             let alert = UIAlertController(title: "Alert", message: "Please choose profile photo!", preferredStyle: UIAlertController.Style.alert)
@@ -391,7 +392,7 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
                 alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }else{
-                self.profileUpdateApi(name: fullname_txtFld.text!, age: age_Lbl.text!, gender: gender_textFld.text!, email: emailAddress_txtFld.text!, weight: weight_Lbl.text!, height: height_Lbl.text!, bloodType: bloodGroup_Lbl.text!, address: address_txtFld.text!, dateOfBirth: dateofbirth_txtFld.text!, facebookLink: facebookLink_txtFld.text!, device_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xOC4yMjQuMjcuMjU1OjgwMDBcL2FwaVwvbG9naW4iLCJpYXQiOjE1NTk4MDY2NjYsImV4cCI6MTU2MTAxNjI2NiwibmJmIjoxNTU5ODA2NjY2LCJqdGkiOiJ6MXpBUTFFaVV5VTE4NDlmIiwic3ViIjozMTEsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.elX3yel5PgeGOdQiNQ6nd7IVQq-6lZlTKFW7LVsp8qc", description: description_txtView.text, profileImg: imgToUpload)
+                self.profileUpdateApi(name: fullname_txtFld.text!, age: age_Lbl.text!, gender: gender_textFld.text!, email: emailAddress_txtFld.text!, weight: weight_Lbl.text!, height: height_Lbl.text!, bloodType: bloodGroup_Lbl.text!, address: address_txtFld.text!, dateOfBirth: dateofbirth_txtFld.text!, facebookLink: facebookLink_txtFld.text!, device_token: loginToken!, description: description_txtView.text, profileImg: imgToUpload)
             }
         }
     }

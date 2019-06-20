@@ -63,6 +63,14 @@
 		51356BAC22957DB3003ABBFA /* SelectLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51356BAB22957DB3003ABBFA /* SelectLanguageViewController.swift */; };
 		513C64DA22969C3D009FD598 /* SingUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513C64D922969C3D009FD598 /* SingUpViewController.swift */; };
 		5182322122AE172D00750787 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5182322022AE172D00750787 /* GoogleService-Info.plist */; };
+		51D52A3F22BB66D10096E1D1 /* LogOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D52A3D22BB66D10096E1D1 /* LogOutView.swift */; };
+		51D52A4022BB66D10096E1D1 /* LogOutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51D52A3E22BB66D10096E1D1 /* LogOutView.xib */; };
+		51D52A4322BB69C60096E1D1 /* QuestionNaireExitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D52A4122BB69C60096E1D1 /* QuestionNaireExitView.swift */; };
+		51D52A4422BB69C60096E1D1 /* QuestionNaireExitView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51D52A4222BB69C60096E1D1 /* QuestionNaireExitView.xib */; };
+		51D52A4622BB74260096E1D1 /* BaseClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D52A4522BB74260096E1D1 /* BaseClassViewController.swift */; };
+		51D52A4922BBAE320096E1D1 /* BookAppoinmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D52A4822BBAE320096E1D1 /* BookAppoinmentViewController.swift */; };
+		51D52A4C22BBAE5B0096E1D1 /* BookAppoinmentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D52A4A22BBAE5B0096E1D1 /* BookAppoinmentCollectionViewCell.swift */; };
+		51D52A4D22BBAE5B0096E1D1 /* BookAppoinmentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51D52A4B22BBAE5B0096E1D1 /* BookAppoinmentCollectionViewCell.xib */; };
 		51F9EE97229D09F1006632F9 /* BookingsPatientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F9EE96229D09F1006632F9 /* BookingsPatientViewController.swift */; };
 		51F9EE9A229D0A3E006632F9 /* BookingPatientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F9EE98229D0A3E006632F9 /* BookingPatientTableViewCell.swift */; };
 		51F9EE9B229D0A3E006632F9 /* BookingPatientTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51F9EE99229D0A3E006632F9 /* BookingPatientTableViewCell.xib */; };
@@ -132,6 +140,14 @@
 		51356BAB22957DB3003ABBFA /* SelectLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLanguageViewController.swift; sourceTree = "<group>"; };
 		513C64D922969C3D009FD598 /* SingUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingUpViewController.swift; sourceTree = "<group>"; };
 		5182322022AE172D00750787 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		51D52A3D22BB66D10096E1D1 /* LogOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutView.swift; sourceTree = "<group>"; };
+		51D52A3E22BB66D10096E1D1 /* LogOutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LogOutView.xib; sourceTree = "<group>"; };
+		51D52A4122BB69C60096E1D1 /* QuestionNaireExitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionNaireExitView.swift; sourceTree = "<group>"; };
+		51D52A4222BB69C60096E1D1 /* QuestionNaireExitView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionNaireExitView.xib; sourceTree = "<group>"; };
+		51D52A4522BB74260096E1D1 /* BaseClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseClassViewController.swift; sourceTree = "<group>"; };
+		51D52A4822BBAE320096E1D1 /* BookAppoinmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookAppoinmentViewController.swift; sourceTree = "<group>"; };
+		51D52A4A22BBAE5B0096E1D1 /* BookAppoinmentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookAppoinmentCollectionViewCell.swift; sourceTree = "<group>"; };
+		51D52A4B22BBAE5B0096E1D1 /* BookAppoinmentCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookAppoinmentCollectionViewCell.xib; sourceTree = "<group>"; };
 		51F9EE96229D09F1006632F9 /* BookingsPatientViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingsPatientViewController.swift; sourceTree = "<group>"; };
 		51F9EE98229D0A3E006632F9 /* BookingPatientTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingPatientTableViewCell.swift; sourceTree = "<group>"; };
 		51F9EE99229D0A3E006632F9 /* BookingPatientTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookingPatientTableViewCell.xib; sourceTree = "<group>"; };
@@ -195,6 +211,8 @@
 				510D2F28229BCB45009FDB31 /* MenuTableViewCell.xib */,
 				510D2F2B229BE35C009FDB31 /* menuHeaderView.swift */,
 				510D2F2C229BE35C009FDB31 /* menuHeaderView.xib */,
+				51D52A3D22BB66D10096E1D1 /* LogOutView.swift */,
+				51D52A3E22BB66D10096E1D1 /* LogOutView.xib */,
 			);
 			path = "MenuBar ViewController";
 			sourceTree = "<group>";
@@ -243,6 +261,8 @@
 				510C368622B103EF001563A8 /* QuestionNaireMultipleTabViewController.swift */,
 				510C368822B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.swift */,
 				510C368922B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.xib */,
+				51D52A4122BB69C60096E1D1 /* QuestionNaireExitView.swift */,
+				51D52A4222BB69C60096E1D1 /* QuestionNaireExitView.xib */,
 			);
 			path = "QuestionNaire ViewController";
 			sourceTree = "<group>";
@@ -275,6 +295,7 @@
 				51356B95229556C8003ABBFA /* Info.plist */,
 				51356B8D229556C6003ABBFA /* Tabibakum.xcdatamodeld */,
 				5182322022AE172D00750787 /* GoogleService-Info.plist */,
+				51D52A4722BBADA40096E1D1 /* Book Appoinment ViewController */,
 				5102F7FD229FE86400C96F4D /* Font Family */,
 				5114366E22AF72DD006D5827 /* QuestionNaire ViewController */,
 				51389BD022A65C1100D8439D /* Constant ViewController */,
@@ -316,6 +337,7 @@
 				51188C5E22A133CA00448A04 /* ApiEndPoints.swift */,
 				51188C5C22A1338700448A04 /* Configurator.swift */,
 				511F50B722A51F6B00D0C0A9 /* LoadingIndicatorView.swift */,
+				51D52A4522BB74260096E1D1 /* BaseClassViewController.swift */,
 			);
 			path = "Constant ViewController";
 			sourceTree = "<group>";
@@ -332,6 +354,16 @@
 				51184B3B22B27B6D0016A5B2 /* patientSingUpSucessfullyViewController.swift */,
 			);
 			path = "SingUp ViewController";
+			sourceTree = "<group>";
+		};
+		51D52A4722BBADA40096E1D1 /* Book Appoinment ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				51D52A4822BBAE320096E1D1 /* BookAppoinmentViewController.swift */,
+				51D52A4A22BBAE5B0096E1D1 /* BookAppoinmentCollectionViewCell.swift */,
+				51D52A4B22BBAE5B0096E1D1 /* BookAppoinmentCollectionViewCell.xib */,
+			);
+			path = "Book Appoinment ViewController";
 			sourceTree = "<group>";
 		};
 		51F9EE95229D0971006632F9 /* Bookings ViewController */ = {
@@ -441,6 +473,7 @@
 				51F9EE9B229D0A3E006632F9 /* BookingPatientTableViewCell.xib in Resources */,
 				510D2F2E229BE35C009FDB31 /* menuHeaderView.xib in Resources */,
 				51356B94229556C8003ABBFA /* LaunchScreen.storyboard in Resources */,
+				51D52A4422BB69C60096E1D1 /* QuestionNaireExitView.xib in Resources */,
 				510FE782229E4B9600E80C16 /* ReviewHeaderView.xib in Resources */,
 				510D2F36229C0231009FDB31 /* BookingHistoryTableViewCell.xib in Resources */,
 				51356B91229556C8003ABBFA /* Assets.xcassets in Resources */,
@@ -453,8 +486,10 @@
 				5102F80A229FE86400C96F4D /* ProximaNovaCond-Bold.ttf in Resources */,
 				510C368B22B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.xib in Resources */,
 				5102F80E229FE86400C96F4D /* ProximaNova-Regular.ttf in Resources */,
+				51D52A4D22BBAE5B0096E1D1 /* BookAppoinmentCollectionViewCell.xib in Resources */,
 				5102F80D229FE86400C96F4D /* SFOldRepublic-Bold.ttf in Resources */,
 				510FE786229E4D2500E80C16 /* ReviewTableViewCell.xib in Resources */,
+				51D52A4022BB66D10096E1D1 /* LogOutView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,8 +575,10 @@
 				510D2F2D229BE35C009FDB31 /* menuHeaderView.swift in Sources */,
 				513C64DA22969C3D009FD598 /* SingUpViewController.swift in Sources */,
 				510C368522B103C9001563A8 /* QuestionNaireSingalTabViewController.swift in Sources */,
+				51D52A4C22BBAE5B0096E1D1 /* BookAppoinmentCollectionViewCell.swift in Sources */,
 				510C368A22B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.swift in Sources */,
 				51F9EE97229D09F1006632F9 /* BookingsPatientViewController.swift in Sources */,
+				51D52A3F22BB66D10096E1D1 /* LogOutView.swift in Sources */,
 				51F9EEA1229D13A1006632F9 /* NotificationPatientTableViewCell.swift in Sources */,
 				51F9EE9E229D1387006632F9 /* NotificationPatientViewController.swift in Sources */,
 				510FE781229E4B9600E80C16 /* ReviewHeaderView.swift in Sources */,
@@ -551,6 +588,8 @@
 				510FE78A229E6BCE00E80C16 /* PatientProfileUpdateViewController.swift in Sources */,
 				51F9EE9A229D0A3E006632F9 /* BookingPatientTableViewCell.swift in Sources */,
 				51356B9D22955944003ABBFA /* WelcomeViewController.swift in Sources */,
+				51D52A4922BBAE320096E1D1 /* BookAppoinmentViewController.swift in Sources */,
+				51D52A4622BB74260096E1D1 /* BaseClassViewController.swift in Sources */,
 				5102F7B4229F98AE00C96F4D /* DoctorProfileViewController.swift in Sources */,
 				5114367622AF8E39006D5827 /* QuestionYesNoViewController.swift in Sources */,
 				51184B3A22B219640016A5B2 /* TermsAndConditionsViewController.swift in Sources */,
@@ -564,6 +603,7 @@
 				510344FC2297AE4200F0562D /* SignUpAsDoctorViewController.swift in Sources */,
 				51184B3822B214A80016A5B2 /* doctorSingUpCompleteViewController.swift in Sources */,
 				511F50BA22A52D1400D0C0A9 /* dropDownCell.swift in Sources */,
+				51D52A4322BB69C60096E1D1 /* QuestionNaireExitView.swift in Sources */,
 				51356BAA22957858003ABBFA /* LoginViewController.swift in Sources */,
 				510FE785229E4D2500E80C16 /* ReviewTableViewCell.swift in Sources */,
 				51356B87229556C6003ABBFA /* AppDelegate.swift in Sources */,

@@ -26,6 +26,9 @@ struct doctorFeedbackInfo {
 
 class DoctorProfileViewController: UIViewController,UITextViewDelegate {
     
+    @IBOutlet var mainView: UIView!
+    @IBOutlet weak var mainViewHeightCon: NSLayoutConstraint!
+    
     @IBOutlet weak var profile_ImgView: UIImageView!
     @IBOutlet weak var info_view: UIView!
     @IBOutlet weak var bookAppoinment_Btn: UIButton!
@@ -52,27 +55,23 @@ class DoctorProfileViewController: UIViewController,UITextViewDelegate {
     @IBOutlet weak var appointmentTime_Lbl: UILabel!
     @IBOutlet weak var description_Lbl: UILabel!
     @IBOutlet weak var specialist_Lbl: UILabel!
-    
     @IBOutlet weak var whtsApp_Icon: UIImageView!
     @IBOutlet weak var connectWhtsApp_Btn: UIButton!
-    
     @IBOutlet weak var bookAppointmentBtnHeightConstrains: NSLayoutConstraint!
-    
     @IBOutlet weak var infoViewHeightConstrains: NSLayoutConstraint!
-    
     @IBOutlet weak var bookAppointmentConstraints: NSLayoutConstraint!
-    
     @IBOutlet weak var addfeedback: NSLayoutConstraint!
-    
     @IBOutlet weak var cosmosView: CosmosView!
     
     @IBOutlet weak var rating_descriptionLbl: UITextView!
     var whtsAppIcon = String()
     var appoinotmentDetails = String()
     var feedBackArr = [doctorFeedbackInfo.feedbackDetails]()
+    var doctorInfoDetailsArr = allDoctorList.doctorDetails()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("doctorInfoDetailsArr>>",doctorInfoDetailsArr)
         profile_ImgView.layer.cornerRadius = profile_ImgView.frame.height/2
         profile_ImgView.clipsToBounds = true
         bookAppoinment_Btn.layer.cornerRadius = bookAppoinment_Btn.frame.height/2
@@ -113,6 +112,15 @@ class DoctorProfileViewController: UIViewController,UITextViewDelegate {
         rating_descriptionLbl.delegate = self
         rating_descriptionLbl.text = "Enter Feedback"
         rating_descriptionLbl.textColor = UIColor.lightGray
+        bookAppoinment_Btn.backgroundColor = UiInterFace.appThemeColor
+        name_Lbl.text = doctorInfoDetailsArr.name
+        let imageStr = Configurator.imageBaseUrl + doctorInfoDetailsArr.avatar!
+        self.profile_ImgView.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))
+        specialist_Lbl.text = doctorInfoDetailsArr.specialist
+        description_Lbl.text = doctorInfoDetailsArr.description
+        education_Lbl.text = doctorInfoDetailsArr.education
+        experience_Lbl.text = doctorInfoDetailsArr.experience
+        gender_Lbl.text = doctorInfoDetailsArr.gender
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -152,27 +160,16 @@ class DoctorProfileViewController: UIViewController,UITextViewDelegate {
     
     func userProfileApi(){
         LoadingIndicatorView.show()
-        let useid = UserDefaults.standard.integer(forKey: "userId")
-        let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(useid)"
+        let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(doctorInfoDetailsArr.id ?? 0)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
+                LoadingIndicatorView.hide()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
+                 print(dataDict)
                 for userData in dataDict! {
-                    LoadingIndicatorView.hide()
-                    self.navigationController?.title = userData["name"] as? String
-                    self.name_Lbl.text = userData["name"] as? String
-                    let img =  userData["avatar"] as? String
-                   let imageStr = Configurator.imageBaseUrl + img!
-                    self.profile_ImgView.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))
-                    self.education_Lbl.text = userData["education"] as? String
-                    self.experience_Lbl.text = userData["experience"] as? String
-                    self.gender_Lbl.text = userData["gender"] as? String
-                    self.description_Lbl.text = userData["description"] as? String
-                    self.specialist_Lbl.text = userData["specialist"] as? String
                     let feedbackData = userData["doctor_feedback"] as? [[String:AnyObject]]
-                    print(feedbackData)
                     for feedbackObj in feedbackData! {
                         let feedbackInfo = doctorFeedbackInfo.feedbackDetails(avatar: (feedbackObj["avatar"] as? String)!, created_at: (feedbackObj["created_at"] as? String)!, doctor_id: (feedbackObj["doctor_id"] as? Int)!, feedback: (feedbackObj["feedback"] as? String)!, id: (feedbackObj["id"] as? Int)!, patient_name: (feedbackObj["patient_name"] as? String)!, patient_id: (feedbackObj["patient_id"] as? Int)!, rating: (feedbackObj["rating"] as? Int)!)
                         self.feedBackArr.append(feedbackInfo)
@@ -231,6 +228,10 @@ class DoctorProfileViewController: UIViewController,UITextViewDelegate {
     @IBAction func actionBackBtn(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
+    @IBAction func actionBookApointmentBtn(_ sender: Any) {
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: "BookAppoinmentViewController") as? BookAppoinmentViewController
+        self.navigationController?.pushViewController(obj!, animated: true)
+    }
     
     @IBAction func actionProfileBtn(_ sender: Any) {
         profileView.isHidden = false
@@ -240,10 +241,12 @@ class DoctorProfileViewController: UIViewController,UITextViewDelegate {
     }
     
     @IBAction func actionFeedbackBtn(_ sender: Any) {
+        userProfileApi()
         profileView.isHidden = true
         feedbackView.isHidden = false
         profile_Btn.backgroundColor = UIColor.white
         feedback_Btn.backgroundColor =  UIColor(red: 188/254, green: 227/254, blue: 182/254, alpha: 1.0)
+        
     }
     @IBAction func actionAddFeedBackBtn(_ sender: Any) {
         addFeedback_View.isHidden = false

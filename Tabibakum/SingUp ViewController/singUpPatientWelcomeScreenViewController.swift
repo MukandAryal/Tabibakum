@@ -16,8 +16,6 @@ class singUpPatientWelcomeScreenViewController: UIViewController {
     //   var questionType = [String]()
     var descriptionStr = String()
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,45 +26,57 @@ class singUpPatientWelcomeScreenViewController: UIViewController {
         welcome_Lbl.attributedText = attributedText
         next_Btn.layer.cornerRadius = next_Btn.frame.height/2
         next_Btn.clipsToBounds = true
+        next_Btn.backgroundColor = UiInterFace.appThemeColor
         questionNaireApi()
-        descriptionStr = "Answering these questions with the most accurate response possible is the best way for your doctor to give the best care possible."
-        
-        descriptionStr = "welcome to our app the most innovative way to good health care in Iraq"
-        
-        descriptionStr = "Your privacy is crucial for us only your doctor and our employees will see your responses no one else will ever have access to your info unless you give us a full clear permission to do so"
+        descriptionStr = "Your privacy is crucial for us only your doctor and our employees will see your responses no one else will ever have access to your info unless you give us a full clear permission to do so."
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden
-            = true
+        self.navigationController?.isNavigationBarHidden = true
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden
-            = false
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     func questionNaireApi(){
-        // LoadingIndicatorView.show()
-        let userId = UserDefaults.standard.integer(forKey: "userId")
-        let api = Configurator.baseURL + ApiEndPoints.patientquestion + "?id=\(userId)"
+        LoadingIndicatorView.show()
+        let api = Configurator.baseURL + ApiEndPoints.patientquestion
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                // LoadingIndicatorView.hide()
+                LoadingIndicatorView.hide()
                 print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
-                for specialistObj in dataDict! {
-                    print(specialistObj)
-                    let type = specialistObj["type"] as? String
-                    indexingValue.questionType.append(type!)
-                    print(indexingValue.questionType)
-                    indexingValue.indexValue = 0
+                if let sucessStr = resultDict!["success"] as? Bool{
+                    print(sucessStr)
+                    if sucessStr{
+                        print("sucessss")
+                        indexingValue.questionNaireType = "singUpQuestionNaire"
+                        for specialistObj in dataDict! {
+                            print(specialistObj)
+                            let type = specialistObj["type"] as? String
+                            indexingValue.questionType.append(type!)
+                            print(indexingValue.questionType)
+                            indexingValue.indexValue = 0
+                        }
+                    }else{
+                        let alert = UIAlertController(title: "Alert", message: "sumthing went woring please try again!", preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
         }
     }
     
     @IBAction func actionNextBtn(_ sender: Any) {
+        if descriptionStr == "Your privacy is crucial for us only your doctor and our employees will see your responses no one else will ever have access to your info unless you give us a full clear permission to do so."{
+            description_Lbl.text = "Welcome to our app the most innovative way to good health care in Iraq"
+            descriptionStr = "Welcome to our app the most innovative way to good health care in Iraq"
+        }else if descriptionStr == "Welcome to our app the most innovative way to good health care in Iraq"{
+            description_Lbl.text = "Answering these questions with the most accurate response possible is the best way for your doctor to give the best care possible."
+            descriptionStr = ""
+        }else {
         if indexingValue.questionType[indexingValue.indexValue] == "text"{
             print("text")
             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
@@ -97,7 +107,7 @@ class singUpPatientWelcomeScreenViewController: UIViewController {
             self.navigationController?.pushViewController(Obj, animated:true)
         }
         indexingValue.indexValue = +1
-        
+        }
     }
     
 }

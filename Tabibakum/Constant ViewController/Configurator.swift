@@ -17,4 +17,8 @@ class Configurator: NSObject {
 class indexingValue : NSObject{
     static var indexValue = Int()
     static var questionType = [String]()
+    static var updateQuestionNaire = Int()
+    static var complaintQuestionIndexValue = Int()
+    static var complaintQuestionNaireType = [String]()
+    static var questionNaireType = String()
 }

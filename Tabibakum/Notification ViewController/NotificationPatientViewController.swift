@@ -25,6 +25,8 @@ class NotificationPatientViewController: UIViewController {
     @IBOutlet weak var notificationTblView: UITableView!
     @IBOutlet weak var clearNotification_View: UIView!
     @IBOutlet var mainView: UIView!
+    @IBOutlet weak var delete_Btn: UIButton!
+    
     var notificationInfoArr = [allNotificationInfo.notificationDetails]()
     
     override func viewDidLoad() {
@@ -35,6 +37,7 @@ class NotificationPatientViewController: UIViewController {
         clearNotification_View.layer.cornerRadius = 20
         clearNotification_View.clipsToBounds = true
         clearNotification_View.isHidden = true
+        delete_Btn.isHidden = true
         notoificationApi()
     }
     
@@ -87,14 +90,17 @@ class NotificationPatientViewController: UIViewController {
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
+                LoadingIndicatorView.hide()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
+                if dataDict?.count != 0 {
+                    self.delete_Btn.isHidden = false
+                }
                 for specialistObj in dataDict! {
                     print(specialistObj)
                     let notiInfo = allNotificationInfo.notificationDetails(id: (specialistObj["id"] as? Int)!, user_id: (specialistObj["user_id"] as? Int)!, title: (specialistObj["title"] as? String)!, description: (specialistObj["description"] as? String)!, created_at: (specialistObj["created_at"] as? String)!)
                     self.notificationInfoArr.append(notiInfo)
                     print(self.notificationInfoArr)
-                    LoadingIndicatorView.hide()
                     self.notificationTblView.reloadData()
                 }
         }

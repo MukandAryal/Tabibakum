@@ -145,7 +145,7 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
                     
                     self.education_txtFld.text = userData["education"] as? String
                 }
-        }
+          }
     }
     
     func specializationListApi(){

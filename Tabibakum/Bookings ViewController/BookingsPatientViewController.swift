@@ -39,7 +39,7 @@ class BookingsPatientViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // bookingsTblView.isHidden = true
-        //  delete_Btn.isHidden = true
+        delete_Btn.isHidden = true
         setupSideMenu()
         setDefaults()
         
@@ -80,8 +80,12 @@ class BookingsPatientViewController: UIViewController {
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
+                LoadingIndicatorView.hide()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as! [[String:AnyObject]]
+                if dataDict.count != 0 {
+                    self.delete_Btn.isHidden = false
+                }
                 for specialistObj in dataDict {
                     print(specialistObj)
                     var doctorDetails = [String:AnyObject]()
@@ -107,7 +111,6 @@ class BookingsPatientViewController: UIViewController {
                         self.doctorInfoArr.append(doctInfo)
                     }
                     print(self.doctorInfoArr)
-                    LoadingIndicatorView.hide()
                     self.bookingsTblView.reloadData()
                 }
           }
