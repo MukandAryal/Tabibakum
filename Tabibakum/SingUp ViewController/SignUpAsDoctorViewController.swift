@@ -100,7 +100,7 @@ class SignUpAsDoctorViewController: UIViewController,UIImagePickerControllerDele
         yourPassword_txtFld.setLeftPaddingPoints(10)
         
         imagePicker.delegate = self
-        userImg_View.layer.cornerRadius = userImg_View.frame.height/2
+        userImg_View.layer.cornerRadius = userImg_View.frame.width/2
         userImg_View.clipsToBounds = true
         
         specialization_dropDownView.isHidden = true
@@ -187,16 +187,28 @@ class SignUpAsDoctorViewController: UIViewController,UIImagePickerControllerDele
                         print(response)
                         LoadingIndicatorView.hide()
                         var resultDict = response.value as? [String:AnyObject]
-                        if (resultDict?.keys.contains("data"))! {
-                            let singUpObj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController
-                            self.navigationController?.pushViewController(singUpObj!, animated: true)
-                        }else {
-                            let msg = resultDict!["message"] as? String
-                            let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: UIAlertController.Style.alert)
-                            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-                            self.present(alert, animated: true, completion: nil)
+                        if let sucessStr = resultDict!["success"] as? Bool{
+                            print(sucessStr)
+                            if sucessStr{
+                                print("sucessss")
+                                let tokenDict = resultDict!["token"] as? [String:AnyObject]
+                                let dataDict =  resultDict!["data"] as? [String:AnyObject]
+                                let loginType =  dataDict!["type"] as! String
+                                UserDefaults.standard.set(loginType, forKey: "loginType")
+                                if let original = tokenDict!["original"] as? [String:Any]{
+                                    if let token = original["token"] as? String{
+                                        UserDefaults.standard.set(token, forKey: "loginToken")
+                                        self.questionNaireApi()
+                                    }
+                                }
+                            }else{
+                                let msg = resultDict!["message"] as? String
+                                let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: UIAlertController.Style.alert)
+                                alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+                                self.present(alert, animated: true, completion: nil)
+                            }
                         }
-                      }
+                        }
                         .uploadProgress { progress in // main queue by default
                             print("Upload Progress: \(progress.fractionCompleted)")
                     }
@@ -223,54 +235,120 @@ class SignUpAsDoctorViewController: UIViewController,UIImagePickerControllerDele
         }
     }
     
+    func questionNaireApi(){
+        LoadingIndicatorView.show()
+        let api = Configurator.baseURL + ApiEndPoints.doctorquestion
+        Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
+            .responseJSON { response in
+                LoadingIndicatorView.hide()
+                print(response)
+                let resultDict = response.value as? NSDictionary
+                let dataDict = resultDict!["data"] as? [[String:AnyObject]]
+                if let sucessStr = resultDict!["success"] as? Bool{
+                    print(sucessStr)
+                    if sucessStr{
+                        print("sucessss")
+                        // indexingValue.questionNaireType = "singUpQuestionNaire"
+                        for specialistObj in dataDict! {
+                            print(specialistObj)
+                            let type = specialistObj["type"] as? String
+                            indexingValue.questionType.append(type!)
+                            print(indexingValue.questionType)
+                            indexingValue.indexValue = 0
+                           }
+                            indexingValue.questionNaireType = "singUpQuestionNaire"
+                            if indexingValue.questionType[indexingValue.indexValue] == "text"{
+                                print("text")
+                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
+                                self.navigationController?.pushViewController(Obj, animated:true)
+                            }else if indexingValue.questionType[indexingValue.indexValue] == "yesno"{
+                                print("yes")
+                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionYesNoViewController")as! QuestionYesNoViewController
+                                self.navigationController?.pushViewController(Obj, animated:true)
+                            }else if indexingValue.questionType[indexingValue.indexValue] == "list"{
+                                print("list")
+                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "ListQuestionNaireViewController")as! ListQuestionNaireViewController
+                                self.navigationController?.pushViewController(Obj, animated:true)
+                            }else if indexingValue.questionType[indexingValue.indexValue] == "image"{
+                                print("image")
+                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireImageViewController")as! QuestionNaireImageViewController
+                                self.navigationController?.pushViewController(Obj, animated:true)
+                            }else if indexingValue.questionType[indexingValue.indexValue] == "tab1"{
+                                print("tab1")
+                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireSingalTabViewController")as! QuestionNaireSingalTabViewController
+                                self.navigationController?.pushViewController(Obj, animated:true)
+                            }else if indexingValue.questionType[indexingValue.indexValue] == "tab2"{
+                                print("tab2")
+                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireMultipleTabViewController")as! QuestionNaireMultipleTabViewController
+                                self.navigationController?.pushViewController(Obj, animated:true)
+                            }else if indexingValue.questionType[indexingValue.indexValue] == "tai"{
+                                print("tai")
+                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
+                                self.navigationController?.pushViewController(Obj, animated:true)
+                            }
+                            indexingValue.indexValue = +1
+                        }
+                }else{
+                    let alert = UIAlertController(title: "Alert", message: "sumthing went woring please try again!", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
+        }
+    }
     
     @IBAction func actionSignUp(_ sender: Any) {
-//        let img = UIImage(named: "user_pic")
-//        if userImg_View.image == img {
-//            let alert = UIAlertController(title: "Alert", message: "Please choose profile photo!", preferredStyle: UIAlertController.Style.alert)
-//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-//            self.present(alert, animated: true, completion: nil)
-//        }else if fullName_txtFld.text == ""{
-//            let alert = UIAlertController(title: "Alert", message: "Please enter full name!", preferredStyle: UIAlertController.Style.alert)
-//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-//            self.present(alert, animated: true, completion: nil)
-//        }else if select_speciallzationLbl.text == ""{
-//            let alert = UIAlertController(title: "Alert", message: "Please select specialization!", preferredStyle: UIAlertController.Style.alert)
-//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-//            self.present(alert, animated: true, completion: nil)
-//        }else if (phoneNumber_txtFld.text?.count)!<10{
-//            let alert = UIAlertController(title: "Alert", message: "Please enter valid number!", preferredStyle: UIAlertController.Style.alert)
-//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-//            self.present(alert, animated: true, completion: nil)
-//        }else if emailAddress_txtFld.text == "" {
-//            let alert = UIAlertController(title: "Alert", message: "Please enter email Id!", preferredStyle: UIAlertController.Style.alert)
-//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-//            self.present(alert, animated: true, completion: nil)
-//        }else if yourPassword_txtFld.text == "" {
-//            let alert = UIAlertController(title: "Alert", message: "Please enter password number!", preferredStyle: UIAlertController.Style.alert)
-//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-//            self.present(alert, animated: true, completion: nil)
-//        }else if ((yourPassword_txtFld.text?.count)!)<8 {
-//            let alert = UIAlertController(title: "Alert", message: "Password set minimum 8 character!", preferredStyle: UIAlertController.Style.alert)
-//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-//            self.present(alert, animated: true, completion: nil)
-//        }else if confirmPassword_txtFld.text == "" {
-//            let alert = UIAlertController(title: "Alert", message: "Please enter confirm password number!", preferredStyle: UIAlertController.Style.alert)
-//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-//            self.present(alert, animated: true, completion: nil)
-//        }else if yourPassword_txtFld.text != confirmPassword_txtFld.text {
-//            let alert = UIAlertController(title: "Alert", message: "Password does not match!", preferredStyle: UIAlertController.Style.alert)
-//            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-//            self.present(alert, animated: true, completion: nil)
-//        }else if emailAddress_txtFld.text != nil {
-//            if !isValidEmail(testStr: emailAddress_txtFld.text!)  {
-//                let alert = UIAlertController(title: "Alert", message: "Please enter valid email id!", preferredStyle: UIAlertController.Style.alert)
-//                alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-//                self.present(alert, animated: true, completion: nil)
-//            }else{
-//                self.singUp(name: fullName_txtFld.text!, speciallzation: select_speciallzationLbl.text!, email: emailAddress_txtFld.text!, phone: phoneNumber_txtFld.text!, password: phoneNumber_txtFld.text!, type: "0", countyCode: "+964", device_token: "fIcOhEIJwpE:APA91bGSNKBqmQOr3BnXL5aOLH-iAJ5M5VvbdpQT4FzSVxW8dw7U-3BTT35cm52JfsobjVMJ183cDAqVIEBLMylRg-h5k8U7H_2PoJJoA3t0cqwh-ZMjko1VjfFdk6ifq2cNEt4B35JL", profileImg: imgToUpload)
-//            }
-//        }
+        let deviceToken = UserDefaults.standard.string(forKey: "DeviceToken")
+        let img = UIImage(named: "user_pic")
+        if userImg_View.image == img {
+            let alert = UIAlertController(title: "Alert", message: "Please choose profile photo!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else if fullName_txtFld.text == ""{
+            let alert = UIAlertController(title: "Alert", message: "Please enter full name!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else if phoneNumber_txtFld.text == ""{
+            let alert = UIAlertController(title: "Alert", message: "Please enter phone number!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        else if select_speciallzationLbl.text == ""{
+            let alert = UIAlertController(title: "Alert", message: "Please select specialization!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else if (phoneNumber_txtFld.text?.count)!<10{
+            let alert = UIAlertController(title: "Alert", message: "Please enter valid number!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else if emailAddress_txtFld.text == "" {
+            let alert = UIAlertController(title: "Alert", message: "Please enter email Id!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else if yourPassword_txtFld.text == "" {
+            let alert = UIAlertController(title: "Alert", message: "Please enter password number!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else if ((yourPassword_txtFld.text?.count)!)<8 {
+            let alert = UIAlertController(title: "Alert", message: "Password set minimum 8 character!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else if confirmPassword_txtFld.text == "" {
+            let alert = UIAlertController(title: "Alert", message: "Please enter confirm password number!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else if yourPassword_txtFld.text != confirmPassword_txtFld.text {
+            let alert = UIAlertController(title: "Alert", message: "Password does not match!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else if emailAddress_txtFld.text != nil {
+            if !isValidEmail(testStr: emailAddress_txtFld.text!)  {
+                let alert = UIAlertController(title: "Alert", message: "Please enter valid email id!", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }else{
+                self.singUp(name: fullName_txtFld.text!, speciallzation: select_speciallzationLbl.text!, email: emailAddress_txtFld.text!, phone: phoneNumber_txtFld.text!, password: phoneNumber_txtFld.text!, type: "1", countyCode: "+964", device_token: deviceToken!, profileImg: imgToUpload)
+            }
+        }
     }
     
     @IBAction func actionSpecializationSelectBtn(_ sender: Any) {
@@ -369,6 +447,22 @@ extension SignUpAsDoctorViewController : UITableViewDelegate {
             }
         }
         self.dropDownTblView.reloadData()
+    }
+}
+
+extension SignUpAsDoctorViewController : UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == phoneNumber_txtFld  {
+            let charsLimit = 10
+            let startingLength = phoneNumber_txtFld.text?.characters.count ?? 0
+            let lengthToAdd = string.characters.count
+            let lengthToReplace =  range.length
+            let newLength = startingLength + lengthToAdd - lengthToReplace
+            return newLength <= charsLimit
+        } else {
+            return true
+        }
     }
 }
 

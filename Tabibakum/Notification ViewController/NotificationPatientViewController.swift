@@ -26,7 +26,9 @@ class NotificationPatientViewController: UIViewController {
     @IBOutlet weak var clearNotification_View: UIView!
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var delete_Btn: UIButton!
-    
+    @IBOutlet weak var no_notificationImg: UIImageView!
+    @IBOutlet weak var no_newNotificationLbl: UILabel!
+    @IBOutlet weak var description_Lbl: UILabel!
     var notificationInfoArr = [allNotificationInfo.notificationDetails]()
     
     override func viewDidLoad() {
@@ -38,31 +40,15 @@ class NotificationPatientViewController: UIViewController {
         clearNotification_View.clipsToBounds = true
         clearNotification_View.isHidden = true
         delete_Btn.isHidden = true
+        self.no_notificationImg.isHidden = true
+        self.no_newNotificationLbl.isHidden = true
+        self.description_Lbl.isHidden = true
+        description_Lbl.text = "We'll let you know when we've got sumthing new for \nyou"
         notoificationApi()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
-    }
-    
-    func overlayBlurredBackgroundView() {
-        
-        let blurredBackgroundView = UIVisualEffectView()
-        
-        blurredBackgroundView.frame = view.frame
-        blurredBackgroundView.effect = UIBlurEffect(style: .dark)
-        
-        view.addSubview(blurredBackgroundView)
-        
-    }
-    
-    func removeBlurredBackgroundView() {
-        
-        for subview in view.subviews {
-            if subview.isKind(of: UIVisualEffectView.self) {
-                subview.removeFromSuperview()
-            }
-        }
     }
     
     fileprivate func setupSideMenu() {
@@ -93,22 +79,22 @@ class NotificationPatientViewController: UIViewController {
                 LoadingIndicatorView.hide()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
-                if dataDict?.count != 0 {
-                    self.delete_Btn.isHidden = false
-                }
                 for specialistObj in dataDict! {
                     print(specialistObj)
                     let notiInfo = allNotificationInfo.notificationDetails(id: (specialistObj["id"] as? Int)!, user_id: (specialistObj["user_id"] as? Int)!, title: (specialistObj["title"] as? String)!, description: (specialistObj["description"] as? String)!, created_at: (specialistObj["created_at"] as? String)!)
                     self.notificationInfoArr.append(notiInfo)
-                    print(self.notificationInfoArr)
+                    self.delete_Btn.isHidden = false
                     self.notificationTblView.reloadData()
                 }
+                self.notificationTblView.isHidden = true
+                self.no_notificationImg.isHidden = false
+                self.no_newNotificationLbl.isHidden = false
+                self.description_Lbl.isHidden = false
         }
     }
     
     @IBAction func actionDeleteBtn(_ sender: Any) {
         mainView.backgroundColor = UIColor.gray.withAlphaComponent(0.5)
-        // clearNotification_View.backgroundColor = UIColor.white
         clearNotification_View.isHidden = false
     }
 }

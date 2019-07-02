@@ -11,6 +11,7 @@ import SideMenu
 
 class ReviewViewController: UIViewController {
     @IBOutlet weak var reviewTblView: UITableView!
+    var feedBackArr = [doctorFeedbackInfo.feedbackDetails]()
     
     override func viewDidLoad() {
         super.viewDidLoad()

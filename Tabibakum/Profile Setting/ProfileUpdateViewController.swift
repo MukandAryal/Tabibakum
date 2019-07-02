@@ -27,7 +27,7 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
     @IBOutlet weak var facebookLink_txtFld: UITextField!
     @IBOutlet weak var description_txtView: UITextView!
     @IBOutlet weak var submit_btn: UIButton!
-     @IBOutlet weak var specialization_dropDownView: UIView!
+    @IBOutlet weak var specialization_dropDownView: UIView!
     @IBOutlet weak var dropDownTblView: UITableView!
     
     var genderArr = ["Male","Female"]
@@ -120,7 +120,7 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
     }
     
     func userProfileApi(){
-        LoadingIndicatorView.show()
+      //  LoadingIndicatorView.show()
         let useid = UserDefaults.standard.integer(forKey: "userId")
         let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
@@ -129,7 +129,7 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for userData in dataDict! {
-                    LoadingIndicatorView.hide()
+                 //   LoadingIndicatorView.hide()
                     let img =  userData["avatar"] as? String
                     let imageStr = Configurator.imageBaseUrl + img!
                     self.profile_imgView.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))
@@ -142,10 +142,9 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
                     self.dateofbirth_txtFld.text = userData["date_of_birth"] as? String
                     self.description_txtView.text = userData["description"] as? String
                     self.facebookLink_txtFld.text = userData["facebook"] as? String
-                    
                     self.education_txtFld.text = userData["education"] as? String
                 }
-          }
+        }
     }
     
     func specializationListApi(){
@@ -170,7 +169,7 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
         Alamofire.upload(
             multipartFormData: { multipartFormData in
                 
-                multipartFormData.append(device_token.data(using: String.Encoding.utf8)!, withName: "device_token")
+                multipartFormData.append(device_token.data(using: String.Encoding.utf8)!, withName: "token")
                 multipartFormData.append(name.data(using: String.Encoding.utf8)!, withName: "name")
                 multipartFormData.append(gender.data(using: String.Encoding.utf8)!, withName: "gender")
                 multipartFormData.append(email.data(using: String.Encoding.utf8)!, withName: "email")
@@ -181,7 +180,8 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
                 multipartFormData.append(facebookLink.data(using: String.Encoding.utf8)!, withName: "facebook")
                 multipartFormData.append(description.data(using: String.Encoding.utf8)!, withName: "description")
                 
-                multipartFormData.append(self.imgToUpload, withName: "avatar", fileName: "\(String(NSDate().timeIntervalSince1970).replacingOccurrences(of: ".", with: "")).jpeg", mimeType: "image/jpeg")
+                multipartFormData.append(self.imgToUpload, withName: "avatar", fileName: "\(String(NSDate().timeIntervalSince1970).replacingOccurrences(of: ".", with: "")).jpeg", mimeType: "image/png")
+               // multipartFormData.appendBodyPart(data: imgToUpload, name: "avatar", fileName: "myImage.png", mimeType: "image/png")
                 print(multipartFormData)
         },
             to:"\(Configurator.baseURL)\(ApiEndPoints.register)",
@@ -246,7 +246,7 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
         self.dropDownMultiple.backgroundColor = UIColor.white
         self.dropDownSingle.dismissMode  = .automatic
         self.dropDownMultiple.dismissMode  = .onTap
-         dropDownMultiple.selectionBackgroundColor = UIColor(red: 234/255, green: 245/255, blue: 255/255, alpha: 1.0)
+        dropDownMultiple.selectionBackgroundColor = UIColor(red: 234/255, green: 245/255, blue: 255/255, alpha: 1.0)
         dropDownSingle.selectionBackgroundColor = UIColor(red: 234/255, green: 245/255, blue: 255/255, alpha: 1.0)
         
         if tag == 1 {
@@ -328,6 +328,7 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
     }
     
     @IBAction func actionProfileBtn(_ sender: Any) {
+        let loginToken = UserDefaults.standard.string(forKey: "loginToken")
         let img = UIImage(named: "user_pic")
         if profile_imgView.image == img {
             let alert = UIAlertController(title: "Alert", message: "Please choose profile photo!", preferredStyle: UIAlertController.Style.alert)
@@ -347,7 +348,7 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
                 alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }else{
-                profileUpdateApi(device_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xOC4yMjQuMjcuMjU1OjgwMDBcL2FwaVwvbG9naW4iLCJpYXQiOjE1NTk4MDQ2ODYsImV4cCI6MTU2MTAxNDI4NiwibmJmIjoxNTU5ODA0Njg2LCJqdGkiOiI4RzczQmdlVlJzRUVqUTNyIiwic3ViIjoyOTAsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.VtW5LcnYB_yBGxjSpJ0lysomYL4Z0a2BWSGh_hSV6f8", name: fullname_txtFld.text!, email: emailAddress_txtFld.text!, gender: gender_textFld.text!, education: education_txtFld.text!, specialist: speciality_txtFld.text!, experience: experience_txtFld.text!, dateOfBirth: dateofbirth_txtFld.text!, facebookLink: facebookLink_txtFld.text!, description: description_txtView.text!, profileImg: imgToUpload)
+                profileUpdateApi(device_token: loginToken!, name: fullname_txtFld.text!, email: emailAddress_txtFld.text!, gender: gender_textFld.text!, education: education_txtFld.text!, specialist: speciality_txtFld.text!, experience: experience_txtFld.text!, dateOfBirth: dateofbirth_txtFld.text!, facebookLink: facebookLink_txtFld.text!, description: description_txtView.text!, profileImg: imgToUpload)
             }
         }
     }
@@ -368,6 +369,7 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
         self.configureDropDown(tag: 1)
         self.dropDownSingle.show()
     }
+    
     @IBAction func actionSpecialityBtn(_ sender: Any) {
         specialization_dropDownView.backgroundColor = UIColor.white
         experience_VIew.isHidden = true

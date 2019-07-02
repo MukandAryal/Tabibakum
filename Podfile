@@ -12,5 +12,6 @@ target 'Tabibakum' do
   pod 'SDWebImage'
   pod 'DropDown'
   pod 'Firebase/Messaging'
+  pod 'TagListView'
 
 end

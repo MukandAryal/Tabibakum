@@ -52,6 +52,7 @@ class SingUpViewController: UIViewController,UIImagePickerControllerDelegate,UIN
         
         singUpBtn.layer.cornerRadius = singUpBtn.frame.height/2
         singUpBtn.clipsToBounds = true
+        
         fullName_txtFld.setLeftPaddingPoints(10)
         phoneNumber_txtFld.setLeftPaddingPoints(10)
         emailAddress_txtFld.setLeftPaddingPoints(10)
@@ -59,7 +60,7 @@ class SingUpViewController: UIViewController,UIImagePickerControllerDelegate,UIN
         yourPassword_txtFld.setLeftPaddingPoints(10)
         
         imagePicker.delegate = self
-        userImg_View.layer.cornerRadius = userImg_View.frame.height/2
+        userImg_View.layer.cornerRadius = userImg_View.frame.width/2
         userImg_View.clipsToBounds = true
         singUpBtn.backgroundColor = UiInterFace.appThemeColor
         // fullName_txtFld.text = "mk"
@@ -236,8 +237,6 @@ class SingUpViewController: UIViewController,UIImagePickerControllerDelegate,UIN
                 
             }
         }
-        //   let loginObj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController") as! QueestionNaireImgeAndTextViewController
-        //   self.navigationController?.pushViewController(loginObj, animated: true)
     }
 }
 

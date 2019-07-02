@@ -9,7 +9,9 @@
 import UIKit
 
 class BookAppoinmentCollectionViewCell: UICollectionViewCell {
-
+    @IBOutlet weak var day_Lbl: UILabel!
+    @IBOutlet weak var month_Lbl: UILabel!
+    @IBOutlet weak var date_Lbl: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

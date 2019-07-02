@@ -24,21 +24,32 @@ class ProfileSettingViewController: UIViewController {
     @IBOutlet weak var height_Lbl: UILabel!
     @IBOutlet weak var facebook_Lbl: UILabel!
     @IBOutlet weak var address_Lbl: UILabel!
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        userProfileApi()
         profile_ImgView.layer.cornerRadius = profile_ImgView.frame.height/2
         profile_ImgView.clipsToBounds = true
         info_view.layer.cornerRadius = 10
         update_Btn.layer.cornerRadius = update_Btn.frame.height/2
         update_Btn.clipsToBounds = true
-        info_view.layer.borderColor = UIColor(red: 225/254, green: 228/254, blue: 228/254, alpha: 1.0).cgColor
+        info_view.layer.borderColor = UIColor(red: 230/254, green: 230/254, blue: 230/254, alpha: 1.0).cgColor
         info_view.layer.borderWidth = 1
         info_view.layer.cornerRadius = 10
         info_view.clipsToBounds = true
         update_Btn.backgroundColor = UiInterFace.appThemeColor
         navigationController?.navigationBar.backgroundColor = UiInterFace.appThemeColor
-        userProfileApi()
+        self.name_Lbl.text = ""
+        self.phoneNumber_Lbl.text = ""
+        self.emailId_Lbl.text = ""
+        self.dateofBirth_Lbl.text = ""
+        self.gender_Lbl.text = ""
+        self.weight_Lbl.text = ""
+        self.height_Lbl.text = ""
+        self.description_Lbl.text = ""
+        self.facebook_Lbl.text = ""
+        self.address_Lbl.text = ""
+        
     }
     
     func userProfileApi(){
@@ -51,11 +62,11 @@ class ProfileSettingViewController: UIViewController {
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for userData in dataDict! {
-                    LoadingIndicatorView.hide()
                     self.name_Lbl.text = userData["name"] as? String
                     let img =  userData["avatar"] as? String
                     let imageStr = Configurator.imageBaseUrl + img!
                     self.profile_ImgView.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))
+                    LoadingIndicatorView.hide()
                     self.phoneNumber_Lbl.text = userData["phone"] as? String
                     self.emailId_Lbl.text = userData["email"] as? String
                     self.dateofBirth_Lbl.text = userData["date_of_birth"] as? String
@@ -66,12 +77,11 @@ class ProfileSettingViewController: UIViewController {
                     self.facebook_Lbl.text = userData["facebook"] as? String
                     self.address_Lbl.text = userData["address"] as? String
                 }
-        }
+         }
     }
     
     @IBAction func actionUpdateBtn(_ sender: Any) {
         let profileUpdate = self.storyboard?.instantiateViewController(withIdentifier: "PatientProfileUpdateViewController") as! PatientProfileUpdateViewController
         self.navigationController?.pushViewController(profileUpdate, animated: true)
     }
-    
 }

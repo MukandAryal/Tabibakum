@@ -8,23 +8,35 @@
 
 import UIKit
 
-class LogOutView: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+class LogOutView: UIView {
+    
+    @IBOutlet weak var logout_Btn: UIButton!
+    @IBOutlet weak var stayLoggedIn_Btn: UIButton!
+    
+    override func draw(_ rect: CGRect) {
+        self.layer.cornerRadius = 10
+        self.clipsToBounds = true
+        self.clipsToBounds = true
+        logout_Btn.layer.cornerRadius = 10
+        logout_Btn.clipsToBounds = true
+        stayLoggedIn_Btn.layer.cornerRadius = 10
+        stayLoggedIn_Btn.clipsToBounds = true
+        stayLoggedIn_Btn.backgroundColor = UiInterFace.appThemeColor
+        logout_Btn.backgroundColor = UiInterFace.tabBackgroundColor
+        
+        logout_Btn.addTarget(self, action: #selector(self.logoutBtn), for: .touchUpInside)
+        
+        stayLoggedIn_Btn.addTarget(self, action: #selector(self.stayLoggedInBtn), for: .touchUpInside)
+       
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    @objc func logoutBtn(sender:UIButton) {
+        print("Button Clicked")
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "notificationlogout"), object: nil)
     }
-    */
-
+    
+    @objc func stayLoggedInBtn(sender:UIButton) {
+        print("Button Clicked")
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "notificationstayLoggedIn"), object: nil)
+    }
 }

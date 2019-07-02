@@ -50,6 +50,7 @@ class AvailableDoctorsViewController: UIViewController {
     @IBOutlet weak var search_txtFld: UITextField!
     
     var doctorListArr = [allDoctorList.doctorDetails]()
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()

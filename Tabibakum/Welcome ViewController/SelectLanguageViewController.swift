@@ -9,7 +9,7 @@
 import UIKit
 
 class SelectLanguageViewController: UIViewController {
-
+    
     @IBOutlet weak var chooseLang_Lbl: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +22,7 @@ class SelectLanguageViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-      self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     @IBAction func actionUrduBtn(_ sender: Any) {
@@ -30,13 +30,13 @@ class SelectLanguageViewController: UIViewController {
     }
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

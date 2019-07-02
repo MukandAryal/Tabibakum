@@ -21,4 +21,5 @@ class indexingValue : NSObject{
     static var complaintQuestionIndexValue = Int()
     static var complaintQuestionNaireType = [String]()
     static var questionNaireType = String()
+    static var logOutViewString = String()
 }

@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SideMenu
 
-class MenuViewController: UIViewController {
+class MenuViewController: BaseClassViewController {
     
     @IBOutlet weak var menuTblView: UITableView!
     
@@ -20,14 +20,9 @@ class MenuViewController: UIViewController {
         UIImage(named: "booking_nav_dark.png")!,
         UIImage(named: "history.png")!,UIImage(named: "notification.png")!,UIImage(named: "updateQuestionNaire.png")!,UIImage(named: "ProfileSetting.png")!]
     
-    let doctorMenuBarItem = ["BOOKINGS","HISTORY","SCHEDULE SLOT","NOTIFICATION","UPDATE QUESTIONNAIRE","REVIEWS","PROFILE SETTING"]
-    
-    var doctorMenuBarICon: [UIImage] = [
-        UIImage(named: "booking_nav_dark.png")!,
-        UIImage(named: "history.png")!,UIImage(named: "notification.png")!,UIImage(named: "booking_nav_dark.png")!,UIImage(named: "updateQuestionNaire.png")!,UIImage(named: "booking_nav_dark.png")!,UIImage(named: "ProfileSetting.png")!]
-    
-    
     var loginType = Int()
+    var imageStr = String()
+    var userName = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,7 +81,7 @@ class MenuViewController: UIViewController {
                     self.navigationController?.pushViewController(Obj, animated:true)
                 }
                 indexingValue.indexValue = +1
-         }
+          }
     }
     
     func getUserDetails(){
@@ -101,7 +96,9 @@ class MenuViewController: UIViewController {
                 let resultDict = response.value as? NSDictionary
                 let userDetails = resultDict!["user"] as? NSDictionary
                 self.loginType = userDetails?.object(forKey: "type") as! Int
-                print(self.loginType)
+                let img =  userDetails?.object(forKey: "avatar") as? String
+                self.imageStr = Configurator.imageBaseUrl + img!
+                self.userName = (userDetails?.object(forKey: "name") as? String)!
                 self.menuTblView.reloadData()
         }
     }
@@ -125,7 +122,9 @@ class MenuViewController: UIViewController {
     
     @IBAction func actionSingOutBtn(_ sender: Any) {
         print("signOut")
-        SideMenuManager.default.menuLeftNavigationController?.dismiss(animated: true, completion: nil)
+         SideMenuManager.default.menuLeftNavigationController?.dismiss(animated: true, completion: nil)
+        self.logoutView()
+       
     }
 }
 
@@ -138,34 +137,26 @@ extension MenuViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
         let headerView = menuTblView.dequeueReusableHeaderFooterView(withIdentifier: "menuHeaderView" ) as! menuHeaderView
+           headerView.userImg_view.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))
+          headerView.userName_lbl.text = userName
         
         return headerView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if loginType == 0 {
             return patientMenuBarItem.count
-        }else{
-            return doctorMenuBarICon.count
         }
-    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuTableViewCell") as! MenuTableViewCell
-        if loginType == 0 {
             cell.menuBar_Lbl.text = patientMenuBarItem[indexPath.row]
             cell.menuBar_Img.image = patientMenuBarICon[indexPath.row]
-        }else{
-            cell.menuBar_Lbl.text = doctorMenuBarItem[indexPath.row]
-            cell.menuBar_Img.image = doctorMenuBarICon[indexPath.row]
-        }
         return cell
     }
 }
 
 extension MenuViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if loginType == 0{
             if indexPath.row == 0 {
                 let bookingObj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
                 self.navigationController?.pushViewController(bookingObj, animated: true)
@@ -186,26 +177,5 @@ extension MenuViewController : UITableViewDelegate{
                 let profilesettingObj = self.storyboard?.instantiateViewController(withIdentifier: "ProfileSettingViewController") as! ProfileSettingViewController
                 self.navigationController?.pushViewController(profilesettingObj, animated: true)
             }
-        }else{
-            if indexPath.row == 0 {
-                let bookingObj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-                self.navigationController?.pushViewController(bookingObj, animated: true)
-            }else if indexPath.row == 1 {
-                let bookingObj = self.storyboard?.instantiateViewController(withIdentifier: "BookingsPatientViewController") as! BookingsPatientViewController
-                self.navigationController?.pushViewController(bookingObj, animated: true)
-            }else if indexPath.row == 2 {
-                
-            }else if indexPath.row == 3{
-                let bookingObj = self.storyboard?.instantiateViewController(withIdentifier: "NotificationPatientViewController") as! NotificationPatientViewController
-                self.navigationController?.pushViewController(bookingObj, animated: true)
-            }else if indexPath.row == 4{
-                
-            }else if indexPath.row == 5{
-                
-            }else {
-                let bookingObj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorProfileSettingViewController") as! DoctorProfileSettingViewController
-                self.navigationController?.pushViewController(bookingObj, animated: true)
-            }
         }
     }
-}

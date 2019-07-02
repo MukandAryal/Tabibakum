@@ -230,6 +230,7 @@ class DoctorProfileViewController: UIViewController,UITextViewDelegate {
     }
     @IBAction func actionBookApointmentBtn(_ sender: Any) {
         let obj = self.storyboard?.instantiateViewController(withIdentifier: "BookAppoinmentViewController") as? BookAppoinmentViewController
+        obj?.doctorId = (doctorInfoDetailsArr.id?.description)!
         self.navigationController?.pushViewController(obj!, animated: true)
     }
     

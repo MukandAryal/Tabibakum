@@ -34,7 +34,7 @@ class LoginViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-      self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -71,10 +71,10 @@ class LoginViewController: UIViewController {
                 }else {
                     let token = resultDict!["token"] as? String
                     UserDefaults.standard.set(token, forKey: "loginToken")
-                   indexingValue.questionNaireType = "singUpQuestionNaire"
+                    indexingValue.questionNaireType = "singUpQuestionNaire"
                     self.getUserDetails()
                 }
-          }
+        }
     }
     
     func getUserDetails(){
@@ -89,13 +89,26 @@ class LoginViewController: UIViewController {
                 let resultDict = response.value as? NSDictionary
                 let userDetails = resultDict!["user"] as? NSDictionary
                 let totalfilled = userDetails?.object(forKey: "totalfilled") as! Int
-                print(totalfilled)
-                if totalfilled == 1 {
-                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
-                    self.navigationController?.pushViewController(Obj, animated:true)
-                    print("last index")
+                let loginType =  userDetails?.object(forKey: "type") as! Int
+                let verified =  userDetails?.object(forKey: "verified") as! Int
+                UserDefaults.standard.set(loginType, forKey: "loginType")
+                if loginType == 0 {
+                    print(totalfilled)
+                    if totalfilled == 1 {
+                        let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
+                        self.navigationController?.pushViewController(Obj, animated:true)
+                        print("last index")
+                    }else{
+                        self.questionNaireApi()
+                    }
                 }else{
-                    self.questionNaireApi()
+                    if verified == 0 {
+                        let Obj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorHomeViewController")as! DoctorHomeViewController
+                        self.navigationController?.pushViewController(Obj, animated:true)
+                    }else {
+                        let Obj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorHomeViewController")as! DoctorHomeViewController
+                        self.navigationController?.pushViewController(Obj, animated:true)
+                    }
                 }
          }
     }
@@ -110,7 +123,7 @@ class LoginViewController: UIViewController {
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
                 LoadingIndicatorView.hide()
-
+                
                 print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]

@@ -32,6 +32,14 @@
 		510D2F2E229BE35C009FDB31 /* menuHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510D2F2C229BE35C009FDB31 /* menuHeaderView.xib */; };
 		510D2F35229C0231009FDB31 /* BookingHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D2F33229C0231009FDB31 /* BookingHistoryTableViewCell.swift */; };
 		510D2F36229C0231009FDB31 /* BookingHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510D2F34229C0231009FDB31 /* BookingHistoryTableViewCell.xib */; };
+		510DCBA222CB0D3600E4E90F /* DoctorHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510DCBA122CB0D3600E4E90F /* DoctorHomeViewController.swift */; };
+		510DCBA422CB0EB600E4E90F /* DoctorMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510DCBA322CB0EB600E4E90F /* DoctorMenuViewController.swift */; };
+		510DCBA722CB0F7500E4E90F /* DoctorMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510DCBA522CB0F7500E4E90F /* DoctorMenuTableViewCell.swift */; };
+		510DCBA822CB0F7500E4E90F /* DoctorMenuTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510DCBA622CB0F7500E4E90F /* DoctorMenuTableViewCell.xib */; };
+		510DCBAA22CB323A00E4E90F /* DoctorNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510DCBA922CB323A00E4E90F /* DoctorNotificationViewController.swift */; };
+		510DCBAC22CB341500E4E90F /* BookingsDoctorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510DCBAB22CB341500E4E90F /* BookingsDoctorViewController.swift */; };
+		510DCBAF22CB3D9400E4E90F /* ScheduleBookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510DCBAE22CB3D9400E4E90F /* ScheduleBookingViewController.swift */; };
+		510DCBB122CB520000E4E90F /* DoctorReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510DCBB022CB520000E4E90F /* DoctorReviewViewController.swift */; };
 		510FE77E229E4AF900E80C16 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510FE77D229E4AF900E80C16 /* ReviewViewController.swift */; };
 		510FE781229E4B9600E80C16 /* ReviewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510FE77F229E4B9600E80C16 /* ReviewHeaderView.swift */; };
 		510FE782229E4B9600E80C16 /* ReviewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510FE780229E4B9600E80C16 /* ReviewHeaderView.xib */; };
@@ -51,8 +59,14 @@
 		51184B3C22B27B6D0016A5B2 /* patientSingUpSucessfullyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51184B3B22B27B6D0016A5B2 /* patientSingUpSucessfullyViewController.swift */; };
 		51188C5D22A1338700448A04 /* Configurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51188C5C22A1338700448A04 /* Configurator.swift */; };
 		51188C5F22A133CA00448A04 /* ApiEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51188C5E22A133CA00448A04 /* ApiEndPoints.swift */; };
+		511CB26E22C0ABF1000D8203 /* QuestionnaireUpdateSucessfullyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CB26C22C0ABF1000D8203 /* QuestionnaireUpdateSucessfullyView.swift */; };
+		511CB26F22C0ABF1000D8203 /* QuestionnaireUpdateSucessfullyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 511CB26D22C0ABF1000D8203 /* QuestionnaireUpdateSucessfullyView.xib */; };
 		511F50B822A51F6B00D0C0A9 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511F50B722A51F6B00D0C0A9 /* LoadingIndicatorView.swift */; };
 		511F50BA22A52D1400D0C0A9 /* dropDownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511F50B922A52D0D00D0C0A9 /* dropDownCell.swift */; };
+		5125E89F22C207AC00A8EF01 /* ProfileUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5125E89D22C207AC00A8EF01 /* ProfileUpdateView.swift */; };
+		5125E8A022C207AC00A8EF01 /* ProfileUpdateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5125E89E22C207AC00A8EF01 /* ProfileUpdateView.xib */; };
+		5125E8A522C248ED00A8EF01 /* blurViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5125E8A322C248ED00A8EF01 /* blurViewController.swift */; };
+		5125E8A622C248ED00A8EF01 /* blurViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5125E8A422C248ED00A8EF01 /* blurViewController.xib */; };
 		51356B87229556C6003ABBFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51356B86229556C6003ABBFA /* AppDelegate.swift */; };
 		51356B8C229556C6003ABBFA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51356B8A229556C6003ABBFA /* Main.storyboard */; };
 		51356B8F229556C6003ABBFA /* Tabibakum.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 51356B8D229556C6003ABBFA /* Tabibakum.xcdatamodeld */; };
@@ -107,6 +121,14 @@
 		510D2F2C229BE35C009FDB31 /* menuHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = menuHeaderView.xib; sourceTree = "<group>"; };
 		510D2F33229C0231009FDB31 /* BookingHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		510D2F34229C0231009FDB31 /* BookingHistoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookingHistoryTableViewCell.xib; sourceTree = "<group>"; };
+		510DCBA122CB0D3600E4E90F /* DoctorHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorHomeViewController.swift; sourceTree = "<group>"; };
+		510DCBA322CB0EB600E4E90F /* DoctorMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorMenuViewController.swift; sourceTree = "<group>"; };
+		510DCBA522CB0F7500E4E90F /* DoctorMenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorMenuTableViewCell.swift; sourceTree = "<group>"; };
+		510DCBA622CB0F7500E4E90F /* DoctorMenuTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DoctorMenuTableViewCell.xib; sourceTree = "<group>"; };
+		510DCBA922CB323A00E4E90F /* DoctorNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorNotificationViewController.swift; sourceTree = "<group>"; };
+		510DCBAB22CB341500E4E90F /* BookingsDoctorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingsDoctorViewController.swift; sourceTree = "<group>"; };
+		510DCBAE22CB3D9400E4E90F /* ScheduleBookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleBookingViewController.swift; sourceTree = "<group>"; };
+		510DCBB022CB520000E4E90F /* DoctorReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorReviewViewController.swift; sourceTree = "<group>"; };
 		510FE77D229E4AF900E80C16 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		510FE77F229E4B9600E80C16 /* ReviewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewHeaderView.swift; sourceTree = "<group>"; };
 		510FE780229E4B9600E80C16 /* ReviewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReviewHeaderView.xib; sourceTree = "<group>"; };
@@ -126,8 +148,14 @@
 		51184B3B22B27B6D0016A5B2 /* patientSingUpSucessfullyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = patientSingUpSucessfullyViewController.swift; sourceTree = "<group>"; };
 		51188C5C22A1338700448A04 /* Configurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurator.swift; sourceTree = "<group>"; };
 		51188C5E22A133CA00448A04 /* ApiEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEndPoints.swift; sourceTree = "<group>"; };
+		511CB26C22C0ABF1000D8203 /* QuestionnaireUpdateSucessfullyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireUpdateSucessfullyView.swift; sourceTree = "<group>"; };
+		511CB26D22C0ABF1000D8203 /* QuestionnaireUpdateSucessfullyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionnaireUpdateSucessfullyView.xib; sourceTree = "<group>"; };
 		511F50B722A51F6B00D0C0A9 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		511F50B922A52D0D00D0C0A9 /* dropDownCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dropDownCell.swift; sourceTree = "<group>"; };
+		5125E89D22C207AC00A8EF01 /* ProfileUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUpdateView.swift; sourceTree = "<group>"; };
+		5125E89E22C207AC00A8EF01 /* ProfileUpdateView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileUpdateView.xib; sourceTree = "<group>"; };
+		5125E8A322C248ED00A8EF01 /* blurViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = blurViewController.swift; sourceTree = "<group>"; };
+		5125E8A422C248ED00A8EF01 /* blurViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = blurViewController.xib; sourceTree = "<group>"; };
 		51356B83229556C6003ABBFA /* Tabibakum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tabibakum.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51356B86229556C6003ABBFA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		51356B8B229556C6003ABBFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -207,12 +235,17 @@
 			isa = PBXGroup;
 			children = (
 				510D2F22229BC894009FDB31 /* MenuViewController.swift */,
+				510DCBA322CB0EB600E4E90F /* DoctorMenuViewController.swift */,
 				510D2F27229BCB45009FDB31 /* MenuTableViewCell.swift */,
 				510D2F28229BCB45009FDB31 /* MenuTableViewCell.xib */,
 				510D2F2B229BE35C009FDB31 /* menuHeaderView.swift */,
 				510D2F2C229BE35C009FDB31 /* menuHeaderView.xib */,
 				51D52A3D22BB66D10096E1D1 /* LogOutView.swift */,
 				51D52A3E22BB66D10096E1D1 /* LogOutView.xib */,
+				5125E8A322C248ED00A8EF01 /* blurViewController.swift */,
+				5125E8A422C248ED00A8EF01 /* blurViewController.xib */,
+				510DCBA522CB0F7500E4E90F /* DoctorMenuTableViewCell.swift */,
+				510DCBA622CB0F7500E4E90F /* DoctorMenuTableViewCell.xib */,
 			);
 			path = "MenuBar ViewController";
 			sourceTree = "<group>";
@@ -223,14 +256,24 @@
 				510D2F25229BCA44009FDB31 /* HomeViewController.swift */,
 				51F9EE98229D0A3E006632F9 /* BookingPatientTableViewCell.swift */,
 				51F9EE99229D0A3E006632F9 /* BookingPatientTableViewCell.xib */,
+				510DCBA122CB0D3600E4E90F /* DoctorHomeViewController.swift */,
 			);
 			path = "Home ViewController";
+			sourceTree = "<group>";
+		};
+		510DCBAD22CB3D6400E4E90F /* Schedule Booking ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				510DCBAE22CB3D9400E4E90F /* ScheduleBookingViewController.swift */,
+			);
+			path = "Schedule Booking ViewController";
 			sourceTree = "<group>";
 		};
 		510FE77C229E4AD300E80C16 /* Review View Controller */ = {
 			isa = PBXGroup;
 			children = (
 				510FE77D229E4AF900E80C16 /* ReviewViewController.swift */,
+				510DCBB022CB520000E4E90F /* DoctorReviewViewController.swift */,
 				510FE77F229E4B9600E80C16 /* ReviewHeaderView.swift */,
 				510FE780229E4B9600E80C16 /* ReviewHeaderView.xib */,
 				510FE783229E4D2500E80C16 /* ReviewTableViewCell.swift */,
@@ -263,6 +306,8 @@
 				510C368922B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.xib */,
 				51D52A4122BB69C60096E1D1 /* QuestionNaireExitView.swift */,
 				51D52A4222BB69C60096E1D1 /* QuestionNaireExitView.xib */,
+				511CB26C22C0ABF1000D8203 /* QuestionnaireUpdateSucessfullyView.swift */,
+				511CB26D22C0ABF1000D8203 /* QuestionnaireUpdateSucessfullyView.xib */,
 			);
 			path = "QuestionNaire ViewController";
 			sourceTree = "<group>";
@@ -295,6 +340,7 @@
 				51356B95229556C8003ABBFA /* Info.plist */,
 				51356B8D229556C6003ABBFA /* Tabibakum.xcdatamodeld */,
 				5182322022AE172D00750787 /* GoogleService-Info.plist */,
+				510DCBAD22CB3D6400E4E90F /* Schedule Booking ViewController */,
 				51D52A4722BBADA40096E1D1 /* Book Appoinment ViewController */,
 				5102F7FD229FE86400C96F4D /* Font Family */,
 				5114366E22AF72DD006D5827 /* QuestionNaire ViewController */,
@@ -372,6 +418,7 @@
 				51F9EE96229D09F1006632F9 /* BookingsPatientViewController.swift */,
 				510D2F33229C0231009FDB31 /* BookingHistoryTableViewCell.swift */,
 				510D2F34229C0231009FDB31 /* BookingHistoryTableViewCell.xib */,
+				510DCBAB22CB341500E4E90F /* BookingsDoctorViewController.swift */,
 			);
 			path = "Bookings ViewController";
 			sourceTree = "<group>";
@@ -382,6 +429,7 @@
 				51F9EE9D229D1387006632F9 /* NotificationPatientViewController.swift */,
 				51F9EE9F229D13A1006632F9 /* NotificationPatientTableViewCell.swift */,
 				51F9EEA0229D13A1006632F9 /* NotificationPatientTableViewCell.xib */,
+				510DCBA922CB323A00E4E90F /* DoctorNotificationViewController.swift */,
 			);
 			path = "Notification ViewController";
 			sourceTree = "<group>";
@@ -394,6 +442,8 @@
 				510FE787229E5B6700E80C16 /* DoctorProfileSettingViewController.swift */,
 				510FE789229E6BCE00E80C16 /* PatientProfileUpdateViewController.swift */,
 				5102F7B3229F98AE00C96F4D /* DoctorProfileViewController.swift */,
+				5125E89D22C207AC00A8EF01 /* ProfileUpdateView.swift */,
+				5125E89E22C207AC00A8EF01 /* ProfileUpdateView.xib */,
 			);
 			path = "Profile Setting";
 			sourceTree = "<group>";
@@ -468,11 +518,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				51F9EEA2229D13A1006632F9 /* NotificationPatientTableViewCell.xib in Resources */,
+				510DCBA822CB0F7500E4E90F /* DoctorMenuTableViewCell.xib in Resources */,
 				5102F80C229FE86400C96F4D /* ProximaNova-Thin.ttf in Resources */,
 				5102F80B229FE86400C96F4D /* ProximaNova-Bold.ttf in Resources */,
 				51F9EE9B229D0A3E006632F9 /* BookingPatientTableViewCell.xib in Resources */,
 				510D2F2E229BE35C009FDB31 /* menuHeaderView.xib in Resources */,
 				51356B94229556C8003ABBFA /* LaunchScreen.storyboard in Resources */,
+				511CB26F22C0ABF1000D8203 /* QuestionnaireUpdateSucessfullyView.xib in Resources */,
 				51D52A4422BB69C60096E1D1 /* QuestionNaireExitView.xib in Resources */,
 				510FE782229E4B9600E80C16 /* ReviewHeaderView.xib in Resources */,
 				510D2F36229C0231009FDB31 /* BookingHistoryTableViewCell.xib in Resources */,
@@ -483,7 +535,9 @@
 				510D2F2A229BCB45009FDB31 /* MenuTableViewCell.xib in Resources */,
 				5102F808229FE86400C96F4D /* AcariSans-SemiBold.ttf in Resources */,
 				51356B8C229556C6003ABBFA /* Main.storyboard in Resources */,
+				5125E8A622C248ED00A8EF01 /* blurViewController.xib in Resources */,
 				5102F80A229FE86400C96F4D /* ProximaNovaCond-Bold.ttf in Resources */,
+				5125E8A022C207AC00A8EF01 /* ProfileUpdateView.xib in Resources */,
 				510C368B22B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.xib in Resources */,
 				5102F80E229FE86400C96F4D /* ProximaNova-Regular.ttf in Resources */,
 				51D52A4D22BBAE5B0096E1D1 /* BookAppoinmentCollectionViewCell.xib in Resources */,
@@ -513,6 +567,7 @@
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework",
+				"${BUILT_PRODUCTS_DIR}/TagListView/TagListView.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
@@ -526,6 +581,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SideMenu.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TagListView.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -565,9 +621,13 @@
 				51F9EEA7229D5BC6006632F9 /* ProfileUpdateViewController.swift in Sources */,
 				5114367022AF731E006D5827 /* ListQuestionNaireViewController.swift in Sources */,
 				5114367822AF966B006D5827 /* QuestionNaireTextViewController.swift in Sources */,
+				510DCBA222CB0D3600E4E90F /* DoctorHomeViewController.swift in Sources */,
+				510DCBA422CB0EB600E4E90F /* DoctorMenuViewController.swift in Sources */,
 				510FE77E229E4AF900E80C16 /* ReviewViewController.swift in Sources */,
 				510C368322B0B475001563A8 /* QueestionNaireImgeAndTextViewController.swift in Sources */,
+				5125E8A522C248ED00A8EF01 /* blurViewController.swift in Sources */,
 				510D2F23229BC894009FDB31 /* MenuViewController.swift in Sources */,
+				5125E89F22C207AC00A8EF01 /* ProfileUpdateView.swift in Sources */,
 				510C368D22B120A0001563A8 /* singUpPatientWelcomeScreenViewController.swift in Sources */,
 				510D2F29229BCB45009FDB31 /* MenuTableViewCell.swift in Sources */,
 				510FE790229EA50400E80C16 /* AvailableDoctorsTableViewCell.swift in Sources */,
@@ -585,9 +645,11 @@
 				5114367A22AFA4C5006D5827 /* QuestionNaireImageViewController.swift in Sources */,
 				510FE788229E5B6700E80C16 /* DoctorProfileSettingViewController.swift in Sources */,
 				51184B3C22B27B6D0016A5B2 /* patientSingUpSucessfullyViewController.swift in Sources */,
+				510DCBAF22CB3D9400E4E90F /* ScheduleBookingViewController.swift in Sources */,
 				510FE78A229E6BCE00E80C16 /* PatientProfileUpdateViewController.swift in Sources */,
 				51F9EE9A229D0A3E006632F9 /* BookingPatientTableViewCell.swift in Sources */,
 				51356B9D22955944003ABBFA /* WelcomeViewController.swift in Sources */,
+				510DCBAA22CB323A00E4E90F /* DoctorNotificationViewController.swift in Sources */,
 				51D52A4922BBAE320096E1D1 /* BookAppoinmentViewController.swift in Sources */,
 				51D52A4622BB74260096E1D1 /* BaseClassViewController.swift in Sources */,
 				5102F7B4229F98AE00C96F4D /* DoctorProfileViewController.swift in Sources */,
@@ -598,6 +660,8 @@
 				510D2F26229BCA44009FDB31 /* HomeViewController.swift in Sources */,
 				511F50B822A51F6B00D0C0A9 /* LoadingIndicatorView.swift in Sources */,
 				510D2F35229C0231009FDB31 /* BookingHistoryTableViewCell.swift in Sources */,
+				510DCBA722CB0F7500E4E90F /* DoctorMenuTableViewCell.swift in Sources */,
+				511CB26E22C0ABF1000D8203 /* QuestionnaireUpdateSucessfullyView.swift in Sources */,
 				51F9EEA5229D2F5F006632F9 /* ProfileSettingViewController.swift in Sources */,
 				510C368722B103EF001563A8 /* QuestionNaireMultipleTabViewController.swift in Sources */,
 				510344FC2297AE4200F0562D /* SignUpAsDoctorViewController.swift in Sources */,
@@ -609,6 +673,8 @@
 				51356B87229556C6003ABBFA /* AppDelegate.swift in Sources */,
 				510FE78D229EA4D900E80C16 /* AvailableDoctorsViewController.swift in Sources */,
 				51188C5F22A133CA00448A04 /* ApiEndPoints.swift in Sources */,
+				510DCBB122CB520000E4E90F /* DoctorReviewViewController.swift in Sources */,
+				510DCBAC22CB341500E4E90F /* BookingsDoctorViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -780,8 +846,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6B68D7GK85;
+				DEVELOPMENT_TEAM = C2Z5D227J5;
 				INFOPLIST_FILE = Tabibakum/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -790,6 +857,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = osvin.Tabibakum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -801,8 +869,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6B68D7GK85;
+				DEVELOPMENT_TEAM = C2Z5D227J5;
 				INFOPLIST_FILE = Tabibakum/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -811,6 +880,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = osvin.Tabibakum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

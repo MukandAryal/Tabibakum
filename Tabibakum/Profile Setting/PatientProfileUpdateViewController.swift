@@ -11,7 +11,7 @@ import Alamofire
 import SDWebImage
 import DropDown
 
-class PatientProfileUpdateViewController: UIViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate {
+class PatientProfileUpdateViewController: BaseClassViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate {
     
     @IBOutlet weak var profile_imgView: UIImageView!
     @IBOutlet weak var uploadPhoto_Lbl: UIButton!
@@ -33,7 +33,8 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
     @IBOutlet weak var weight_Lbl: UITextField!
     @IBOutlet weak var height_Lbl: UITextField!
     @IBOutlet weak var bloodGroup_Lbl: UITextField!
-     let datePicker = UIDatePicker()
+    @IBOutlet weak var back_Btn: UIBarButtonItem!
+    let datePicker = UIDatePicker()
     
     var ageArr = ["16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","66","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80"]
     
@@ -131,10 +132,12 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
         dateofbirth_txtFld.setLeftPaddingPoints(10)
         userProfileApi()
         showDatePicker()
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.doneBtn(_:)), name: NSNotification.Name(rawValue: "notificationlProfileOkBtn"), object: nil)
     }
     
     func userProfileApi(){
-        LoadingIndicatorView.show()
+        //  LoadingIndicatorView.show()
         let useid = UserDefaults.standard.integer(forKey: "userId")
         let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
@@ -143,7 +146,7 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for userData in dataDict! {
-                    LoadingIndicatorView.hide()
+                    //     LoadingIndicatorView.hide()
                     self.fullname_txtFld.text = userData["name"] as? String
                     let img =  userData["avatar"] as? String
                     //imgToUpload = userData["avatar"] as? String
@@ -155,11 +158,13 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
                     self.weight_Lbl.text = userData["weight"] as? String
                     self.height_Lbl.text = userData["height"] as? String
                     self.description_txtView.text = userData["description"] as? String
+                    self.facebookLink_txtFld.text = userData["facebook"] as? String
+                    self.address_txtFld.text = userData["address"] as? String
                 }
-          }
+        }
     }
     
-    func profileUpdateApi(name:String,age:String,gender:String,email:String,weight:String,height:String,bloodType:String,address:String,dateOfBirth:String,facebookLink:String,device_token:String,description:String,profileImg:Data){
+    func profileUpdateApi(name:String,age:String,gender:String,email:String,weight:String,height:String,bloodType:String,address:String,dateOfBirth:String,facebookLink:String,token:String,description:String,profileImg:Data){
         
         LoadingIndicatorView.show()
         Alamofire.upload(
@@ -176,8 +181,12 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
                 multipartFormData.append(dateOfBirth.data(using: String.Encoding.utf8)!, withName: "date_of_birth")
                 multipartFormData.append(facebookLink.data(using: String.Encoding.utf8)!, withName: "facebook")
                 multipartFormData.append(description.data(using: String.Encoding.utf8)!, withName: "description")
-                multipartFormData.append(device_token.data(using: String.Encoding.utf8)!, withName: "token")
-                multipartFormData.append(self.imgToUpload, withName: "avatar", fileName: "\(String(NSDate().timeIntervalSince1970).replacingOccurrences(of: ".", with: "")).jpeg", mimeType: "image/jpeg")
+                multipartFormData.append(token.data(using: String.Encoding.utf8)!, withName: "token")
+                
+                if let imgToUpload = self.profile_imgView.image!.jpegData(compressionQuality: 0.2) {
+                    multipartFormData.append(imgToUpload, withName: "avatar", fileName: "\(String(NSDate().timeIntervalSince1970).replacingOccurrences(of: ".", with: "")).jpeg", mimeType: "image/jpeg")
+                }
+                
                 print(multipartFormData)
         },
             to:"\(Configurator.baseURL)\(ApiEndPoints.profileUpdate)",
@@ -185,22 +194,22 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
                 
                 switch encodingResult {
                 case .success(let upload, _, _):
-                    upload.responseString { response in
+                    upload.responseJSON { response in
                         print(response)
                         LoadingIndicatorView.hide()
-                        var resultDict = response.value as? [String:AnyObject]
-                        print(resultDict)
-//                        if (resultDict?.keys.contains("data"))! {
-//                            let msg = resultDict!["message"] as? String
-//                            let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: UIAlertController.Style.alert)
-//                            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-//                            self.present(alert, animated: true, completion: nil)
-                       // }else {
-//                            let msg = resultDict!["message"] as? String
-//                            let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: UIAlertController.Style.alert)
-//                            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-//                            self.present(alert, animated: true, completion: nil)
-                      //  }
+                        let resultDict = response.value as? [String:AnyObject]
+                        if let sucessStr = resultDict!["success"] as? Bool{
+                            print(sucessStr)
+                            if sucessStr{
+                                self.backGroundColorBlur()
+                                self.ProfileUpdateSucessfully()
+                                self.back_Btn.isEnabled = false
+                            }else{
+                                let alert = UIAlertController(title: "Alert", message: "Sumthing wrong please try again!", preferredStyle: UIAlertController.Style.alert)
+                                alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+                                self.present(alert, animated: true, completion: nil)
+                            }
+                        }
                         }
                         .uploadProgress { progress in // main queue by default
                             print("Upload Progress: \(progress.fractionCompleted)")
@@ -212,12 +221,18 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
         })
     }
     
+//    @objc func doneBtn(_ notification: NSNotification) {
+//        print("exitBtn>>")
+//        let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+//        self.navigationController?.pushViewController(obj, animated: true)
+//    }
+    
     func configureDropDown(tag:Int) {
         self.dropDownSingle.backgroundColor = UIColor.white
         //self.dropDownMultiple.backgroundColor = UIColor.white
         self.dropDownSingle.dismissMode  = .automatic
-       // self.dropDownMultiple.dismissMode  = .onTap
-       // dropDownMultiple.selectionBackgroundColor = UIColor(red: 234/255, green: 245/255, blue: 255/255, alpha: 1.0)
+        // self.dropDownMultiple.dismissMode  = .onTap
+        // dropDownMultiple.selectionBackgroundColor = UIColor(red: 234/255, green: 245/255, blue: 255/255, alpha: 1.0)
         dropDownSingle.selectionBackgroundColor = UIColor(red: 234/255, green: 245/255, blue: 255/255, alpha: 1.0)
         
         if tag == 1 {
@@ -251,8 +266,8 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
                 self.age_Lbl.text = item
                 self.age_Lbl.textColor = .black
             } else if tag == 2 {
-                 self.gender_textFld.text = item
-                 self.gender_textFld.textColor = .black
+                self.gender_textFld.text = item
+                self.gender_textFld.textColor = .black
             } else if tag == 3 {
                 self.weight_Lbl.text = item
                 self.weight_Lbl.textColor = .black
@@ -283,10 +298,8 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
     
     @objc func donedatePicker(){
         let formatter = DateFormatter()
-        formatter.dateFormat = "MM-dd-yyyy"
+        formatter.dateFormat = "dd MMM, yyyy"
         self.dateofbirth_txtFld.text = formatter.string(from: datePicker.date)
-        //formatter.dateFormat = "MM\dd\yyyy"
-        // self.objStep1?.dob = formatter.string(from: datePicker.date)
         self.view.endEditing(true)
     }
     
@@ -392,7 +405,7 @@ class PatientProfileUpdateViewController: UIViewController,UINavigationControlle
                 alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }else{
-                self.profileUpdateApi(name: fullname_txtFld.text!, age: age_Lbl.text!, gender: gender_textFld.text!, email: emailAddress_txtFld.text!, weight: weight_Lbl.text!, height: height_Lbl.text!, bloodType: bloodGroup_Lbl.text!, address: address_txtFld.text!, dateOfBirth: dateofbirth_txtFld.text!, facebookLink: facebookLink_txtFld.text!, device_token: loginToken!, description: description_txtView.text, profileImg: imgToUpload)
+                self.profileUpdateApi(name: fullname_txtFld.text!, age: age_Lbl.text!, gender: gender_textFld.text!, email: emailAddress_txtFld.text!, weight: weight_Lbl.text!, height: height_Lbl.text!, bloodType: bloodGroup_Lbl.text!, address: address_txtFld.text!, dateOfBirth: dateofbirth_txtFld.text!, facebookLink: facebookLink_txtFld.text!, token: loginToken!, description: description_txtView.text, profileImg: imgToUpload)
             }
         }
     }

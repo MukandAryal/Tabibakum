@@ -16,7 +16,7 @@ class ApiEndPoints: NSObject {
  static let currentbooking = "currentbooking"
  static let notification = "notification"
  static let userdata = "userdata"
- static let profileUpdate = "Update"
+ static let profileUpdate = "update"
  static let feedback_post = "feedback_post"
  static let user_details = "user"
  static let patientquestion = "patientquestion"
@@ -25,6 +25,10 @@ class ApiEndPoints: NSObject {
  static let complaintquestions = "complaintquestions"
  static let complaintanswer = "complaintanswer"
  static let doctorlist = "doctorlist"
+ static let logout = "logout"
+ static let timeSlot = "timeslot"
+ static let doctorquestion = "doctorquestion"
+ static let doctoranswer = "doctoranswer"
 }
 
 class UiInterFace: NSObject {

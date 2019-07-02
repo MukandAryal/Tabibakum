@@ -15,9 +15,11 @@ class QuestionYesNoViewController: BaseClassViewController {
     @IBOutlet weak var submit_Btn: UIButton!
     @IBOutlet weak var questionNaire_Lbl: UILabel!
     @IBOutlet weak var skip_Btn: UIBarButtonItem!
+    @IBOutlet weak var back_Btn: UIBarButtonItem!
     var selectString = String()
     var questionId = Int()
     var typeStr = String()
+    var skip = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,24 +31,33 @@ class QuestionYesNoViewController: BaseClassViewController {
         submit_Btn.layer.cornerRadius = submit_Btn.frame.height/2
         submit_Btn.clipsToBounds = true
         submit_Btn.backgroundColor = UiInterFace.appThemeColor
+        self.navigationItem.rightBarButtonItem?.title = ""
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
         questionNaireApi()
-        self.questionNaireProcessExit()
-        self.view.backgroundColor = UIColor.gray
         
-    
+        NotificationCenter.default.addObserver(self, selector: #selector(self.exitBtn(_:)), name: NSNotification.Name(rawValue: "notificationlExit"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.contineBtn(_:)), name: NSNotification.Name(rawValue: "notificationContineBtn"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.doneBtn(_:)), name: NSNotification.Name(rawValue: "notificationlokBtn"), object: nil)
     }
     
     func questionNaireApi(){
-        // LoadingIndicatorView.show()
+        LoadingIndicatorView.show()
+        let loginType = UserDefaults.standard.string(forKey: "loginType")
         var api = String()
-        if indexingValue.questionNaireType == "complaintQuestionNaire"{
-            api = Configurator.baseURL + ApiEndPoints.complaintquestions
+        if loginType == "1" {
+            api = Configurator.baseURL + ApiEndPoints.doctorquestion
         }else{
-            api = Configurator.baseURL + ApiEndPoints.patientquestion
+            if indexingValue.questionNaireType == "complaintQuestionNaire"{
+                api = Configurator.baseURL + ApiEndPoints.complaintquestions
+            }else{
+                api = Configurator.baseURL + ApiEndPoints.patientquestion
+            }
         }
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                // LoadingIndicatorView.hide()
+                LoadingIndicatorView.hide()
                 print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
@@ -56,9 +67,10 @@ class QuestionYesNoViewController: BaseClassViewController {
                     if type == "yesno"{
                         self.questionNaire_Lbl.text = specialistObj["question"] as? String
                         self.questionId = specialistObj["id"] as! Int
-                        let skip = specialistObj["skip"] as? String
-                        if skip != "1" {
-                            self.navigationItem.rightBarButtonItem = nil
+                        self.skip = (specialistObj["skip"] as? String)!
+                        if self.skip != "0" {
+                            self.navigationItem.rightBarButtonItem?.title = "Skip"
+                            self.navigationItem.rightBarButtonItem?.isEnabled = true
                         }
                     }
                 }
@@ -77,10 +89,15 @@ class QuestionYesNoViewController: BaseClassViewController {
         
         print(param)
         var api = String()
-        if indexingValue.questionNaireType == "complaintQuestionNaire"{
-            api = Configurator.baseURL + ApiEndPoints.complaintanswer
+        let loginType = UserDefaults.standard.string(forKey: "loginType")
+        if loginType == "1" {
+            api = Configurator.baseURL + ApiEndPoints.doctoranswer
         }else{
-            api = Configurator.baseURL + ApiEndPoints.patientanswer
+            if indexingValue.questionNaireType == "complaintQuestionNaire"{
+                api = Configurator.baseURL + ApiEndPoints.complaintanswer
+            }else{
+                api = Configurator.baseURL + ApiEndPoints.patientanswer
+            }
         }
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
@@ -101,6 +118,14 @@ class QuestionYesNoViewController: BaseClassViewController {
                                 let Obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController")as! AvailableDoctorsViewController
                                 self.navigationController?.pushViewController(Obj, animated:true)
                                 print("last index")
+                            }else if indexingValue.questionNaireType == "updateQuestionNaire"{
+                                if self.skip != "0" {
+                                    self.skip_Btn.isEnabled = false
+                                }
+                                self.back_Btn.isEnabled = false
+                                self.backGroundColorBlur()
+                                self.questionNaireProcessUpdateSucessfully()
+                                
                             }else {
                                 let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
                                 self.navigationController?.pushViewController(Obj, animated:true)
@@ -147,10 +172,41 @@ class QuestionYesNoViewController: BaseClassViewController {
         }
     }
     
+    // handle notification
+    @objc func exitBtn(_ notification: NSNotification) {
+        print("exitBtn>>")
+        if indexingValue.questionNaireType == "singUpQuestionNaire"{
+            let obj = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+            self.navigationController?.pushViewController(obj, animated: true)
+        }else{
+          let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+          self.navigationController?.pushViewController(obj, animated: true)
+        }
+    }
+    
+    @objc func contineBtn(_ notification: NSNotification) {
+        print("logout>>")
+        if self.skip != "0" {
+            skip_Btn.isEnabled = true
+        }
+        back_Btn.isEnabled = true
+        self.myCustomView?.isHidden = true
+        self.backGroundBlurRemove()
+    }
+    
+    @objc func doneBtn(_ notification: NSNotification) {
+        print("exitBtn>>")
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+        self.navigationController?.pushViewController(obj, animated: true)
+    }
     
     @IBAction func actionBackBtn(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-        indexingValue.indexValue = indexingValue.indexValue - 1
+            self.backGroundColorBlur()
+            self.questionNaireProcessExit()
+            if self.skip != "0" {
+            skip_Btn.isEnabled = false
+            }
+            back_Btn.isEnabled = false
     }
     
     @IBAction func actionYesBtn(_ sender: Any) {

@@ -51,6 +51,10 @@
 	<string>Main</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to the photo library</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to the camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Need microphone access for uploading videos</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

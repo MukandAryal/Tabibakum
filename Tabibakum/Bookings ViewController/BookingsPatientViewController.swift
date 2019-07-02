@@ -33,7 +33,8 @@ class BookingsPatientViewController: UIViewController {
     @IBOutlet weak var bookingsTblView: UITableView!
     @IBOutlet var booking_View: UIView!
     @IBOutlet weak var delete_Btn: UIButton!
-    
+    @IBOutlet weak var no_historyImgage: UIImageView!
+    @IBOutlet weak var no_appiontmentLbl: UILabel!
     var doctorInfoArr = [allBookingHistory.bookingHistoryDetails]()
     
     override func viewDidLoad() {
@@ -42,7 +43,8 @@ class BookingsPatientViewController: UIViewController {
         delete_Btn.isHidden = true
         setupSideMenu()
         setDefaults()
-        
+        self.no_historyImgage.isHidden = true
+        self.no_appiontmentLbl.isHidden = true
         bookingsTblView.register(UINib(nibName: "BookingHistoryTableViewCell", bundle: nil), forCellReuseIdentifier: "BookingHistoryTableViewCell")
         bookingHistoryListApi()
     }
@@ -83,9 +85,6 @@ class BookingsPatientViewController: UIViewController {
                 LoadingIndicatorView.hide()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as! [[String:AnyObject]]
-                if dataDict.count != 0 {
-                    self.delete_Btn.isHidden = false
-                }
                 for specialistObj in dataDict {
                     print(specialistObj)
                     var doctorDetails = [String:AnyObject]()
@@ -109,20 +108,30 @@ class BookingsPatientViewController: UIViewController {
                     print(dateTymStamp)
                     if currenTymSptamp>dateTymStamp{
                         self.doctorInfoArr.append(doctInfo)
+                         self.delete_Btn.isHidden = false
                     }
-                    print(self.doctorInfoArr)
+                    if self.doctorInfoArr.count == 0 {
+                        self.no_historyImgage.isHidden = false
+                        self.no_appiontmentLbl.isHidden = false
+                    }
                     self.bookingsTblView.reloadData()
                 }
-          }
+                self.bookingsTblView.isHidden = true
+                self.no_historyImgage.isHidden = false
+                self.no_appiontmentLbl.isHidden = false
+        }
     }
-    
 
-    @IBAction func actionNewComplaintBtn(_ sender: Any) {
-        let doctorsObj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController") as! AvailableDoctorsViewController
-        self.navigationController?.pushViewController(doctorsObj, animated: true)
-        
-    }
+
+
+
+@IBAction func actionNewComplaintBtn(_ sender: Any) {
+    let doctorsObj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController") as! AvailableDoctorsViewController
+    self.navigationController?.pushViewController(doctorsObj, animated: true)
+    
 }
+}
+
 
 extension BookingsPatientViewController : UITableViewDataSource{
     

@@ -34,10 +34,10 @@ class DoctorProfileSettingViewController: UIViewController {
         info_view.layer.cornerRadius = 10
         update_Btn.layer.cornerRadius = update_Btn.frame.height/2
         update_Btn.clipsToBounds = true
-        info_view.layer.shadowColor = UIColor(red: 225/254, green: 228/254, blue: 228/254, alpha: 1.0).cgColor
-        info_view.layer.shadowOpacity = 1
-        info_view.layer.shadowOffset = .zero
-        info_view.layer.shadowRadius = 10
+        info_view.layer.borderColor = UIColor(red: 230/254, green: 230/254, blue: 230/254, alpha: 1.0).cgColor
+        info_view.layer.borderWidth = 1
+        info_view.layer.cornerRadius = 10
+        info_view.clipsToBounds = true
         userProfileApi()
     }
     

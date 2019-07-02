@@ -11,9 +11,8 @@ import SideMenu
 import Alamofire
 import SDWebImage
 
-
-struct allDoctorInfo {
-    struct docotrDetails {
+struct allPatientInfo {
+    struct patientDetails {
         var patient_id : Int?
         var doctor_id  : Int?
         var from : String?
@@ -27,10 +26,10 @@ struct allDoctorInfo {
         var created_at : String?
         var updated_at : String?
     }
-    var doctInfo : [allDoctorInfo]
+    var patientInfo : [allPatientInfo]
 }
 
-class HomeViewController: UIViewController {
+class HomeViewController: BaseClassViewController {
     @IBOutlet weak var bookingHistoryTblView: UITableView!
     @IBOutlet weak var singOut_View: UIView!
     @IBOutlet weak var logout_Btn: UIButton!
@@ -38,14 +37,14 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var description_lbl: UILabel!
     @IBOutlet weak var clieckHere_Btn: UIButton!
     @IBOutlet weak var howcanHelp_lbl: UILabel!
-    var doctorInfoArr = [allDoctorInfo.docotrDetails]()
+    var patientInfoArr = [allPatientInfo.patientDetails]()
     var userId = Int()
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSideMenu()
         setDefaults()
-        
         bookingHistoryTblView.register(UINib(nibName: "BookingPatientTableViewCell", bundle: nil), forCellReuseIdentifier: "BookingPatientTableViewCell")
         bookingHistoryTblView.tableFooterView = UIView()
         bookingHistoryTblView.separatorStyle = .none
@@ -56,23 +55,35 @@ class HomeViewController: UIViewController {
         clieckHere_Btn.isHidden = true
         description_lbl.isHidden = true
         howcanHelp_lbl.isHidden = true
-        
-       // singOut_View.layer.cornerRadius = 10
-       // singOut_View.clipsToBounds = true
-        
-       // logout_Btn.layer.cornerRadius = logout_Btn.frame.height/2
-     //   logout_Btn.clipsToBounds = true
-        
-        //stayLoggedIn_Btn.layer.cornerRadius = stayLoggedIn_Btn.frame.height/2
-        //stayLoggedIn_Btn.clipsToBounds = true
-       // singOut_View.isHidden = true
         bookingHistoryTblView.reloadData()
         getUserDetails()
         indexingValue.questionType.removeAll()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.logoutBtn(_:)), name: NSNotification.Name(rawValue: "notificationlogout"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationstayLoggedIn(_:)), name: NSNotification.Name(rawValue: "notificationstayLoggedIn"), object: nil)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        if indexingValue.logOutViewString == "logoutOutViewShow"{
+            // self.view.backgroundColor = UIColor.gray
+            self.backGroundColorBlur()
+            self.logoutView()
+        }
         self.navigationController?.isNavigationBarHidden = false
+    }
+    
+    // handle notification
+    @objc func logoutBtn(_ notification: NSNotification) {
+        print("logout>>")
+        self.logoutApi()
+    }
+    
+    @objc func notificationstayLoggedIn(_ notification: NSNotification) {
+        print("logout>>")
+        self.myLogoutView?.isHidden = true
+        self.backGroundBlurRemove()
     }
     
     fileprivate func setupSideMenu() {
@@ -80,7 +91,7 @@ class HomeViewController: UIViewController {
         SideMenuManager.default.menuLeftNavigationController = storyboard!.instantiateViewController(withIdentifier: "LeftMenuNavigationController") as? UISideMenuNavigationController
         
         SideMenuManager.default.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
-       SideMenuManager.default.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
+        SideMenuManager.default.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
         
     }
     
@@ -122,7 +133,7 @@ class HomeViewController: UIViewController {
                     }else{
                         doctorDetails = (specialistObj["patient_detail"] as? [String:AnyObject])!
                     }
-                    let doctInfo = allDoctorInfo.docotrDetails(patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: (specialistObj["froms"] as? String)!, to: (specialistObj["to"] as? String)!, id: doctorDetails["id"] as? Int, name: doctorDetails["name"] as? String, type: doctorDetails["type"] as? Int, avatar: doctorDetails["avatar"] as? String, specialist: doctorDetails["specialist"] as? String, created_at: doctorDetails["created_at"] as? String, updated_at: doctorDetails["updated_at"] as? String)
+                    let patientInfo = allPatientInfo.patientDetails(patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: (specialistObj["froms"] as? String)!, to: (specialistObj["to"] as? String)!, id: doctorDetails["id"] as? Int, name: doctorDetails["name"] as? String, type: doctorDetails["type"] as? Int, avatar: doctorDetails["avatar"] as? String, specialist: doctorDetails["specialist"] as? String, created_at: doctorDetails["created_at"] as? String, updated_at: doctorDetails["updated_at"] as? String)
                     let dateFormatterGet = DateFormatter()
                     let currentDateTime = Date()
                     let currenTymSptamp = currentDateTime.timeIntervalSince1970
@@ -136,9 +147,9 @@ class HomeViewController: UIViewController {
                     dateTymStamp = date!.timeIntervalSince1970
                     print(dateTymStamp)
                     if currenTymSptamp<dateTymStamp{
-                        self.doctorInfoArr.append(doctInfo)
+                        self.patientInfoArr.append(patientInfo)
                     }
-                    print(self.doctorInfoArr)
+                    print(self.patientInfoArr)
                     self.bookingHistoryTblView.reloadData()
                 }
         }
@@ -230,9 +241,8 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func actionClickHereBtn(_ sender: Any) {
-        //complaintQuestionNaireApi()
-        let obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController") as! AvailableDoctorsViewController
-       // obj.whtsAppIcon = "whtsAppIcon"
+     //   complaintQuestionNaireApi()
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController") as! QueestionNaireImgeAndTextViewController
         self.navigationController?.pushViewController(obj, animated: true)
     }
 }
@@ -245,31 +255,31 @@ extension HomeViewController : UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return doctorInfoArr.count
+        return patientInfoArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BookingPatientTableViewCell") as! BookingPatientTableViewCell
-        cell.user_NameLbl.text = doctorInfoArr[indexPath.row].name!.capitalized
-        cell.spcialist_Lbl.text = doctorInfoArr[indexPath.row].specialist
+        cell.user_NameLbl.text = patientInfoArr[indexPath.row].name!.capitalized
+        cell.spcialist_Lbl.text = patientInfoArr[indexPath.row].specialist
         let dateFormatterGet = DateFormatter()
         dateFormatterGet.dateFormat = "dd-mm-yyyy-"
         let dateFormatterPrint = DateFormatter()
         dateFormatterPrint.dateFormat = "MMM d, yyyy"
         
-        if let date = dateFormatterGet.date(from:  doctorInfoArr[indexPath.row].from!) {
+        if let date = dateFormatterGet.date(from:  patientInfoArr[indexPath.row].from!) {
             print(dateFormatterPrint.string(from: date))
             cell.date_Lbl.text = dateFormatterPrint.string(from: date)
         } else {
             print("There was an error decoding the string")
         }
-        let fromTime = doctorInfoArr[indexPath.row].from
+        let fromTime = patientInfoArr[indexPath.row].from
         let fromTym = fromTime!.suffix(8)
         print(fromTym)
-        let toTime = doctorInfoArr[indexPath.row].to
+        let toTime = patientInfoArr[indexPath.row].to
         let toTym = toTime!.suffix(8)
         cell.time_lbl.text = fromTym.description + " " + toTym.description
-        let imageStr = Configurator.imageBaseUrl + doctorInfoArr[indexPath.row].avatar!
+        let imageStr = Configurator.imageBaseUrl + patientInfoArr[indexPath.row].avatar!
         cell.userImg_view.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))
         return cell
     }

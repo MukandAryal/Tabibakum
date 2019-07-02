@@ -21,7 +21,7 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       loginBtn.layer.cornerRadius = loginBtn.frame.height/2
+        loginBtn.layer.cornerRadius = loginBtn.frame.height/2
         loginBtn.clipsToBounds = true
         loginBtn.layer.borderWidth = 1
         loginBtn.layer.borderColor = UIColor.white.cgColor
@@ -29,7 +29,7 @@ class WelcomeViewController: UIViewController {
         signUpPatientBtn.clipsToBounds = true
         signUpPatientBtn.layer.borderWidth = 1
         signUpPatientBtn.layer.borderColor = UIColor.white.cgColor
-         signUpDoctorBtn.layer.cornerRadius = signUpDoctorBtn.frame.height/2
+        signUpDoctorBtn.layer.cornerRadius = signUpDoctorBtn.frame.height/2
         signUpDoctorBtn.clipsToBounds = true
         signUpDoctorBtn.layer.borderWidth = 1
         signUpDoctorBtn.layer.borderColor = UIColor.white.cgColor
@@ -48,7 +48,7 @@ class WelcomeViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
-
+        
     }
     
     
