@@ -43,14 +43,15 @@ struct allDoctorList {
     var docotrInfo : [allDoctorList]
 }
 
-class AvailableDoctorsViewController: UIViewController {
+class AvailableDoctorsViewController: BaseClassViewController, UITextFieldDelegate {
     
     @IBOutlet weak var availbleDoctorsTblView: UITableView!
     @IBOutlet weak var search_View: UIView!
     @IBOutlet weak var search_txtFld: UITextField!
-    
     var doctorListArr = [allDoctorList.doctorDetails]()
-   
+    var filteredArr = [allDoctorList.doctorDetails]()
+    var isSearching = Bool()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,21 +60,20 @@ class AvailableDoctorsViewController: UIViewController {
         search_View.layer.cornerRadius = search_View.frame.height/2
         search_View.clipsToBounds = true
         search_View.layer.borderWidth = 0.5
+        search_txtFld.delegate = self
         search_View.layer.borderColor = UIColor.lightGray.cgColor
         doctorListApi()
     }
     
     func doctorListApi(){
-        LoadingIndicatorView.show()
+        self.showCustomProgress()
         var api = String()
-      //  if indexingValue.questionNaireType == "complaintQuestionNaire"{
-            api = Configurator.baseURL + ApiEndPoints.doctorlist
-       // }else{
-           // api = Configurator.baseURL + ApiEndPoints.patientquestion
-       // }
+        
+        api = Configurator.baseURL + ApiEndPoints.doctorlist
+        
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                LoadingIndicatorView.hide()
+                
                 print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
@@ -108,10 +108,30 @@ class AvailableDoctorsViewController: UIViewController {
                         update_on: specialistObj["update_on"] as? String,
                         created_at: specialistObj["created_at"] as? String,
                         updated_at: specialistObj["updated_at"] as? String)
-                        self.doctorListArr.append(doctorInfo)
-                       self.availbleDoctorsTblView.reloadData()
+                    self.doctorListArr.append(doctorInfo)
+                    self.availbleDoctorsTblView.reloadData()
                 }
-          }
+                self.stopProgress()
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        isSearching = true
+        
+        if textField.text! == "" {
+            filteredArr = doctorListArr
+        } else {
+            filteredArr.removeAll()
+            
+            for filteredName in doctorListArr {
+                if filteredName.name!.lowercased().contains(textField.text!.lowercased()){
+                    filteredArr.append(filteredName)
+                }
+            }
+            self.availbleDoctorsTblView.reloadData()
+        }
+        
+        return true
     }
     
     
@@ -128,17 +148,33 @@ extension AvailableDoctorsViewController : UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isSearching == true{
+            return filteredArr.count
+        }
         return doctorListArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AvailableDoctorsTableViewCell") as! AvailableDoctorsTableViewCell
-        cell.user_NameLbl.text = doctorListArr[indexPath.row].name
-        let imageStr = Configurator.imageBaseUrl + doctorListArr[indexPath.row].avatar!
-        cell.userImg_view.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))
-        cell.spcialist_Lbl.text = doctorListArr[indexPath.row].specialist
-        cell.date_Lbl.text = doctorListArr[indexPath.row].date_of_birth
-        return cell
+        
+        if isSearching == true{
+            
+            cell.user_NameLbl.text = filteredArr[indexPath.row].name
+            let imageStr = Configurator.imageBaseUrl + filteredArr[indexPath.row].avatar!
+            cell.userImg_view.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))
+            cell.spcialist_Lbl.text = filteredArr[indexPath.row].specialist
+            cell.date_Lbl.text = filteredArr[indexPath.row].date_of_birth
+            return cell
+        }
+        else{
+            cell.user_NameLbl.text = doctorListArr[indexPath.row].name
+            let imageStr = Configurator.imageBaseUrl + doctorListArr[indexPath.row].avatar!
+            cell.userImg_view.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))
+            cell.spcialist_Lbl.text = doctorListArr[indexPath.row].specialist
+            cell.date_Lbl.text = doctorListArr[indexPath.row].date_of_birth
+            return cell
+        }
+        
         
     }
 }
@@ -146,7 +182,14 @@ extension AvailableDoctorsViewController : UITableViewDataSource{
 extension AvailableDoctorsViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let obj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorProfileViewController") as! DoctorProfileViewController
-        obj.doctorInfoDetailsArr = doctorListArr[indexPath.row]
+        obj.type_str = ""
+        if isSearching == true{
+            obj.doctorId = filteredArr[indexPath.row].id
+            
+        }
+        else{
+            obj.doctorId = doctorListArr[indexPath.row].id
+        }
         self.navigationController?.pushViewController(obj, animated: true)
     }
 }

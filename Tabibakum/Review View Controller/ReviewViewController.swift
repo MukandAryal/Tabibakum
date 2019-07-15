@@ -50,7 +50,7 @@ class ReviewViewController: UIViewController {
 extension ReviewViewController : UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 210
+        return 180
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?

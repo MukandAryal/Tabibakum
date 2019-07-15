@@ -40,7 +40,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="21g-6L-riW">
-                        <rect key="frame" x="10" y="43" width="380" height="13"/>
+                        <rect key="frame" x="5" y="43" width="385" height="13"/>
                         <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="13"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -51,7 +51,7 @@
                 <constraint firstItem="21g-6L-riW" firstAttribute="top" secondItem="MA6-TX-Oqo" secondAttribute="bottom" constant="5" id="B9U-Ap-hdc"/>
                 <constraint firstItem="MA6-TX-Oqo" firstAttribute="top" secondItem="NdG-xb-pDj" secondAttribute="bottom" constant="5" id="EiI-1A-wQp"/>
                 <constraint firstAttribute="trailing" secondItem="21g-6L-riW" secondAttribute="trailing" constant="10" id="LJY-zj-a7F"/>
-                <constraint firstItem="21g-6L-riW" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="OaU-JE-jb8"/>
+                <constraint firstItem="21g-6L-riW" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="OaU-JE-jb8"/>
                 <constraint firstItem="NdG-xb-pDj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="aOb-Zw-Y4u"/>
                 <constraint firstItem="MA6-TX-Oqo" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="dLb-kJ-0a0"/>
                 <constraint firstItem="NdG-xb-pDj" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="laL-eS-3vp"/>

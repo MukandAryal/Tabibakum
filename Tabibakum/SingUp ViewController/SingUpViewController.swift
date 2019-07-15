@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class SingUpViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+class SingUpViewController: BaseClassViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
     @IBOutlet weak var userImg_View: UIImageView!
     @IBOutlet weak var fullName_txtFld: UITextField!
@@ -80,7 +80,7 @@ class SingUpViewController: UIViewController,UIImagePickerControllerDelegate,UIN
     
     func singUp(name:String,email:String,phone:String,password:String,type:String,countyCode:String,device_token:String,profileImg:Data){
         
-        LoadingIndicatorView.show()
+       self.showCustomProgress()
         Alamofire.upload(
             multipartFormData: { multipartFormData in
                 
@@ -103,7 +103,7 @@ class SingUpViewController: UIViewController,UIImagePickerControllerDelegate,UIN
                 case .success(let upload, _, _):
                     upload.responseJSON { response in
                         print(response)
-                        LoadingIndicatorView.hide()
+                        self.stopProgress()
                         var resultDict = response.value as? [String:Any]
                         if let sucessStr = resultDict!["success"] as? Bool{
                             print(sucessStr)
@@ -131,6 +131,7 @@ class SingUpViewController: UIViewController,UIImagePickerControllerDelegate,UIN
                     return
                 case .failure(let encodingError):
                     debugPrint(encodingError)
+                    self.stopProgress()
                 }
         })
     }

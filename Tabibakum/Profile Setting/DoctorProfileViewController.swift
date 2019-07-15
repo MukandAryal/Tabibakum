@@ -24,11 +24,11 @@ struct doctorFeedbackInfo {
     var feedbackInfo : [doctorFeedbackInfo]
 }
 
-class DoctorProfileViewController: UIViewController,UITextViewDelegate {
+class DoctorProfileViewController: BaseClassViewController,UITextViewDelegate {
     
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var mainViewHeightCon: NSLayoutConstraint!
-    
+    var doctorId : Int?
     @IBOutlet weak var profile_ImgView: UIImageView!
     @IBOutlet weak var info_view: UIView!
     @IBOutlet weak var bookAppoinment_Btn: UIButton!
@@ -47,6 +47,9 @@ class DoctorProfileViewController: UIViewController,UITextViewDelegate {
     @IBOutlet weak var addFeedback_View: UIView!
     @IBOutlet weak var enterFeedBack_View: UIView!
     @IBOutlet weak var addFeedbackBtn_Constraints: NSLayoutConstraint!
+    
+    @IBOutlet weak var profileViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var tableHeight: NSLayoutConstraint!
     @IBOutlet weak var name_Lbl: UILabel!
     @IBOutlet weak var education_Lbl: UILabel!
     @IBOutlet weak var experience_Lbl: UILabel!
@@ -62,10 +65,10 @@ class DoctorProfileViewController: UIViewController,UITextViewDelegate {
     @IBOutlet weak var bookAppointmentConstraints: NSLayoutConstraint!
     @IBOutlet weak var addfeedback: NSLayoutConstraint!
     @IBOutlet weak var cosmosView: CosmosView!
-    
+    @IBOutlet weak var feedBackHeight: NSLayoutConstraint!
+    @IBOutlet weak var connectHeight: NSLayoutConstraint!
     @IBOutlet weak var rating_descriptionLbl: UITextView!
-    var whtsAppIcon = String()
-    var appoinotmentDetails = String()
+    var type_str = String()
     var feedBackArr = [doctorFeedbackInfo.feedbackDetails]()
     var doctorInfoDetailsArr = allDoctorList.doctorDetails()
     
@@ -108,85 +111,137 @@ class DoctorProfileViewController: UIViewController,UITextViewDelegate {
         enterFeedBack_View.layer.cornerRadius = 10
         enterFeedBack_View.clipsToBounds = true
         addFeedback_View.isHidden = true
-       // userProfileApi()
+        
         rating_descriptionLbl.delegate = self
         rating_descriptionLbl.text = "Enter Feedback"
         rating_descriptionLbl.textColor = UIColor.lightGray
         bookAppoinment_Btn.backgroundColor = UiInterFace.appThemeColor
         name_Lbl.text = doctorInfoDetailsArr.name
-        let imageStr = Configurator.imageBaseUrl + doctorInfoDetailsArr.avatar!
-        self.profile_ImgView.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))
+        if let imageStr = doctorInfoDetailsArr.avatar{
+            let imgStr = Configurator.imageBaseUrl + imageStr
+            self.profile_ImgView.sd_setImage(with: URL(string: imgStr), placeholderImage: UIImage(named: "user_pic"))
+        }
         specialist_Lbl.text = doctorInfoDetailsArr.specialist
         description_Lbl.text = doctorInfoDetailsArr.description
         education_Lbl.text = doctorInfoDetailsArr.education
         experience_Lbl.text = doctorInfoDetailsArr.experience
         gender_Lbl.text = doctorInfoDetailsArr.gender
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-       // info_view.layer.shadowColor = UIColor(red: 225/254, green: 228/254, blue: 228/254, alpha: 1.0).cgColor
-        //info_view.layer.shadowOpacity = 1
-       // info_view.layer.shadowOffset = .zero
-      //  info_view.layer.shadowRadius = 10
+        
         info_view.layer.borderWidth = 0.5
         info_view.layer.borderColor = UIColor.gray.cgColor
-        let rectShape = CAShapeLayer()
-        rectShape.bounds = self.info_view.frame
-        rectShape.position = self.info_view.center
-       rectShape.path = UIBezierPath(roundedRect: self.info_view.bounds, byRoundingCorners: [.bottomLeft , .bottomRight], cornerRadii: CGSize(width: 5, height: 5)).cgPath
-       self.info_view.layer.mask = rectShape
-        
-       // self.info_view.layer.borderColor = UIColor.red.cgColor
-       // self.info_view.layer.borderWidth = 1
-        self.info_view.layer.cornerRadius = 5
-        if whtsAppIcon == "whtsAppIcon"{
+        info_view.layer.cornerRadius = 5
+        userProfileApi()
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
+    func setupProfile(descString : String){
+        if type_str == "whtsApp"{
             appointment_view.isHidden = true
             bookAppoinment_Btn.isHidden = true
-        }else if appoinotmentDetails == "appoinotmentDetails"{
+            whtsApp_Icon.isHidden = false
+            connectHeight.constant = 40
+            
+            infoViewHeightConstrains.constant = (descString.height(withConstrainedWidth: self.view.frame.size.width-30, font: UIFont.systemFont(ofSize: 13.0))) + 230
+            
+            info_view.addConstraint(infoViewHeightConstrains)
+            
+            profileViewHeight.constant = infoViewHeightConstrains.constant
+            profileView.addConstraint(profileViewHeight)
+            
+        }else if type_str == "appointment"{
             whtsApp_Icon.isHidden = true
-            connectBtn.isHidden = true
+            connectHeight.constant = 0
+            bookAppoinment_Btn.isHidden = true
             appointment_view.isHidden = false
             bookAppointmentBtnHeightConstrains.constant = 0
-            infoViewHeightConstrains.constant = 260
+            infoViewHeightConstrains.constant = (descString.height(withConstrainedWidth: self.view.frame.size.width-30, font: UIFont.systemFont(ofSize: 13.0))) + 160
+            
+            info_view.addConstraint(infoViewHeightConstrains)
+            profileViewHeight.constant = infoViewHeightConstrains.constant + appointment_view.frame.size.height
+            
         }else{
             whtsApp_Icon.isHidden = true
-            connectBtn.isHidden = true
-            infoViewHeightConstrains.constant = 260
-            bookAppointmentBtnHeightConstrains.constant = 40
             appointment_view.isHidden = true
+            bookAppoinment_Btn.isHidden = false
+            bookAppointmentBtnHeightConstrains.constant = 40
+            connectHeight.constant = 0
             bookAppointmentConstraints.constant = 20
+            infoViewHeightConstrains.constant = (descString.height(withConstrainedWidth: self.view.frame.size.width-30, font: UIFont.systemFont(ofSize: 13.0))) + 160
+            info_view.addConstraint(infoViewHeightConstrains)
+            profileViewHeight.constant = infoViewHeightConstrains.constant + 60
+            
+        }
+    }
+    
+    func setupFeedBack(tableRows : Int){
+        
+        self.addFeedback_View.isHidden = true
+        self.addFeedback_Btn.isHidden = false
+        
+        if tableRows == 0 {
+            self.tableHeight.constant = 0
+            self.feedTblView.addConstraint(self.tableHeight)
+            feedBackHeight.constant = 50
+        }
+        else if tableRows < 4 {
+            self.tableHeight.constant = CGFloat(tableRows*80)
+            self.feedTblView.addConstraint(self.tableHeight)
+            profileViewHeight.constant = CGFloat(tableRows*80) + 100
+            self.feedTblView.reloadData()
+        }
+        else{
+            self.tableHeight.constant = 4*80
+            self.feedTblView.addConstraint(self.tableHeight)
+            profileViewHeight.constant = CGFloat(4*80) + 100
+            self.feedTblView.reloadData()
         }
     }
     
     func userProfileApi(){
-        LoadingIndicatorView.show()
-        let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(doctorInfoDetailsArr.id ?? 0)"
+        self.showCustomProgress()
+        let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(doctorId ?? 0)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
-                LoadingIndicatorView.hide()
+                self.stopProgress()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
-                 print(dataDict)
+                for userData in dataDict! {
+                    if let imageStr = userData["avatar"] as? String{
+                        let imgStr = Configurator.imageBaseUrl + imageStr
+                        self.profile_ImgView.sd_setImage(with: URL(string: imgStr), placeholderImage: UIImage(named: "user_pic"))
+                    }
+                    self.name_Lbl.text = userData["name"] as? String
+                    self.specialist_Lbl.text = userData["specialist"] as? String
+                    self.description_Lbl.text = userData["description"] as? String
+                    self.education_Lbl.text = userData["education"] as? String
+                    self.experience_Lbl.text = userData["experience"] as? String
+                    self.gender_Lbl.text = userData["gender"] as? String
+                    self.setupProfile(descString: self.description_Lbl.text!)
+                }
                 for userData in dataDict! {
                     let feedbackData = userData["doctor_feedback"] as? [[String:AnyObject]]
                     for feedbackObj in feedbackData! {
                         let feedbackInfo = doctorFeedbackInfo.feedbackDetails(avatar: (feedbackObj["avatar"] as? String)!, created_at: (feedbackObj["created_at"] as? String)!, doctor_id: (feedbackObj["doctor_id"] as? Int)!, feedback: (feedbackObj["feedback"] as? String)!, id: (feedbackObj["id"] as? Int)!, patient_name: (feedbackObj["patient_name"] as? String)!, patient_id: (feedbackObj["patient_id"] as? Int)!, rating: (feedbackObj["rating"] as? Int)!)
                         self.feedBackArr.append(feedbackInfo)
-                        self.feedTblView.reloadData()
-                        print(self.feedBackArr)
                     }
                 }
-          }
+        }
     }
     
     func feedbackApi(){
-        LoadingIndicatorView.show()
-        let param: [String: String] = [
-            "feedback" : rating_descriptionLbl.text!,
-            "rating" : "3",
-            "doctor_id" : "310",
-            "token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xOC4yMjQuMjcuMjU1OjgwMDBcL2FwaVwvbG9naW4iLCJpYXQiOjE1NTk4OTg5NzksImV4cCI6MTU2MTEwODU3OSwibmJmIjoxNTU5ODk4OTc5LCJqdGkiOiJFckZNTE91Y2VjNld4c1JMIiwic3ViIjozMTEsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.RgLk5jh36iGrWy2mQ0z7_i0LJC7QMaGrZSMFSmHg2MU"
+        let loginToken = UserDefaults.standard.string(forKey: "loginToken")
+        self.showCustomProgress()
+        let param: [String: AnyObject] = [
+            "feedback" : rating_descriptionLbl.text! as AnyObject,
+            "rating" : cosmosView?.rating as AnyObject,
+            "doctor_id" : (doctorId?.description)! as AnyObject,
+            "token" : loginToken! as AnyObject
         ]
         
         print(param)
@@ -195,20 +250,19 @@ class DoctorProfileViewController: UIViewController,UITextViewDelegate {
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
-                LoadingIndicatorView.hide()
+                self.stopProgress()
                 var resultDict = response.value as? [String:Bool]
                 if resultDict!["success"]!  {
-                     print("success")
+                    print("success")
                     self.addFeedbackBtn_Constraints.constant = 40
-                    self.addFeedback_Btn.isHidden = false
-                    self.addFeedback_View.isHidden = true
+                    
                     self.feedTblView.reloadData()
                     self.rating_descriptionLbl.text = ""
                     //self.userProfileApi()
                 }else{
                     print("failure")
                 }
-           }
+        }
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -228,40 +282,48 @@ class DoctorProfileViewController: UIViewController,UITextViewDelegate {
     @IBAction func actionBackBtn(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
+    
     @IBAction func actionBookApointmentBtn(_ sender: Any) {
         let obj = self.storyboard?.instantiateViewController(withIdentifier: "BookAppoinmentViewController") as? BookAppoinmentViewController
-        obj?.doctorId = (doctorInfoDetailsArr.id?.description)!
+        obj?.doctorId = doctorId!.description
         self.navigationController?.pushViewController(obj!, animated: true)
     }
     
     @IBAction func actionProfileBtn(_ sender: Any) {
+        setupProfile(descString: description_Lbl.text!)
         profileView.isHidden = false
         feedbackView.isHidden = true
         feedback_Btn.backgroundColor = UIColor.white
         profile_Btn.backgroundColor =  UIColor(red: 188/254, green: 227/254, blue: 182/254, alpha: 1.0)
     }
     
-    @IBAction func actionFeedbackBtn(_ sender: Any) {
-        userProfileApi()
-        profileView.isHidden = true
-        feedbackView.isHidden = false
+    @IBAction func actionFeedbackTab(_ sender: Any) {
+        
+        profileView.isHidden    = true
+        feedbackView.isHidden   = false
+        
         profile_Btn.backgroundColor = UIColor.white
         feedback_Btn.backgroundColor =  UIColor(red: 188/254, green: 227/254, blue: 182/254, alpha: 1.0)
+        setupFeedBack(tableRows: self.feedBackArr.count)
         
     }
     @IBAction func actionAddFeedBackBtn(_ sender: Any) {
+        
         addFeedback_View.isHidden = false
         addFeedback_Btn.isHidden = true
-        addFeedbackBtn_Constraints.constant = 0
+        profileViewHeight.constant = profileViewHeight.constant + 130
     }
     
     @IBAction func actionCancelBtn(_ sender: Any) {
         addFeedback_View.isHidden = true
         addFeedback_Btn.isHidden = false
-        addFeedbackBtn_Constraints.constant = 40
+        profileViewHeight.constant = profileViewHeight.constant - 130
     }
     
     @IBAction func actionSubmitBtn(_ sender: Any) {
+        addFeedback_View.isHidden = true
+        addFeedback_Btn.isHidden = false
+        profileViewHeight.constant = profileViewHeight.constant - 130
         feedbackApi()
     }
 }

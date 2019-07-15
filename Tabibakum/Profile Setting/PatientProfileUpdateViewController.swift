@@ -97,7 +97,6 @@ class PatientProfileUpdateViewController: BaseClassViewController,UINavigationCo
         dateofbirth_view.layer.cornerRadius = 5
         dateofbirth_view.clipsToBounds = true
         
-        
         facebookLink_txtFld.layer.borderWidth = 0.5
         facebookLink_txtFld.layer.borderColor = UIColor.lightGray.cgColor
         facebookLink_txtFld.layer.cornerRadius = 5
@@ -132,8 +131,6 @@ class PatientProfileUpdateViewController: BaseClassViewController,UINavigationCo
         dateofbirth_txtFld.setLeftPaddingPoints(10)
         userProfileApi()
         showDatePicker()
-        
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.doneBtn(_:)), name: NSNotification.Name(rawValue: "notificationlProfileOkBtn"), object: nil)
     }
     
     func userProfileApi(){
@@ -146,7 +143,7 @@ class PatientProfileUpdateViewController: BaseClassViewController,UINavigationCo
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for userData in dataDict! {
-                    //     LoadingIndicatorView.hide()
+                    // LoadingIndicatorView.hide()
                     self.fullname_txtFld.text = userData["name"] as? String
                     let img =  userData["avatar"] as? String
                     //imgToUpload = userData["avatar"] as? String
@@ -166,7 +163,7 @@ class PatientProfileUpdateViewController: BaseClassViewController,UINavigationCo
     
     func profileUpdateApi(name:String,age:String,gender:String,email:String,weight:String,height:String,bloodType:String,address:String,dateOfBirth:String,facebookLink:String,token:String,description:String,profileImg:Data){
         
-        LoadingIndicatorView.show()
+        self.showCustomProgress()
         Alamofire.upload(
             multipartFormData: { multipartFormData in
                 
@@ -196,14 +193,12 @@ class PatientProfileUpdateViewController: BaseClassViewController,UINavigationCo
                 case .success(let upload, _, _):
                     upload.responseJSON { response in
                         print(response)
-                        LoadingIndicatorView.hide()
+                        self.stopProgress()
                         let resultDict = response.value as? [String:AnyObject]
                         if let sucessStr = resultDict!["success"] as? Bool{
                             print(sucessStr)
                             if sucessStr{
-                                self.backGroundColorBlur()
-                                self.ProfileUpdateSucessfully()
-                                self.back_Btn.isEnabled = false
+                                self.showUpdateCustomDialog()
                             }else{
                                 let alert = UIAlertController(title: "Alert", message: "Sumthing wrong please try again!", preferredStyle: UIAlertController.Style.alert)
                                 alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
@@ -217,15 +212,10 @@ class PatientProfileUpdateViewController: BaseClassViewController,UINavigationCo
                     return
                 case .failure(let encodingError):
                     debugPrint(encodingError)
+                    self.stopProgress()
                 }
         })
     }
-    
-//    @objc func doneBtn(_ notification: NSNotification) {
-//        print("exitBtn>>")
-//        let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-//        self.navigationController?.pushViewController(obj, animated: true)
-//    }
     
     func configureDropDown(tag:Int) {
         self.dropDownSingle.backgroundColor = UIColor.white
@@ -348,6 +338,34 @@ class PatientProfileUpdateViewController: BaseClassViewController,UINavigationCo
         }
         // Dismiss the picker.
         dismiss(animated: true, completion: nil)
+    }
+    
+    func showUpdateCustomDialog(animated: Bool = true) {
+        
+        // Create a custom view controller
+        let exitVc = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireUpdateSucessView") as? QuestionNaireUpdateSucessView
+        
+        
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: exitVc!,
+                                buttonAlignment: .horizontal,
+                                transitionStyle: .bounceDown,
+                                tapGestureDismissal: true,
+                                panGestureDismissal: true)
+        
+        exitVc?.titleLable.text = "Profile Update Sucessfully."
+        exitVc!.okBtn.addTargetClosure { _ in
+            popup.dismiss()
+            self.profileUpdateDone()
+        }
+        
+        present(popup, animated: animated, completion: nil)
+    }
+    
+    func profileUpdateDone(){
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+        self.navigationController?.pushViewController(obj, animated: true)
     }
     
     @IBAction func actionProfileImgBtn(_ sender: Any) {

@@ -1,25 +1,24 @@
 //
-//  blurViewController.swift
+//  DeleteConfirmViewController.swift
 //  Tabibakum
 //
-//  Created by osvinuser on 25/06/19.
+//  Created by osvinuser on 06/07/19.
 //  Copyright © 2019 osvinuser. All rights reserved.
 //
 
 import UIKit
 
-class blurViewController: BaseClassViewController {
+class DeleteConfirmViewController: UIViewController {
 
+    @IBOutlet weak var noBtn: UIButton!
+    @IBOutlet weak var yesBtn: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        var customView = UIView()
-        customView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
-        customView.backgroundColor = UIColor.red
-        self.view.addSubview(customView)
-        customView.addSubview(myLogoutView!)
+        // Do any additional setup after loading the view.
     }
-
+    
 
     /*
     // MARK: - Navigation

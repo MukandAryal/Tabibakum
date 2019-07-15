@@ -50,13 +50,13 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
     @IBOutlet weak var fourth_deleteBtn: UIButton!
     @IBOutlet weak var skip_Btn: UIBarButtonItem!
     @IBOutlet weak var back_Btn: UIBarButtonItem!
-    @IBOutlet weak var documentImg_view: UIView!
-    @IBOutlet weak var document_View: UIView!
-    @IBOutlet weak var document_ImgView: UIImageView!
+    var btn_Index = 1252
+    var deleteBox_Index = 125
     var questionId = Int()
     var imgToUpload = [Data]()
     var skip = String()
     var arrSelectedImg = [String:AnyObject]()
+    var boxCount = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,20 +93,13 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
         submit_Btn.backgroundColor = UiInterFace.appThemeColor
         self.navigationItem.rightBarButtonItem?.title = ""
         self.navigationItem.rightBarButtonItem?.isEnabled = false
-        documentImg_view.layer.cornerRadius = 10
-        documentImg_view.clipsToBounds = true
-        documentImg_view.isHidden = true
+        boxCount = 1
         questionNaireApi()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.exitBtn(_:)), name: NSNotification.Name(rawValue: "notificationlExit"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.contineBtn(_:)), name: NSNotification.Name(rawValue: "notificationContineBtn"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.doneBtn(_:)), name: NSNotification.Name(rawValue: "notificationlokBtn"), object: nil)
     }
     
     func questionNaireApi(){
-        LoadingIndicatorView.show()
+        self.showCustomProgress()
         let loginType = UserDefaults.standard.string(forKey: "loginType")
         var api = String()
         if loginType == "1" {
@@ -120,8 +113,9 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
         }
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                LoadingIndicatorView.hide()
+                
                 print(response)
+                self.stopProgress()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for specialistObj in dataDict! {
@@ -142,7 +136,7 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
     
     
     func questionNaireAnswer(question_id:String,type:String,token:String,profileImg:[Data]){
-        LoadingIndicatorView.show()
+       self.showCustomProgress()
         var api = String()
         let loginType = UserDefaults.standard.string(forKey: "loginType")
         if loginType == "1" {
@@ -172,37 +166,50 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
                 case .success(let upload, _, _):
                     upload.responseJSON { response in
                         print(response)
-                        LoadingIndicatorView.hide()
+                        self.stopProgress()
                         var resultDict = response.value as? [String:Any]
                         if let sucessStr = resultDict!["success"] as? Bool{
                             print(sucessStr)
                             if sucessStr{
                                 print("sucessss")
                                 if indexingValue.questionType.count == indexingValue.indexValue {
-                                    if indexingValue.questionNaireType == "singUpQuestionNaire" {
-                                        let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
-                                        self.navigationController?.pushViewController(Obj, animated:true)
-                                        print("last index")
-                                    }
-                                    else if indexingValue.questionNaireType == "complaintQuestionNaire" {
-                                        let Obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController")as! AvailableDoctorsViewController
-                                        self.navigationController?.pushViewController(Obj, animated:true)
-                                        print("last index")
-                                    }else if indexingValue.questionNaireType == "updateQuestionNaire"{
-                                        if self.skip != "0" {
-                                            self.skipBtn.isEnabled = false
+                                    let loginType = UserDefaults.standard.string(forKey: "loginType")
+                                    if loginType == "1" {
+                                        if indexingValue.questionNaireType == "updateQuestionNaire" {
+                                            if self.skip != "0" {
+                                                self.skipBtn.isEnabled = false
+                                            }
+                                            self.back_Btn.isEnabled = false
+                                            self.showUpdateCustomDialog()
+                                        }else{
+                                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
+                                            self.navigationController?.pushViewController(Obj, animated:true)
+                                            print("last index")
                                         }
-                                        self.back_Btn.isEnabled = false
-                                        self.backGroundColorBlur()
-                                        self.questionNaireProcessUpdateSucessfully()
-                                        
                                     }else {
-                                        let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
-                                        self.navigationController?.pushViewController(Obj, animated:true)
-                                        print("last index")
+                                        if indexingValue.questionNaireType == "singUpQuestionNaire" {
+                                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
+                                            self.navigationController?.pushViewController(Obj, animated:true)
+                                            print("last index")
+                                        }
+                                        else if indexingValue.questionNaireType == "complaintQuestionNaire" {
+                                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController")as! AvailableDoctorsViewController
+                                            self.navigationController?.pushViewController(Obj, animated:true)
+                                            print("last index")
+                                        }else if indexingValue.questionNaireType == "updateQuestionNaire"{
+                                            if self.skip != "0" {
+                                                self.skipBtn.isEnabled = false
+                                            }
+                                            self.back_Btn.isEnabled = false
+                                              self.showUpdateCustomDialog()
+                                            
+                                        }else {
+                                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
+                                            self.navigationController?.pushViewController(Obj, animated:true)
+                                            print("last index")
+                                        }
                                     }
-                                }
-                                else if indexingValue.questionType[indexingValue.indexValue] == "text"{
+                                }else if indexingValue.questionType[indexingValue.indexValue] == "text"{
                                     print("text")
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
@@ -247,6 +254,7 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
                     return
                 case .failure(let encodingError):
                     debugPrint(encodingError)
+                    self.stopProgress()
                 }
         })
     }
@@ -284,23 +292,23 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
             imgToUpload = [imageData]
         }
         
-        if firstUpload_imgBtn.tag == 222{
+        if btn_Index == 1 {
             upload_photoFirstLbl.text = "Document 1.jpg"
             first_crossBtn.isHidden = false
             arrSelectedImg.updateValue(selectedImage, forKey: "imageFirst")
-        }else if secondUpload_ImgBtn.tag == 333{
+        }else if btn_Index == 2{
             upload_photoSecondLbl.text = "Document 2.jpg"
             second_viewDeleteIcon.isHidden = false
             second_crossBtn.isHidden = false
             second_viewTralingConstraints.constant = 50
             arrSelectedImg.updateValue(selectedImage, forKey: "imageSecond")
-        }else if thirdUpload_ImgBtn.tag == 444{
+        }else if btn_Index == 3{
             upload_photoThirddLbl.text = "Document 3.jpg"
             third_deleteBtn.isHidden = false
             third_crossBtn.isHidden = false
             third_viewTralingConstraints.constant = 50
             arrSelectedImg.updateValue(selectedImage, forKey: "imageThird")
-        }else if fourthUpload_ImgBtn.tag == 555{
+        }else if btn_Index == 4{
             upload_photoFourthLbl.text = "Document 4.jpg"
             fourth_deleteBtn.isHidden = false
             fourth_crossBtn.isHidden = false
@@ -310,75 +318,15 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func doneBtn(_ notification: NSNotification) {
-        print("exitBtn>>")
-        let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-        self.navigationController?.pushViewController(obj, animated: true)
-    }
-    
-    // handle notification
-    @objc func exitBtn(_ notification: NSNotification) {
-        print("exitBtn>>")
-        if indexingValue.questionNaireType == "singUpQuestionNaire"{
-            let obj = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-            self.navigationController?.pushViewController(obj, animated: true)
-        }else{
-            let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-            self.navigationController?.pushViewController(obj, animated: true)
-        }
-    }
-    
-    @objc func contineBtn(_ notification: NSNotification) {
-        print("logout>>")
-        if self.skip != "0" {
-            skip_Btn.isEnabled = true
-        }
-        back_Btn.isEnabled = true
-        self.myCustomView?.isHidden = true
-        self.backGroundBlurRemove()
-    }
-    
-    
     @IBAction func actionAddMoreBtn(_ sender: Any) {
-        if firstUpload_imgBtn.tag == 222{
-            uploading_viewSecondHeightConstraints.constant = 40
-            second_viewDeleteIcon.isHidden = true
-            second_crossBtn.isHidden = true
-            firstUpload_imgBtn.tag = 0
-        }else if secondUpload_ImgBtn.tag == 333 {
-            uploding_viewThirdHeightConstraints.constant = 40
-        }else if thirdUpload_ImgBtn.tag == 444 {
-            upload_viewFourthHeightConstraints.constant = 40
-            addmore_Btn.isHidden = true
-        }else{
-            let alert = UIAlertController(title: "Alert", message: "Please select above image!", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
+        checkDocumentValidation()
     }
     
     @IBAction func actionFirstImgUploadBtn(_ sender: Any) {
         if arrSelectedImg["imageFirst"] != nil {
-            documentImg_view.isHidden = false
-            addmore_Btn.isHidden = true
-            document_ImgView.image = arrSelectedImg["imageFirst"] as? UIImage
-            documentImg_view.backgroundColor = UIColor.white
-            self.view.backgroundColor = UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploadImg_ViewFirst.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploading_ViewSecond.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploading_viewThird.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploading_viewFourth.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            submit_Btn.isEnabled = false
-            back_Btn.isEnabled = false
-            first_crossBtn.isEnabled = false
-            second_crossBtn.isEnabled = false
-            third_crossBtn.isEnabled = false
-            fourth_crossBtn.isEnabled = false
-            second_viewDeleteIcon.isEnabled = false
-            third_deleteBtn.isEnabled = false
-            fourth_deleteBtn.isEnabled = false
+            showDocumentCustomDialog(image: (arrSelectedImg["imageFirst"] as? UIImage)!)
         }else{
-            firstUpload_imgBtn.tag = 222
+            btn_Index = 1
             secondUpload_ImgBtn.tag = 0
             thirdUpload_ImgBtn.tag = 0
             fourthUpload_ImgBtn.tag = 0
@@ -388,27 +336,9 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
     
     @IBAction func actionSeconfImgUploadBtn(_ sender: Any) {
         if arrSelectedImg["imageSecond"] != nil {
-            documentImg_view.backgroundColor = UIColor.white
-            documentImg_view.isHidden = false
-            addmore_Btn.isHidden = true
-            document_ImgView.image = arrSelectedImg["imageSecond"] as? UIImage
-            documentImg_view.backgroundColor = UIColor.white
-            self.view.backgroundColor = UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploadImg_ViewFirst.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploading_ViewSecond.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploading_viewThird.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploading_viewFourth.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            submit_Btn.isEnabled = false
-            back_Btn.isEnabled = false
-            first_crossBtn.isEnabled = false
-            second_crossBtn.isEnabled = false
-            third_crossBtn.isEnabled = false
-            fourth_crossBtn.isEnabled = false
-            second_viewDeleteIcon.isEnabled = false
-            third_deleteBtn.isEnabled = false
-            fourth_deleteBtn.isEnabled = false
+            showDocumentCustomDialog(image: (arrSelectedImg["imageSecond"] as? UIImage)!)
         }else{
-            secondUpload_ImgBtn.tag = 333
+            btn_Index = 2
             firstUpload_imgBtn.tag = 0
             thirdUpload_ImgBtn.tag = 0
             fourthUpload_ImgBtn.tag = 0
@@ -418,27 +348,9 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
     
     @IBAction func upload_thirdImgBtn(_ sender: Any) {
         if arrSelectedImg["imageThird"] != nil {
-            documentImg_view.backgroundColor = UIColor.white
-            documentImg_view.isHidden = false
-            addmore_Btn.isHidden = true
-            document_ImgView.image = arrSelectedImg["imageThird"] as? UIImage
-            documentImg_view.backgroundColor = UIColor.white
-            self.view.backgroundColor = UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploadImg_ViewFirst.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploading_ViewSecond.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploading_viewThird.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploading_viewFourth.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            submit_Btn.isEnabled = false
-            back_Btn.isEnabled = false
-            first_crossBtn.isEnabled = false
-            second_crossBtn.isEnabled = false
-            third_crossBtn.isEnabled = false
-            fourth_crossBtn.isEnabled = false
-            second_viewDeleteIcon.isEnabled = false
-            third_deleteBtn.isEnabled = false
-            fourth_deleteBtn.isEnabled = false
+            showDocumentCustomDialog(image: (arrSelectedImg["imageThird"] as? UIImage)!)
         }else{
-            thirdUpload_ImgBtn.tag = 444
+            btn_Index = 3
             firstUpload_imgBtn.tag = 0
             secondUpload_ImgBtn.tag = 0
             fourthUpload_ImgBtn.tag = 0
@@ -448,27 +360,9 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
     
     @IBAction func upload_fourthImgBtn(_ sender: Any) {
         if arrSelectedImg["imageFourth"] != nil {
-            documentImg_view.backgroundColor = UIColor.white
-            documentImg_view.isHidden = false
-            addmore_Btn.isHidden = true
-            document_ImgView.image = arrSelectedImg["imageFourth"] as? UIImage
-            documentImg_view.backgroundColor = UIColor.white
-            self.view.backgroundColor = UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploadImg_ViewFirst.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploading_ViewSecond.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploading_viewThird.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            uploading_viewFourth.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-            submit_Btn.isEnabled = false
-            back_Btn.isEnabled = false
-            first_crossBtn.isEnabled = false
-            second_crossBtn.isEnabled = false
-            third_crossBtn.isEnabled = false
-            fourth_crossBtn.isEnabled = false
-            second_viewDeleteIcon.isEnabled = false
-            third_deleteBtn.isEnabled = false
-            fourth_deleteBtn.isEnabled = false
+            showDocumentCustomDialog(image: (arrSelectedImg["imageFourth"] as? UIImage)!)
         }else{
-            fourthUpload_ImgBtn.tag = 555
+            btn_Index = 4
             firstUpload_imgBtn.tag = 0
             secondUpload_ImgBtn.tag = 0
             thirdUpload_ImgBtn.tag = 0
@@ -476,111 +370,217 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
         }
     }
     
-    @IBAction func actionFirstCrossBtn(_ sender: Any) {
-        arrSelectedImg.removeValue(forKey: "imageFirst")
-        upload_photoFirstLbl.text = "Upload photo"
-        first_crossBtn.isHidden = true
-        firstUpload_imgBtn.tag = 0
-        secondUpload_ImgBtn.tag = 0
-        thirdUpload_ImgBtn.tag = 0
-        fourthUpload_ImgBtn.tag = 0
+    @IBAction func actionFirstCrossBtn(_ sender: UIButton) {
+        showDeleteCustomDialog(sender: sender.tag)
     }
     
-    @IBAction func actionSecondCrossBtn(_ sender: Any) {
-        arrSelectedImg.removeValue(forKey: "imageSecond")
-        upload_photoSecondLbl.text = "Upload photo"
-        second_crossBtn.isHidden = true
-        firstUpload_imgBtn.tag = 0
-        secondUpload_ImgBtn.tag = 0
-        thirdUpload_ImgBtn.tag = 0
-        fourthUpload_ImgBtn.tag = 0
+    func removeSelectionDocument(_ sender: Int){
+        if sender == 1{
+            arrSelectedImg.removeValue(forKey: "imageFirst")
+            boxCount = boxCount - 1
+            first_crossBtn.isHidden = true
+            upload_photoFirstLbl.text = "Upload photo"
+        }
+        else  if sender == 2{
+            arrSelectedImg.removeValue(forKey: "imageSecond")
+            boxCount = boxCount - 1
+            second_crossBtn.isHidden = true
+            upload_photoSecondLbl.text = "Upload photo"
+            
+        }
+        else  if sender == 3{
+            arrSelectedImg.removeValue(forKey: "imageThird")
+            boxCount = boxCount - 1
+            third_crossBtn.isHidden = true
+            upload_photoThirddLbl.text = "Upload photo"
+        }
+        else{
+            arrSelectedImg.removeValue(forKey: "imageFourth")
+            boxCount = boxCount - 1
+            fourth_crossBtn.isHidden = true
+            upload_photoFourthLbl.text = "Upload photo"
+        }
     }
     
-    @IBAction func actionThirdCrossBtn(_ sender: Any) {
-        arrSelectedImg.removeValue(forKey: "imageThird")
-        upload_photoThirddLbl.text = "Upload photo"
-        third_crossBtn.isHidden = true
-        addmore_Btn.isHidden = false
-        firstUpload_imgBtn.tag = 0
-        secondUpload_ImgBtn.tag = 0
-        thirdUpload_ImgBtn.tag = 0
-        fourthUpload_ImgBtn.tag = 0
+    func checkDocumentValidation() {
+        print("boxCount",boxCount)
+        print("arrSelectedImg",arrSelectedImg.count)
+        if boxCount == arrSelectedImg.count || (boxCount == 0 && arrSelectedImg.count == 0){
+            if arrSelectedImg.count == 0 {
+                boxCount = boxCount + 1
+            }
+            else if arrSelectedImg.count == 1 {
+                if (arrSelectedImg.index(forKey: "imageFirst") != nil){
+                    print("imageFirstimageAvailbale")
+                    uploading_viewSecondHeightConstraints.constant = 40
+                    boxCount = boxCount + 1
+                    addmore_Btn.isHidden = false
+                }
+            }else if arrSelectedImg.count == 2 {
+                if (arrSelectedImg.index(forKey: "imageSecond") != nil){
+                    print("imageSecondimageAvailbale")
+                    uploding_viewThirdHeightConstraints.constant = 40
+                    boxCount = boxCount + 1
+                    addmore_Btn.isHidden = false
+                }
+            }else if arrSelectedImg.count == 3 {
+                if (arrSelectedImg.index(forKey: "imageThird") != nil){
+                    print("imageThirdimageAvailbale")
+                    upload_viewFourthHeightConstraints.constant = 40
+                    boxCount = boxCount + 1
+                    addmore_Btn.isHidden = true
+                }
+            }
+        }else{
+            let alert = UIAlertController(title: "Alert", message: "Please select above image!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func showCustomDialog(animated: Bool = true) {
+        
+        // Create a custom view controller
+        let exitVc = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireBackView") as? QuestionNaireBackView
+        
+        
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: exitVc!,
+                                buttonAlignment: .horizontal,
+                                transitionStyle: .bounceDown,
+                                tapGestureDismissal: true,
+                                panGestureDismissal: true)
+        
+        exitVc?.titleLabal.text = "Are you sure want to exit from the process ?"
+        exitVc!.exitBtn.addTargetClosure { _ in
+            popup.dismiss()
+            self.exitBtn()
+        }
+        exitVc!.continueBtn.addTargetClosure { _ in
+            popup.dismiss()
+            
+        }
+        
+        present(popup, animated: animated, completion: nil)
+    }
+    
+    
+    func showUpdateCustomDialog(animated: Bool = true) {
+        
+        // Create a custom view controller
+        let exitVc = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireUpdateSucessView") as? QuestionNaireUpdateSucessView
+        
+        
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: exitVc!,
+                                buttonAlignment: .horizontal,
+                                transitionStyle: .bounceDown,
+                                tapGestureDismissal: true,
+                                panGestureDismissal: true)
+        
+        exitVc?.titleLable.text = "QuestionNaire Update Sucessfully."
+        exitVc!.okBtn.addTargetClosure { _ in
+            popup.dismiss()
+            self.exitBtn()
+        }
+        
+        present(popup, animated: animated, completion: nil)
+    }
+    
+    func showDeleteCustomDialog(animated: Bool = true, sender : Int) {
+        
+        // Create a custom view controller
+        let deleteVc = self.storyboard?.instantiateViewController(withIdentifier: "DeleteConfirmViewController") as? DeleteConfirmViewController
+        
+        
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: deleteVc!,
+                                buttonAlignment: .horizontal,
+                                transitionStyle: .bounceDown,
+                                tapGestureDismissal: true,
+                                panGestureDismissal: true)
+        
+        deleteVc?.titleLabel.text = "Are you sure you want to delete document."
+        deleteVc!.yesBtn.addTargetClosure { _ in
+            popup.dismiss()
+            self.removeSelectionDocument(sender)
+        }
+        deleteVc!.noBtn.addTargetClosure { _ in
+            popup.dismiss()
+        }
+        present(popup, animated: animated, completion: nil)
+    }
+    
+    func showDocumentCustomDialog(animated: Bool = true, image : UIImage) {
+        
+        // Create a custom view controller
+        let documentShowVc = self.storyboard?.instantiateViewController(withIdentifier: "SelectionDocumentShowView") as? SelectionDocumentShowView
+        
+        
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: documentShowVc!,
+                                buttonAlignment: .horizontal,
+                                transitionStyle: .bounceDown,
+                                tapGestureDismissal: true,
+                                panGestureDismissal: true)
+        
+        documentShowVc!.crossDocumentBtn.addTargetClosure { _ in
+            popup.dismiss()
+            
+        }
+        documentShowVc?.document_ImgView.image = image
+        present(popup, animated: animated, completion: nil)
+    }
+    
+    
+    // handle notification
+    func exitBtn() {
+        let loginType = UserDefaults.standard.string(forKey: "loginType")
+        if loginType == "1" {
+            let obj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorHomeViewController") as! DoctorHomeViewController
+            self.navigationController?.pushViewController(obj, animated: true)
+        }else{
+            if indexingValue.questionNaireType == "singUpQuestionNaire"{
+                let obj = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                self.navigationController?.pushViewController(obj, animated: true)
+            }else{
+                let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                self.navigationController?.pushViewController(obj, animated: true)
+            }
+        }
+    }
+    
+    func contineBtn() {
         
     }
     
-    @IBAction func actionFourthCrossBtn(_ sender: Any) {
-        arrSelectedImg.removeValue(forKey: "imageFourth")
-        upload_photoFourthLbl.text = "Upload photo"
-        fourth_crossBtn.isHidden = true
-        addmore_Btn.isHidden = false
-        firstUpload_imgBtn.tag = 0
-        secondUpload_ImgBtn.tag = 0
-        thirdUpload_ImgBtn.tag = 0
-        fourthUpload_ImgBtn.tag = 0
-    }
-    
-    
-    @IBAction func secondViewDeleteBtn(_ sender: Any) {
-        arrSelectedImg.removeValue(forKey: "imageSecond")
-        uploading_viewSecondHeightConstraints.constant = 0
-        second_crossBtn.isHidden = true
-        second_viewDeleteIcon.isHidden = true
-        firstUpload_imgBtn.tag = 0
-        secondUpload_ImgBtn.tag = 0
-        thirdUpload_ImgBtn.tag = 0
-        fourthUpload_ImgBtn.tag = 0
-        firstUpload_imgBtn.tag = 222
-        upload_photoSecondLbl.text = "Upload photo"
-        addmore_Btn.isHidden = false
-    }
-    
-    @IBAction func actionThirdDeleteBtn(_ sender: Any) {
-        arrSelectedImg.removeValue(forKey: "imageThird")
-        uploding_viewThirdHeightConstraints.constant = 0
-        uploading_viewSecondHeightConstraints.constant = 40
-        third_crossBtn.isHidden = true
-        third_deleteBtn.isHidden = true
-        addmore_Btn.isHidden = false
-        firstUpload_imgBtn.tag = 0
-        secondUpload_ImgBtn.tag = 0
-        thirdUpload_ImgBtn.tag = 0
-        fourthUpload_ImgBtn.tag = 0
-        upload_photoSecondLbl.text = "Upload photo"
-        secondUpload_ImgBtn.tag = 333
-        addmore_Btn.isHidden = false
-    }
-    
-    @IBAction func actionfourthDeleteBtn(_ sender: Any) {
-        arrSelectedImg.removeValue(forKey: "imageFourth")
-        upload_viewFourthHeightConstraints.constant = 0
-        fourth_crossBtn.isHidden = true
-        fourth_deleteBtn.isHidden = true
-        firstUpload_imgBtn.tag = 0
-        secondUpload_ImgBtn.tag = 0
-        thirdUpload_ImgBtn.tag = 0
-        fourthUpload_ImgBtn.tag = 0
-        upload_photoFourthLbl.text = "Upload photo"
-        thirdUpload_ImgBtn.tag = 444
-        addmore_Btn.isHidden = false
-    }
-    
-    @IBAction func actionDocumentCrossBtn(_ sender: Any) {
-        documentImg_view.isHidden = true
-        addmore_Btn.isHidden = false
-        self.view.backgroundColor = UIColor.white
-        uploadImg_ViewFirst.backgroundColor =  UIColor.white
-        uploading_ViewSecond.backgroundColor =  UIColor.white
-        uploading_viewThird.backgroundColor =  UIColor.white
-        uploading_viewFourth.backgroundColor =  UIColor.white
-        submit_Btn.isEnabled = true
-        back_Btn.isEnabled = true
-        first_crossBtn.isEnabled = true
-        second_crossBtn.isEnabled = true
-        third_crossBtn.isEnabled = true
-        fourth_crossBtn.isEnabled = true
-        second_viewDeleteIcon.isEnabled = true
-        third_deleteBtn.isEnabled = true
-        fourth_deleteBtn.isEnabled = true
+    @IBAction func secondViewDeleteBtn(_ sender: UIButton) {
+        if sender.tag == 2 {
+            arrSelectedImg.removeValue(forKey: "imageSecond")
+            uploading_viewSecondHeightConstraints.constant = 0
+            second_crossBtn.isHidden = true
+            second_viewDeleteIcon.isHidden = true
+            upload_photoSecondLbl.text = "Upload photo"
+            boxCount = boxCount - 1
+        }else if sender.tag == 3{
+            arrSelectedImg.removeValue(forKey: "imageThird")
+            uploding_viewThirdHeightConstraints.constant = 0
+            upload_photoThirddLbl.text = "Upload photo"
+            third_crossBtn.isHidden = true
+            third_deleteBtn.isHidden = true
+            boxCount = boxCount - 1
+        }else if sender.tag == 4{
+            arrSelectedImg.removeValue(forKey: "imageFourth")
+            upload_viewFourthHeightConstraints.constant = 0
+            upload_photoFourthLbl.text = "Upload photo"
+            fourth_crossBtn.isHidden = true
+            fourth_deleteBtn.isHidden = true
+            boxCount = boxCount - 1
+        }
     }
     
     @IBAction func actionSaveNextBtn(_ sender: Any) {
@@ -596,17 +596,48 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
     
     @IBAction func actionSkipBtn(_ sender: Any) {
         if indexingValue.questionType.count == indexingValue.indexValue {
-            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
-            self.navigationController?.pushViewController(Obj, animated:true)
-            print("last index")
-        }
-        else if indexingValue.questionType[indexingValue.indexValue] == "text"{
+            let loginType = UserDefaults.standard.string(forKey: "loginType")
+            if loginType == "1" {
+                if indexingValue.questionNaireType == "updateQuestionNaire" {
+                    if self.skip != "0" {
+                        self.skip_Btn.isEnabled = false
+                    }
+                    self.back_Btn.isEnabled = false
+                    self.showUpdateCustomDialog()
+                }else{
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                    print("last index")
+                }
+            }else {
+                if indexingValue.questionNaireType == "singUpQuestionNaire" {
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                    print("last index")
+                }
+                else if indexingValue.questionNaireType == "complaintQuestionNaire" {
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController")as! AvailableDoctorsViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                    print("last index")
+                }else if indexingValue.questionNaireType == "updateQuestionNaire"{
+                    if self.skip != "0" {
+                        self.skip_Btn.isEnabled = false
+                    }
+                    self.back_Btn.isEnabled = false
+                    self.showUpdateCustomDialog()
+                }else {
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                    print("last index")
+                }
+            }
+        }else if indexingValue.questionType[indexingValue.indexValue] == "text"{
             print("text")
             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
             self.navigationController?.pushViewController(Obj, animated:true)
         }else if indexingValue.questionType[indexingValue.indexValue] == "yesno"{
             print("yes")
-            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
+            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionYesNoViewController")as! QuestionYesNoViewController
             self.navigationController?.pushViewController(Obj, animated:true)
         }else if indexingValue.questionType[indexingValue.indexValue] == "list"{
             print("list")
@@ -629,15 +660,19 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
             self.navigationController?.pushViewController(Obj, animated:true)
         }
+        
         indexingValue.indexValue = indexingValue.indexValue + 1
     }
     
     @IBAction func actionBackBtn(_ sender: Any) {
-        self.backGroundColorBlur()
-        self.questionNaireProcessExit()
-        if self.skip != "0" {
-            skip_Btn.isEnabled = false
+        if indexingValue.questionNaireType == "updateQuestionNaire"{
+            showCustomDialog()
+        }else if indexingValue.questionNaireType == "complaintQuestionNaire"{
+            showCustomDialog()
         }
-        back_Btn.isEnabled = false
+        else{
+            self.navigationController?.popViewController(animated: true)
+            indexingValue.indexValue = indexingValue.indexValue - 1
+        }
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class LoginViewController: UIViewController {
+class LoginViewController: BaseClassViewController {
     @IBOutlet weak var phoneNumber_txtFld: UITextField!
     @IBOutlet weak var password_txtFld: UITextField!
     @IBOutlet weak var loginBtn: UIButton!
@@ -28,7 +28,7 @@ class LoginViewController: UIViewController {
         password_txtFld.setLeftPaddingPoints(10)
         loginBtn.layer.cornerRadius = loginBtn.frame.height/2
         loginBtn.clipsToBounds = true
-        phoneNumber_txtFld.text = "7206563999"
+        phoneNumber_txtFld.text = "2222222222"
         password_txtFld.text = "12345678"
         loginBtn.backgroundColor = UiInterFace.appThemeColor
     }
@@ -47,7 +47,7 @@ class LoginViewController: UIViewController {
     }
     
     func loginApi(){
-        LoadingIndicatorView.show()
+        
         let deviceToken = UserDefaults.standard.string(forKey: "DeviceToken")
         let param: [String: String] = [
             "phone" : phoneNumber_txtFld.text!,
@@ -57,16 +57,17 @@ class LoginViewController: UIViewController {
         ]
         
         print(param)
-        
+        self.showCustomProgress()
         let api = Configurator.baseURL + ApiEndPoints.login
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
-                LoadingIndicatorView.hide()
+               
                 let resultDict = response.value as? [String: AnyObject]
                 if (resultDict?.keys.contains("sucesss"))! {
                     let alert = UIAlertController(title: "Alert", message: "Invalid User Name or Password!", preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+                    self.stopProgress()
                     self.present(alert, animated: true, completion: nil)
                 }else {
                     let token = resultDict!["token"] as? String
@@ -79,18 +80,20 @@ class LoginViewController: UIViewController {
     
     func getUserDetails(){
         let loginToken = UserDefaults.standard.string(forKey: "loginToken")
-        LoadingIndicatorView.show()
+       
         let api = Configurator.baseURL + ApiEndPoints.user_details + "?token=\(loginToken ?? "")"
         
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
-                LoadingIndicatorView.hide()
+               
                 let resultDict = response.value as? NSDictionary
                 let userDetails = resultDict!["user"] as? NSDictionary
                 let totalfilled = userDetails?.object(forKey: "totalfilled") as! Int
                 let loginType =  userDetails?.object(forKey: "type") as! Int
                 let verified =  userDetails?.object(forKey: "verified") as! Int
+                let userid =  userDetails?.object(forKey: "id") as! Int
+                UserDefaults.standard.set(userid, forKey: "userid")
                 UserDefaults.standard.set(loginType, forKey: "loginType")
                 if loginType == 0 {
                     print(totalfilled)
@@ -98,31 +101,42 @@ class LoginViewController: UIViewController {
                         let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
                         self.navigationController?.pushViewController(Obj, animated:true)
                         print("last index")
+                        self.stopProgress()
                     }else{
                         self.questionNaireApi()
                     }
                 }else{
-                    if verified == 0 {
-                        let Obj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorHomeViewController")as! DoctorHomeViewController
-                        self.navigationController?.pushViewController(Obj, animated:true)
-                    }else {
-                        let Obj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorHomeViewController")as! DoctorHomeViewController
-                        self.navigationController?.pushViewController(Obj, animated:true)
+                    if totalfilled == 1 {
+                        self.stopProgress()
+                        if verified == 0 {
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "doctorSingUpCompleteViewController")as! doctorSingUpCompleteViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }else {
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorHomeViewController")as! DoctorHomeViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }
+                    }else{
+                        indexingValue.questionNaireType = "DoctorSingUpQuestionNaire"
+                        self.questionNaireApi()
                     }
                 }
-         }
+        }
     }
     
     func questionNaireApi(){
-        LoadingIndicatorView.show()
         let loginToken = UserDefaults.standard.string(forKey: "loginToken")
+        var api = String()
+        let loginType = UserDefaults.standard.string(forKey: "loginType")
         let param: [String: Any] = [
             "token" : loginToken!
         ]
-        let api = Configurator.baseURL + ApiEndPoints.patientanswer
+        if loginType == "1" {
+            api = Configurator.baseURL + ApiEndPoints.doctoranswer
+        }else{
+            api = Configurator.baseURL + ApiEndPoints.patientanswer
+        }
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
-                LoadingIndicatorView.hide()
                 
                 print(response)
                 let resultDict = response.value as? NSDictionary
@@ -134,6 +148,7 @@ class LoginViewController: UIViewController {
                     indexingValue.indexValue = 0
                     print(indexingValue.questionType)
                 }
+                self.stopProgress()
                 if indexingValue.questionType.count == indexingValue.indexValue {
                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
                     self.navigationController?.pushViewController(Obj, animated:true)

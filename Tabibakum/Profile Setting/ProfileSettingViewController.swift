@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class ProfileSettingViewController: UIViewController {
+class ProfileSettingViewController: BaseClassViewController {
     
     @IBOutlet weak var name_Lbl: UILabel!
     @IBOutlet weak var description_Lbl: UILabel!
@@ -53,12 +53,13 @@ class ProfileSettingViewController: UIViewController {
     }
     
     func userProfileApi(){
-        LoadingIndicatorView.show()
+       self.showCustomProgress()
         let useid = UserDefaults.standard.integer(forKey: "userId")
         let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
+                self.stopProgress()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for userData in dataDict! {
@@ -66,7 +67,7 @@ class ProfileSettingViewController: UIViewController {
                     let img =  userData["avatar"] as? String
                     let imageStr = Configurator.imageBaseUrl + img!
                     self.profile_ImgView.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))
-                    LoadingIndicatorView.hide()
+                    
                     self.phoneNumber_Lbl.text = userData["phone"] as? String
                     self.emailId_Lbl.text = userData["email"] as? String
                     self.dateofBirth_Lbl.text = userData["date_of_birth"] as? String

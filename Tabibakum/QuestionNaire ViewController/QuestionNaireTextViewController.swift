@@ -35,16 +35,10 @@ class QuestionNaireTextViewController: BaseClassViewController {
         self.navigationItem.rightBarButtonItem?.title = ""
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         questionNaireApi()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.exitBtn(_:)), name: NSNotification.Name(rawValue: "notificationlExit"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.contineBtn(_:)), name: NSNotification.Name(rawValue: "notificationContineBtn"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.doneBtn(_:)), name: NSNotification.Name(rawValue: "notificationlokBtn"), object: nil)
     }
     
     func questionNaireApi(){
-        LoadingIndicatorView.show()
+        self.showCustomProgress()
         let loginType = UserDefaults.standard.string(forKey: "loginType")
         var api = String()
         if loginType == "1" {
@@ -58,7 +52,7 @@ class QuestionNaireTextViewController: BaseClassViewController {
         }
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                LoadingIndicatorView.hide()
+               self.stopProgress()
                 print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
@@ -79,7 +73,7 @@ class QuestionNaireTextViewController: BaseClassViewController {
     }
     
     func questionNaireAnswerApi(){
-        LoadingIndicatorView.show()
+        self.showCustomProgress()
         let loginToken = UserDefaults.standard.string(forKey: "loginToken")
         let param: [String: Any] = [
             "question_id" : questionId,
@@ -102,37 +96,49 @@ class QuestionNaireTextViewController: BaseClassViewController {
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
-                LoadingIndicatorView.hide()
+                self.stopProgress()
                 let resultDict = response.value as? [String: AnyObject]
                 if let sucessStr = resultDict!["success"] as? Bool{
                     print(sucessStr)
                     if sucessStr{
                         print("sucessss")
                         if indexingValue.questionType.count == indexingValue.indexValue {
-                            if indexingValue.questionNaireType == "singUpQuestionNaire" {
-                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
-                                self.navigationController?.pushViewController(Obj, animated:true)
-                                print("last index")
-                            }
-                            else if indexingValue.questionNaireType == "complaintQuestionNaire" {
-                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController")as! AvailableDoctorsViewController
-                                self.navigationController?.pushViewController(Obj, animated:true)
-                                print("last index")
-                            }else if indexingValue.questionNaireType == "updateQuestionNaire"{
-                                if self.skip != "0" {
-                                    self.skipBtn.isEnabled = false
+                            let loginType = UserDefaults.standard.string(forKey: "loginType")
+                            if loginType == "1" {
+                                if indexingValue.questionNaireType == "updateQuestionNaire" {
+                                    if self.skip != "0" {
+                                        self.skipBtn.isEnabled = false
+                                    }
+                                    self.backBtn.isEnabled = false
+                                      self.showUpdateCustomDialog()
+                                }else{
+                                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
+                                    self.navigationController?.pushViewController(Obj, animated:true)
+                                    print("last index")
                                 }
-                                self.backBtn.isEnabled = false
-                                self.backGroundColorBlur()
-                                self.questionNaireProcessUpdateSucessfully()
-                                
                             }else {
-                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
-                                self.navigationController?.pushViewController(Obj, animated:true)
-                                print("last index")
+                                if indexingValue.questionNaireType == "singUpQuestionNaire" {
+                                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
+                                    self.navigationController?.pushViewController(Obj, animated:true)
+                                    print("last index")
+                                }
+                                else if indexingValue.questionNaireType == "complaintQuestionNaire" {
+                                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController")as! AvailableDoctorsViewController
+                                    self.navigationController?.pushViewController(Obj, animated:true)
+                                    print("last index")
+                                }else if indexingValue.questionNaireType == "updateQuestionNaire"{
+                                    if self.skip != "0" {
+                                        self.skipBtn.isEnabled = false
+                                    }
+                                    self.backBtn.isEnabled = false
+                                    self.showUpdateCustomDialog()
+                                }else {
+                                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
+                                    self.navigationController?.pushViewController(Obj, animated:true)
+                                    print("last index")
+                                }
                             }
-                        }
-                        else if indexingValue.questionType[indexingValue.indexValue] == "text"{
+                        }else if indexingValue.questionType[indexingValue.indexValue] == "text"{
                             print("text")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
@@ -172,56 +178,134 @@ class QuestionNaireTextViewController: BaseClassViewController {
         }
     }
     
-    @objc func doneBtn(_ notification: NSNotification) {
-        print("exitBtn>>")
-        let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-        self.navigationController?.pushViewController(obj, animated: true)
+    func showCustomDialog(animated: Bool = true) {
+        
+        // Create a custom view controller
+        let exitVc = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireBackView") as? QuestionNaireBackView
+        
+        
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: exitVc!,
+                                buttonAlignment: .horizontal,
+                                transitionStyle: .bounceDown,
+                                tapGestureDismissal: true,
+                                panGestureDismissal: true)
+        
+        exitVc?.titleLabal.text = "Are you sure want to exit from the process ?"
+        exitVc!.exitBtn.addTargetClosure { _ in
+            popup.dismiss()
+            self.exitBtn()
+        }
+        exitVc!.continueBtn.addTargetClosure { _ in
+            popup.dismiss()
+            
+        }
+        
+        present(popup, animated: animated, completion: nil)
+    }
+    
+    
+    func showUpdateCustomDialog(animated: Bool = true) {
+        
+        // Create a custom view controller
+        let exitVc = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireUpdateSucessView") as? QuestionNaireUpdateSucessView
+        
+        
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: exitVc!,
+                                buttonAlignment: .horizontal,
+                                transitionStyle: .bounceDown,
+                                tapGestureDismissal: true,
+                                panGestureDismissal: true)
+        
+        exitVc?.titleLable.text = "QuestionNaire Update Sucessfully."
+        exitVc!.okBtn.addTargetClosure { _ in
+            popup.dismiss()
+            self.exitBtn()
+        }
+        
+        present(popup, animated: animated, completion: nil)
     }
     
     // handle notification
-    @objc func exitBtn(_ notification: NSNotification) {
-        print("exitBtn>>")
-        if indexingValue.questionNaireType == "singUpQuestionNaire"{
-            let obj = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+    func exitBtn() {
+        let loginType = UserDefaults.standard.string(forKey: "loginType")
+        if loginType == "1" {
+            let obj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorHomeViewController") as! DoctorHomeViewController
             self.navigationController?.pushViewController(obj, animated: true)
         }else{
-            let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-            self.navigationController?.pushViewController(obj, animated: true)
+            if indexingValue.questionNaireType == "singUpQuestionNaire"{
+                let obj = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                self.navigationController?.pushViewController(obj, animated: true)
+            }else{
+                let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                self.navigationController?.pushViewController(obj, animated: true)
+            }
         }
     }
     
-    @objc func contineBtn(_ notification: NSNotification) {
-        print("logout>>")
-        if self.skip != "0" {
-            skipBtn.isEnabled = true
-        }
-        backBtn.isEnabled = true
-        self.myCustomView?.isHidden = true
-        self.backGroundBlurRemove()
+    func contineBtn() {
+        
     }
     
     @IBAction func actionBackBtn(_ sender: Any) {
-        self.backGroundColorBlur()
-        self.questionNaireProcessExit()
-        if self.skip != "0" {
-            skipBtn.isEnabled = false
+        if indexingValue.questionNaireType == "updateQuestionNaire"{
+            showCustomDialog()
+        }else if indexingValue.questionNaireType == "complaintQuestionNaire"{
+             showCustomDialog()
         }
-        backBtn.isEnabled = false
+        else{
+            self.navigationController?.popViewController(animated: true)
+            indexingValue.indexValue = indexingValue.indexValue - 1
+        }
     }
     
     @IBAction func actionSkipBtn(_ sender: Any) {
         if indexingValue.questionType.count == indexingValue.indexValue {
-            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
-            self.navigationController?.pushViewController(Obj, animated:true)
-            print("last index")
-        }
-        else if indexingValue.questionType[indexingValue.indexValue] == "text"{
+            let loginType = UserDefaults.standard.string(forKey: "loginType")
+            if loginType == "1" {
+                if indexingValue.questionNaireType == "updateQuestionNaire" {
+                    if self.skip != "0" {
+                        self.skipBtn.isEnabled = false
+                    }
+                    self.backBtn.isEnabled = false
+                     self.showUpdateCustomDialog()
+                }else{
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                    print("last index")
+                }
+            }else {
+                if indexingValue.questionNaireType == "singUpQuestionNaire" {
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                    print("last index")
+                }
+                else if indexingValue.questionNaireType == "complaintQuestionNaire" {
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController")as! AvailableDoctorsViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                    print("last index")
+                }else if indexingValue.questionNaireType == "updateQuestionNaire"{
+                    if self.skip != "0" {
+                        self.skipBtn.isEnabled = false
+                    }
+                    self.backBtn.isEnabled = false
+                     self.showUpdateCustomDialog()
+                }else {
+                    let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
+                    self.navigationController?.pushViewController(Obj, animated:true)
+                    print("last index")
+                }
+            }
+        }else if indexingValue.questionType[indexingValue.indexValue] == "text"{
             print("text")
             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
             self.navigationController?.pushViewController(Obj, animated:true)
         }else if indexingValue.questionType[indexingValue.indexValue] == "yesno"{
             print("yes")
-            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
+            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionYesNoViewController")as! QuestionYesNoViewController
             self.navigationController?.pushViewController(Obj, animated:true)
         }else if indexingValue.questionType[indexingValue.indexValue] == "list"{
             print("list")
@@ -244,6 +328,7 @@ class QuestionNaireTextViewController: BaseClassViewController {
             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
             self.navigationController?.pushViewController(Obj, animated:true)
         }
+        
         indexingValue.indexValue = indexingValue.indexValue + 1
     }
     

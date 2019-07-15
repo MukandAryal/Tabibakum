@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class DoctorProfileSettingViewController: UIViewController {
+class DoctorProfileSettingViewController: BaseClassViewController {
     @IBOutlet weak var info_view: UIView!
     @IBOutlet weak var userImg_VIew: UIImageView!
     @IBOutlet weak var update_Btn: UIButton!
@@ -42,16 +42,17 @@ class DoctorProfileSettingViewController: UIViewController {
     }
     
     func userProfileApi(){
-        LoadingIndicatorView.show()
+       self.showCustomProgress()
         let useid = UserDefaults.standard.integer(forKey: "userId")
         let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
+               
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for userData in dataDict! {
-                    LoadingIndicatorView.hide()
+                   
                     self.name_Lbl.text = userData["name"] as? String
                     let img =  userData["avatar"] as? String
                     let imageStr = Configurator.imageBaseUrl + img!
@@ -65,6 +66,7 @@ class DoctorProfileSettingViewController: UIViewController {
                     self.description_Lbl.text = userData["description"] as? String
                      self.fees_Lbl.text = userData["fees"] as? String
                 }
+                 self.stopProgress()
         }
     }
     

@@ -11,30 +11,26 @@ import SideMenu
 import Alamofire
 import Cosmos
 
-class DoctorReviewViewController: UIViewController {
+class DoctorReviewViewController: BaseClassViewController {
     
     @IBOutlet weak var userProfile_ImgView: UIImageView!
     @IBOutlet weak var rating_view: CosmosView!
     @IBOutlet weak var userName_Lbl: UILabel!
     @IBOutlet weak var reviewTblView: UITableView!
     var feedBackArr = [doctorFeedbackInfo.feedbackDetails]()
+    var ratingStr = Int()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         reviewTblView.register(UINib(nibName: "ReviewTableViewCell", bundle: nil), forCellReuseIdentifier: "ReviewTableViewCell")
+        self.rating_view.rating = 1
         userProfileApi()
         userProfile_ImgView.layer.cornerRadius = userProfile_ImgView.frame.height/2
         userProfile_ImgView.clipsToBounds = true
     }
     
-    fileprivate func setupSideMenu() {
-        // Define the menus
-        SideMenuManager.default.menuLeftNavigationController = storyboard!.instantiateViewController(withIdentifier: "LeftMenuNavigationController") as? UISideMenuNavigationController
-        
-        SideMenuManager.default.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
-        SideMenuManager.default.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
-        
-    }
+    
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -47,14 +43,15 @@ class DoctorReviewViewController: UIViewController {
     
     func userProfileApi(){
         let useid = UserDefaults.standard.integer(forKey: "userId")
-        LoadingIndicatorView.show()
+        self.showCustomProgress()
         let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
-                LoadingIndicatorView.hide()
+                self.stopProgress()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
+                self.ratingStr = 0
                 for userData in dataDict! {
                     self.userName_Lbl.text = userData["name"] as? String
                     let img = userData["avatar"] as? String
@@ -63,10 +60,15 @@ class DoctorReviewViewController: UIViewController {
                     let feedbackData = userData["doctor_feedback"] as? [[String:AnyObject]]
                     for feedbackObj in feedbackData! {
                         let feedbackInfo = doctorFeedbackInfo.feedbackDetails(avatar: (feedbackObj["avatar"] as? String)!, created_at: (feedbackObj["created_at"] as? String)!, doctor_id: (feedbackObj["doctor_id"] as? Int)!, feedback: (feedbackObj["feedback"] as? String)!, id: (feedbackObj["id"] as? Int)!, patient_name: (feedbackObj["patient_name"] as? String)!, patient_id: (feedbackObj["patient_id"] as? Int)!, rating: (feedbackObj["rating"] as? Int)!)
+                        
+                        self.ratingStr  = feedbackInfo.rating + self.ratingStr
+                        print(self.ratingStr)
                         self.feedBackArr.append(feedbackInfo)
-                        self.reviewTblView.reloadData()
-                        print(self.feedBackArr)
+                        
                     }
+                    print(self.ratingStr)
+                    self.rating_view.rating = Double(self.ratingStr/self.feedBackArr.count)
+                    self.reviewTblView.reloadData()
                 }
         }
     }

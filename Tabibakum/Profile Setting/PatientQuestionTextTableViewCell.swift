@@ -1,15 +1,16 @@
 //
-//  DoctorMenuTableViewCell.swift
+//  PatientQuestionTextTableViewCell.swift
 //  Tabibakum
 //
-//  Created by osvinuser on 02/07/19.
+//  Created by osvinuser on 11/07/19.
 //  Copyright © 2019 osvinuser. All rights reserved.
 //
 
 import UIKit
 
-class DoctorMenuTableViewCell: UITableViewCell {
-
+class PatientQuestionTextTableViewCell: UITableViewCell {
+    @IBOutlet weak var complaintQuestionLbl: UILabel!
+    @IBOutlet weak var complaintAnswerLbl: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

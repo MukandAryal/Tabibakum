@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class singUpPatientWelcomeScreenViewController: UIViewController {
+class singUpPatientWelcomeScreenViewController: BaseClassViewController {
     @IBOutlet weak var welcome_Lbl: UILabel!
     @IBOutlet weak var description_Lbl: UILabel!
     @IBOutlet weak var next_Btn: UIButton!
@@ -40,11 +40,11 @@ class singUpPatientWelcomeScreenViewController: UIViewController {
     }
     
     func questionNaireApi(){
-        LoadingIndicatorView.show()
+        self.showCustomProgress()
         let api = Configurator.baseURL + ApiEndPoints.patientquestion
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                LoadingIndicatorView.hide()
+                self.stopProgress()
                 print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]

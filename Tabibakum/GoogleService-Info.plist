@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>849483078609-vc8g1c10ji4p0piav8m3i2u83d9fv11a.apps.googleusercontent.com</string>
+	<string>267987153726-7e96d69ttmfeqnkkvfljsqflkhvfdhdf.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.849483078609-vc8g1c10ji4p0piav8m3i2u83d9fv11a</string>
+	<string>com.googleusercontent.apps.267987153726-7e96d69ttmfeqnkkvfljsqflkhvfdhdf</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>267987153726-s029ju2mql4ei05t4dsn1l5ot85hgigr.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC_YJ6rhZXpI8VZnuQZyHAjSexVBLabCAo</string>
+	<string>AIzaSyCs6TASQf_Vboh0ylD14U813AxN6TSgwbU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>849483078609</string>
+	<string>267987153726</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>osvin.Tabibakum</string>
+	<string>osvin.Tabibakum.com</string>
 	<key>PROJECT_ID</key>
-	<string>tabibakum-18218</string>
+	<string>tabibakum-e780b</string>
 	<key>STORAGE_BUCKET</key>
-	<string>tabibakum-18218.appspot.com</string>
+	<string>tabibakum-e780b.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:849483078609:ios:6bb956d23539fbfc</string>
+	<string>1:267987153726:ios:f7631715b9dcd007</string>
 	<key>DATABASE_URL</key>
-	<string>https://tabibakum-18218.firebaseio.com</string>
+	<string>https://tabibakum-e780b.firebaseio.com</string>
 </dict>
 </plist>

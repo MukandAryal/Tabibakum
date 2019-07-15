@@ -15,7 +15,7 @@ struct specilist {
     var specialist : String
 }
 
-class SignUpAsDoctorViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+class SignUpAsDoctorViewController: BaseClassViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
     @IBOutlet weak var userImg_View: UIImageView!
     @IBOutlet weak var speciallization_view: UIView!
@@ -162,7 +162,7 @@ class SignUpAsDoctorViewController: UIViewController,UIImagePickerControllerDele
     
     func singUp(name:String,speciallzation:String,email:String,phone:String,password:String,type:String,countyCode:String,device_token:String,profileImg:Data){
         
-        LoadingIndicatorView.show()
+       self.showCustomProgress()
         Alamofire.upload(
             multipartFormData: { multipartFormData in
                 
@@ -185,7 +185,7 @@ class SignUpAsDoctorViewController: UIViewController,UIImagePickerControllerDele
                 case .success(let upload, _, _):
                     upload.responseJSON { response in
                         print(response)
-                        LoadingIndicatorView.hide()
+                        self.stopProgress()
                         var resultDict = response.value as? [String:AnyObject]
                         if let sucessStr = resultDict!["success"] as? Bool{
                             print(sucessStr)
@@ -215,6 +215,7 @@ class SignUpAsDoctorViewController: UIViewController,UIImagePickerControllerDele
                     return
                 case .failure(let encodingError):
                     debugPrint(encodingError)
+                    self.stopProgress()
                 }
         })
     }
@@ -230,17 +231,17 @@ class SignUpAsDoctorViewController: UIViewController,UIImagePickerControllerDele
                     print(specialistObj)
                     let name = specialistObj["specialist"] as? String
                     self.specialistArr.append(name!)
-                    self.dropDownTblView.reloadData()
                 }
+                self.dropDownTblView.reloadData()
         }
     }
     
     func questionNaireApi(){
-        LoadingIndicatorView.show()
+       self.showCustomProgress()
         let api = Configurator.baseURL + ApiEndPoints.doctorquestion
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                LoadingIndicatorView.hide()
+               
                 print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
@@ -255,39 +256,40 @@ class SignUpAsDoctorViewController: UIViewController,UIImagePickerControllerDele
                             indexingValue.questionType.append(type!)
                             print(indexingValue.questionType)
                             indexingValue.indexValue = 0
-                           }
-                            indexingValue.questionNaireType = "singUpQuestionNaire"
-                            if indexingValue.questionType[indexingValue.indexValue] == "text"{
-                                print("text")
-                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
-                                self.navigationController?.pushViewController(Obj, animated:true)
-                            }else if indexingValue.questionType[indexingValue.indexValue] == "yesno"{
-                                print("yes")
-                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionYesNoViewController")as! QuestionYesNoViewController
-                                self.navigationController?.pushViewController(Obj, animated:true)
-                            }else if indexingValue.questionType[indexingValue.indexValue] == "list"{
-                                print("list")
-                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "ListQuestionNaireViewController")as! ListQuestionNaireViewController
-                                self.navigationController?.pushViewController(Obj, animated:true)
-                            }else if indexingValue.questionType[indexingValue.indexValue] == "image"{
-                                print("image")
-                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireImageViewController")as! QuestionNaireImageViewController
-                                self.navigationController?.pushViewController(Obj, animated:true)
-                            }else if indexingValue.questionType[indexingValue.indexValue] == "tab1"{
-                                print("tab1")
-                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireSingalTabViewController")as! QuestionNaireSingalTabViewController
-                                self.navigationController?.pushViewController(Obj, animated:true)
-                            }else if indexingValue.questionType[indexingValue.indexValue] == "tab2"{
-                                print("tab2")
-                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireMultipleTabViewController")as! QuestionNaireMultipleTabViewController
-                                self.navigationController?.pushViewController(Obj, animated:true)
-                            }else if indexingValue.questionType[indexingValue.indexValue] == "tai"{
-                                print("tai")
-                                let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
-                                self.navigationController?.pushViewController(Obj, animated:true)
-                            }
-                            indexingValue.indexValue = +1
                         }
+                        self.stopProgress()
+                        indexingValue.questionNaireType = "singUpQuestionNaire"
+                        if indexingValue.questionType[indexingValue.indexValue] == "text"{
+                            print("text")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }else if indexingValue.questionType[indexingValue.indexValue] == "yesno"{
+                            print("yes")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionYesNoViewController")as! QuestionYesNoViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }else if indexingValue.questionType[indexingValue.indexValue] == "list"{
+                            print("list")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "ListQuestionNaireViewController")as! ListQuestionNaireViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }else if indexingValue.questionType[indexingValue.indexValue] == "image"{
+                            print("image")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireImageViewController")as! QuestionNaireImageViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }else if indexingValue.questionType[indexingValue.indexValue] == "tab1"{
+                            print("tab1")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireSingalTabViewController")as! QuestionNaireSingalTabViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }else if indexingValue.questionType[indexingValue.indexValue] == "tab2"{
+                            print("tab2")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireMultipleTabViewController")as! QuestionNaireMultipleTabViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }else if indexingValue.questionType[indexingValue.indexValue] == "tai"{
+                            print("tai")
+                            let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
+                            self.navigationController?.pushViewController(Obj, animated:true)
+                        }
+                        indexingValue.indexValue = +1
+                    }
                 }else{
                     let alert = UIAlertController(title: "Alert", message: "sumthing went woring please try again!", preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))

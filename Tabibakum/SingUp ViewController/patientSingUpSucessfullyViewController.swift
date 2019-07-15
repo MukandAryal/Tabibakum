@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class patientSingUpSucessfullyViewController: UIViewController {
+class patientSingUpSucessfullyViewController: BaseClassViewController {
     
     @IBOutlet weak var done_btn: UIButton!
     
@@ -24,7 +24,7 @@ class patientSingUpSucessfullyViewController: UIViewController {
     }
     
     func totalPostApi(){
-        LoadingIndicatorView.show()
+        self.showCustomProgress()
         let loginToken = UserDefaults.standard.string(forKey: "loginToken")
         let param: [String: Any] = [
             "token" : loginToken!,
@@ -33,7 +33,7 @@ class patientSingUpSucessfullyViewController: UIViewController {
         let api = Configurator.baseURL + ApiEndPoints.posttotal
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
-                LoadingIndicatorView.hide()
+               self.stopProgress()
                 print(response)
                 var resultDict = response.value as? [String:Any]
                 if let sucessStr = resultDict!["success"] as? Bool{

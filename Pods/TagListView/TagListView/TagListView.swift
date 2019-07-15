@@ -16,7 +16,7 @@ import UIKit
 @IBDesignable
 open class TagListView: UIView {
     
-    @IBInspectable open dynamic var textColor: UIColor = .gray {
+    @IBInspectable open dynamic var textColor: UIColor = UIColor(red: 158/254, green: 158/254, blue: 158/254, alpha: 1.0) {
         didSet {
             tagViews.forEach {
                 $0.textColor = textColor
@@ -40,7 +40,7 @@ open class TagListView: UIView {
         }
     }
     
-    @IBInspectable open dynamic var tagBackgroundColor: UIColor =  UIColor(red: 235/254, green: 235/254, blue: 235/254, alpha: 1.0) {
+    @IBInspectable open dynamic var tagBackgroundColor: UIColor =  UIColor(red: 240/254, green: 240/254, blue: 240/254, alpha: 1.0) {
         didSet {
             tagViews.forEach {
                 $0.tagBackgroundColor = tagBackgroundColor
@@ -56,7 +56,7 @@ open class TagListView: UIView {
         }
     }
     
-    @IBInspectable open dynamic var tagSelectedBackgroundColor: UIColor? {
+    @IBInspectable open dynamic var tagSelectedBackgroundColor: UIColor = UIColor(red: 64/254, green: 181/254, blue: 59/254, alpha: 1.0) {
         didSet {
             tagViews.forEach {
                 $0.selectedBackgroundColor = tagSelectedBackgroundColor
@@ -71,7 +71,7 @@ open class TagListView: UIView {
             }
         }
     }
-    @IBInspectable open dynamic var borderWidth: CGFloat = 0 {
+    @IBInspectable open dynamic var borderWidth: CGFloat = 0.2 {
         didSet {
             tagViews.forEach {
                 $0.borderWidth = borderWidth
@@ -79,7 +79,7 @@ open class TagListView: UIView {
         }
     }
     
-    @IBInspectable open dynamic var borderColor: UIColor? {
+    @IBInspectable open dynamic var borderColor: UIColor? = UIColor(red: 158/254, green: 158/254, blue: 158/254, alpha: 1.0){
         didSet {
             tagViews.forEach {
                 $0.borderColor = borderColor
@@ -95,7 +95,7 @@ open class TagListView: UIView {
         }
     }
     
-    @IBInspectable open dynamic var paddingY: CGFloat = 2 {
+    @IBInspectable open dynamic var paddingY: CGFloat = 10 {
         didSet {
             defer { rearrangeViews() }
             tagViews.forEach {
@@ -103,7 +103,7 @@ open class TagListView: UIView {
             }
         }
     }
-    @IBInspectable open dynamic var paddingX: CGFloat = 5 {
+    @IBInspectable open dynamic var paddingX: CGFloat = 7 {
         didSet {
             defer { rearrangeViews() }
             tagViews.forEach {
@@ -111,12 +111,12 @@ open class TagListView: UIView {
             }
         }
     }
-    @IBInspectable open dynamic var marginY: CGFloat = 2 {
+    @IBInspectable open dynamic var marginY: CGFloat = 10 {
         didSet {
             rearrangeViews()
         }
     }
-    @IBInspectable open dynamic var marginX: CGFloat = 5 {
+    @IBInspectable open dynamic var marginX: CGFloat = 7 {
         didSet {
             rearrangeViews()
         }

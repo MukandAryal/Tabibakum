@@ -29,6 +29,10 @@ class ApiEndPoints: NSObject {
  static let timeSlot = "timeslot"
  static let doctorquestion = "doctorquestion"
  static let doctoranswer = "doctoranswer"
+ static let patient_post_booking = "patient_post_booking"
+ static let delete_booking = "delete_booking"
+ static let notificatonDelete = "deletenotification"
+ static let doctorschedule = "doctorschedule"
 }
 
 class UiInterFace: NSObject {

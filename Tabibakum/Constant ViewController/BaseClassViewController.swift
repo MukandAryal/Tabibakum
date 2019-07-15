@@ -10,115 +10,75 @@ import UIKit
 import Alamofire
 import SideMenu
 
+typealias UIButtonTargetClosure = (UIButton) -> ()
+
 class BaseClassViewController: UIViewController {
-    var myCustomView: QuestionNaireExitView?
-    var myLogoutView: LogOutView?
-    var questionNaireUpdateSucessView: QuestionnaireUpdateSucessfullyView?
-    var profileUpdateSucessView: ProfileUpdateView?
-    var blurView: blurViewController?
-    var blurEffectView = UIVisualEffectView()
+    var loginType = Int()
+    var imageStr = String()
+    var userName = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        GIFHUD.shared.setGif(named: "dotted_loader.gif")
     }
     
-    func questionNaireProcessExit(){
-        if myCustomView == nil { // make it only once
-            myCustomView = Bundle.main.loadNibNamed("QuestionNaireExitView", owner: self, options: nil)?.first as? QuestionNaireExitView
-            
-            myCustomView?.frame = CGRect(x: 20, y: view.frame.height/2-150, width: view.frame.width-40, height:230)
-            self.view.addSubview(myCustomView!) // you can omit
+    func logoutView() {
+        let title = "Logout"
+        let message = "Are you sure you want to Logout?"
+        let image = UIImage(named: "signout")
+        // Create the dialog
+        let popup = PopupDialog(title: title,
+                                message: message,
+                                image: image,
+                                buttonAlignment: .horizontal,
+                                transitionStyle: .zoomIn,
+                                tapGestureDismissal: true,
+                                panGestureDismissal: true,
+                                hideStatusBar: true) {
+                                    
         }
-    }
-    
-    func logoutView(){
-        if myLogoutView == nil { // make it only once
-            myLogoutView = Bundle.main.loadNibNamed("LogOutView", owner: self, options: nil)?.first as? LogOutView
-           myLogoutView?.frame = CGRect(x: 20, y: view.frame.height/2-100, width: view.frame.width-40, height:170)
-            //            var customView = UIView()
-            //            customView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
-            //            customView.backgroundColor = UIColor.red
-            //  blurViewController.addSubview(myLogoutView!)
-            //
-            // self.addSubview(LogOutView) // you can omit
-            //let window = UIApplication.shared.keyWindow!
-          //  window.addSubview(myLogoutView!)
-         //   let popUpViewController = UIViewController()
-            let popUpViewController = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController" ) as! LoginViewController
-            popUpViewController.view.addSubview(myLogoutView!)
-           // let vc = blurViewController()
-//            popUpViewController.modalPresentationStyle = .overCurrentContext
-//            popUpViewController.modalTransitionStyle = .crossDissolve
-            present(popUpViewController, animated: true, completion: nil)
+        
+        //        // Create first button
+        let buttonOne = CancelButton(title: "Log Out", height: 40) {
+            self.signOutAction()
+            popup.dismiss()
         }
-    }
-    
-    func questionNaireProcessUpdateSucessfully(){
-        if questionNaireUpdateSucessView == nil { // make it only once
-            questionNaireUpdateSucessView = Bundle.main.loadNibNamed("QuestionnaireUpdateSucessfullyView", owner: self, options: nil)?.first as? QuestionnaireUpdateSucessfullyView
-            
-            questionNaireUpdateSucessView?.frame = CGRect(x: 20, y: view.frame.height/2-150, width: view.frame.width-40, height:230)
-            self.view.addSubview(questionNaireUpdateSucessView!) // you can omit
+        
+        //        // Create second button
+        let buttonTwo = DefaultButton(title: "Stay Logged In", height: 40) {
+            self.signInAction()
+            popup.dismiss()
         }
+        //
+        buttonOne.titleColor = UIColor.black
+        buttonOne.buttonColor = UIColor(red: 240.0/255.0, green: 239.0/255.0, blue: 246.0/255.0, alpha: 1.0)
+        buttonTwo.titleColor = UIColor.lightText
+        buttonTwo.buttonColor = UIColor(red: 76.0/255.0, green: 176.0/255.0, blue: 61.0/255.0, alpha: 1.0)
+        //        // Add buttons to dialog
+        popup.addButtons([buttonOne, buttonTwo])
+        // Present dialog
+        self.present(popup, animated: true, completion: nil)
+        
     }
-    
-    func ProfileUpdateSucessfully(){
-        if profileUpdateSucessView == nil { // make it only once
-            profileUpdateSucessView = Bundle.main.loadNibNamed("ProfileUpdateView", owner: self, options: nil)?.first as? ProfileUpdateView
-            profileUpdateSucessView?.frame = CGRect(x: 20, y: view.frame.height/2-150, width: view.frame.width-40, height:230)
-            self.view.addSubview(profileUpdateSucessView!) // you can omit
-        }
+    func signInAction(){
+        SideMenuManager.default.menuLeftNavigationController?.dismiss(animated: true, completion: nil)
+        
     }
-    
-    func backGroundColorBlur(){
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-        blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.alpha = 0.6
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(blurEffectView)
+    // SignOut
+    func signOutAction(){
+        // API CAll
+        logoutApi()
     }
-    
-    func  backGroundBlurRemove()  {
-        blurEffectView.removeFromSuperview()
-    }
-    
-    //    @objc func contineBtn(_ notification: NSNotification) {
-    //        print("logout>>")
-    //       // if self.skip != "0" {
-    //           // skip_Btn.isEnabled = true
-    //        //}
-    //       // back_Btn.isEnabled = true
-    //        self.myCustomView?.isHidden = true
-    //        self.backGroundBlurRemove()
-    //    }
-    //
-    //    @objc func doneBtn(_ notification: NSNotification) {
-    //        print("exitBtn>>")
-    //        let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-    //        self.navigationController?.pushViewController(obj, animated: true)
-    //    }
-    //
-    //    @objc func exitBtn(_ notification: NSNotification) {
-    //        print("exitBtn>>")
-    //        if indexingValue.questionNaireType == "singUpQuestionNaire"{
-    //            let obj = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-    //            self.navigationController?.pushViewController(obj, animated: true)
-    //        }else{
-    //            let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-    //            self.navigationController?.pushViewController(obj, animated: true)
-    //        }
-    //    }
     
     func logoutApi(){
-        LoadingIndicatorView.show()
+        self.showCustomProgress()
         let loginToken = UserDefaults.standard.string(forKey: "loginToken")
         var api = String()
         api =  Configurator.baseURL + ApiEndPoints.logout + "?token=\(loginToken ?? "")"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
-                LoadingIndicatorView.hide()
+               self.stopProgress()
                 let resultDict = response.value as? [String: AnyObject]
                 if let sucessStr = resultDict!["success"] as? Bool{
                     print(sucessStr)
@@ -134,5 +94,64 @@ class BaseClassViewController: UIViewController {
                 }
         }
     }
+    
+    func showAlert(message:String){
+        let alert = UIAlertController(title: "", message: message, preferredStyle: UIAlertController.Style.alert)
+        // add an action (button)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showCustomProgress() {
+        GIFHUD.shared.show(withOverlay: true)
+    }
+    
+    func stopProgress() {
+        GIFHUD.shared.dismiss()
+    }
 }
+
+extension UIButton {
+    
+    private struct AssociatedKeys {
+        static var targetClosure = "targetClosure"
+    }
+    
+    private var targetClosure: UIButtonTargetClosure? {
+        get {
+            guard let closureWrapper = objc_getAssociatedObject(self, &AssociatedKeys.targetClosure) as? ClosureWrapper else { return nil }
+            return closureWrapper.closure
+        }
+        set(newValue) {
+            guard let newValue = newValue else { return }
+            objc_setAssociatedObject(self, &AssociatedKeys.targetClosure, ClosureWrapper(newValue), objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    func addTargetClosure(closure: @escaping UIButtonTargetClosure) {
+        targetClosure = closure
+        addTarget(self, action: #selector(UIButton.closureAction), for: .touchUpInside)
+    }
+    
+    @objc func closureAction() {
+        guard let targetClosure = targetClosure else { return }
+        targetClosure(self)
+    }
+}
+class ClosureWrapper: NSObject {
+    let closure: UIButtonTargetClosure
+    init(_ closure: @escaping UIButtonTargetClosure) {
+        self.closure = closure
+    }
+}
+extension String {
+    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        
+        return ceil(boundingBox.height)
+    }
+}
+
 

@@ -21,4 +21,12 @@ class ScheduleBookingViewController: UIViewController {
         youTubeLink_Btn.clipsToBounds = true
         clickHere_Btn.backgroundColor = UiInterFace.appThemeColor
     }
+    
+ @IBAction func actionClickHereBtn(_ sender: Any) {
+    let obj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorScheduleSetViewController") as! DoctorScheduleSetViewController
+    self.navigationController?.pushViewController(obj, animated: true)
+    }
+    
+    @IBAction func actionYouTubeLinkBtn(_ sender: Any) {
+    }
 }

@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import DropDown
 
-class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+class ProfileUpdateViewController: BaseClassViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     @IBOutlet weak var profile_imgView: UIImageView!
     @IBOutlet weak var uploadPhoto_Lbl: UIButton!
     @IBOutlet weak var fullname_txtFld: UITextField!
@@ -158,14 +158,15 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
                     print(specialistObj)
                     let name = specialistObj["specialist"] as? String
                     self.specialistArr.append(name!)
-                    self.dropDownTblView.reloadData()
+                    
                 }
+                self.dropDownTblView.reloadData()
         }
     }
     
     func profileUpdateApi(device_token:String,name:String,email:String,gender:String,education:String,specialist:String,experience:String,dateOfBirth:String,facebookLink:String,description:String,profileImg:Data){
         
-        LoadingIndicatorView.show()
+        self.showCustomProgress()
         Alamofire.upload(
             multipartFormData: { multipartFormData in
                 
@@ -179,35 +180,38 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
                 multipartFormData.append(dateOfBirth.data(using: String.Encoding.utf8)!, withName: "date_of_birth")
                 multipartFormData.append(facebookLink.data(using: String.Encoding.utf8)!, withName: "facebook")
                 multipartFormData.append(description.data(using: String.Encoding.utf8)!, withName: "description")
+                if let imgToUpload = self.profile_imgView.image!.jpegData(compressionQuality: 0.2) {
+                    multipartFormData.append(imgToUpload, withName: "avatar", fileName: "\(String(NSDate().timeIntervalSince1970).replacingOccurrences(of: ".", with: "")).jpeg", mimeType: "image/jpeg")
+                }
                 
-                multipartFormData.append(self.imgToUpload, withName: "avatar", fileName: "\(String(NSDate().timeIntervalSince1970).replacingOccurrences(of: ".", with: "")).jpeg", mimeType: "image/png")
-               // multipartFormData.appendBodyPart(data: imgToUpload, name: "avatar", fileName: "myImage.png", mimeType: "image/png")
                 print(multipartFormData)
         },
-            to:"\(Configurator.baseURL)\(ApiEndPoints.register)",
+            to:"\(Configurator.baseURL)\(ApiEndPoints.profileUpdate)",
             encodingCompletion: { encodingResult in
                 
                 switch encodingResult {
                 case .success(let upload, _, _):
                     upload.responseJSON { response in
                         print(response)
-                        LoadingIndicatorView.hide()
+                        self.stopProgress()
                         var resultDict = response.value as? [String:AnyObject]
-                        if (resultDict?.keys.contains("data"))! {
-                            let singUpObj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController
-                            self.navigationController?.pushViewController(singUpObj!, animated: true)
-                        }else {
-                            let msg = resultDict!["message"] as? String
-                            let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: UIAlertController.Style.alert)
-                            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-                            self.present(alert, animated: true, completion: nil)
-                        }
+                        if let sucessStr = resultDict!["success"] as? Bool{
+                            print(sucessStr)
+                            if sucessStr{
+                                self.showUpdateCustomDialog()
+                            }else{
+                                let alert = UIAlertController(title: "Alert", message: "Sumthing wrong please try again!", preferredStyle: UIAlertController.Style.alert)
+                                alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+                                self.present(alert, animated: true, completion: nil)
+                            }
+                         }
                         }
                         .uploadProgress { progress in // main queue by default
                             print("Upload Progress: \(progress.fractionCompleted)")
                     }
                     return
                 case .failure(let encodingError):
+                    self.stopProgress()
                     debugPrint(encodingError)
                 }
         })
@@ -230,10 +234,8 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
     
     @objc func donedatePicker(){
         let formatter = DateFormatter()
-        formatter.dateFormat = "MM-dd-yyyy"
+        formatter.dateFormat = "dd MMM, yyyy"
         self.dateofbirth_txtFld.text = formatter.string(from: datePicker.date)
-        //formatter.dateFormat = "MM\dd\yyyy"
-        // self.objStep1?.dob = formatter.string(from: datePicker.date)
         self.view.endEditing(true)
     }
     
@@ -320,6 +322,34 @@ class ProfileUpdateViewController: UIViewController,UIImagePickerControllerDeleg
         }
         // Dismiss the picker.
         dismiss(animated: true, completion: nil)
+    }
+    
+    func showUpdateCustomDialog(animated: Bool = true) {
+        
+        // Create a custom view controller
+        let exitVc = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireUpdateSucessView") as? QuestionNaireUpdateSucessView
+        
+        
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: exitVc!,
+                                buttonAlignment: .horizontal,
+                                transitionStyle: .bounceDown,
+                                tapGestureDismissal: true,
+                                panGestureDismissal: true)
+        
+        exitVc?.titleLable.text = "Profile Update Sucessfully."
+        exitVc!.okBtn.addTargetClosure { _ in
+            popup.dismiss()
+            self.profileUpdateDone()
+        }
+        
+        present(popup, animated: animated, completion: nil)
+    }
+    
+    func profileUpdateDone(){
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorHomeViewController") as! DoctorHomeViewController
+        self.navigationController?.pushViewController(obj, animated: true)
     }
     
     

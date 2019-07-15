@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class ForgotPasswordViewController: UIViewController {
+class ForgotPasswordViewController: BaseClassViewController {
     
     @IBOutlet weak var forgotPassword_txtFld: UITextField!
     @IBOutlet weak var submitBtn: UIButton!
@@ -30,27 +30,55 @@ class ForgotPasswordViewController: UIViewController {
     }
     
     func forgotPasswordApi(){
-            LoadingIndicatorView.show()
+            self.showCustomProgress()
             let param: [String: String] = [
                 "email" : forgotPassword_txtFld.text!
             ]
             print(param)
-            let api = Configurator.baseURL + ApiEndPoints.forgetPassword
-            Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
+            let api = Configurator.baseURL + ApiEndPoints.forgetPassword + "?email=\(forgotPassword_txtFld.text!)"
+            Alamofire.request(api, method: .post, parameters: nil, encoding: JSONEncoding.default)
                 .responseJSON { response in
-                  LoadingIndicatorView.hide()
+                 self.stopProgress()
                     print(response)
                     let resultDict = response.value as? [String: AnyObject]
-                    if (resultDict?.keys.contains("data"))! {
-                        let singUpObj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController
-                        self.navigationController?.pushViewController(singUpObj!, animated: true)
-                    }else {
-                        let msg = resultDict!["message"] as? String
-                        let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                    }
+                    print(resultDict)
+                     let sucessStr = resultDict!["success"] as? String
+                     let message = resultDict!["message"] as? String
+                        print(sucessStr)
+                    if sucessStr == "true"{
+                            self.showCustomDialog()
+                        }else{
+                            let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertController.Style.alert)
+                            alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+                            self.present(alert, animated: true, completion: nil)
+                        }
             }
+    }
+    
+    func showCustomDialog(animated: Bool = true) {
+        
+        // Create a custom view controller
+        let exitVc = self.storyboard?.instantiateViewController(withIdentifier: "ForgotPasswordLinkSentView") as? ForgotPasswordLinkSentView
+        
+        
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: exitVc!,
+                                buttonAlignment: .horizontal,
+                                transitionStyle: .bounceDown,
+                                tapGestureDismissal: true,
+                                panGestureDismissal: true)
+        
+        exitVc?.title_Lbl.text = "Resent password link sent sucessfully"
+        exitVc!.okBtn.addTargetClosure { _ in
+            popup.dismiss()
+            self.exitBtn()
+        }
+        present(popup, animated: animated, completion: nil)
+    }
+    
+    func exitBtn(){
+        self.navigationController?.popViewController(animated: true)
     }
     
     func isValidEmail(testStr:String) -> Bool {
@@ -75,7 +103,7 @@ class ForgotPasswordViewController: UIViewController {
                 alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
         }else {
-            forgotPasswordApi()
+            self.forgotPasswordApi()
         }
       }
     }

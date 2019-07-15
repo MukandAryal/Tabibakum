@@ -29,22 +29,25 @@ struct allBookingHistory {
     var historyInfo : [allBookingHistory]
 }
 
-class BookingsPatientViewController: UIViewController {
+class BookingsPatientViewController: BaseClassViewController {
     @IBOutlet weak var bookingsTblView: UITableView!
     @IBOutlet var booking_View: UIView!
     @IBOutlet weak var delete_Btn: UIButton!
     @IBOutlet weak var no_historyImgage: UIImageView!
     @IBOutlet weak var no_appiontmentLbl: UILabel!
+    @IBOutlet weak var description_Lbl: UILabel!
+    var toStr_ = ""
+    
     var doctorInfoArr = [allBookingHistory.bookingHistoryDetails]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // bookingsTblView.isHidden = true
         delete_Btn.isHidden = true
         setupSideMenu()
         setDefaults()
         self.no_historyImgage.isHidden = true
         self.no_appiontmentLbl.isHidden = true
+        self.description_Lbl.isHidden = true
         bookingsTblView.register(UINib(nibName: "BookingHistoryTableViewCell", bundle: nil), forCellReuseIdentifier: "BookingHistoryTableViewCell")
         bookingHistoryListApi()
     }
@@ -71,18 +74,13 @@ class BookingsPatientViewController: UIViewController {
     }
     
     func bookingHistoryListApi(){
-        LoadingIndicatorView.show()
+        self.showCustomProgress()
         let useid = UserDefaults.standard.integer(forKey: "userId")
         var api = String()
-        if  UserDefaults.standard.integer(forKey: "loginType") == 0{
-            api = Configurator.baseURL + ApiEndPoints.currentbooking + "?patient_id=\(useid)"
-        }else{
-            api = Configurator.baseURL + ApiEndPoints.currentbooking + "?doctor_id=\(useid)"
-        }
+        api = Configurator.baseURL + ApiEndPoints.currentbooking + "?patient_id=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
-                LoadingIndicatorView.hide()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as! [[String:AnyObject]]
                 for specialistObj in dataDict {
@@ -93,6 +91,13 @@ class BookingsPatientViewController: UIViewController {
                     }else{
                         doctorDetails = (specialistObj["patient_detail"] as? [String:AnyObject])!
                     }
+                    if doctorDetails.count == 0{
+                        self.bookingsTblView.isHidden = true
+                        self.no_historyImgage.isHidden = false
+                        self.no_appiontmentLbl.isHidden = false
+                        self.description_Lbl.isHidden = false
+                        self.delete_Btn.isHidden = true
+                    }
                     let doctInfo = allBookingHistory.bookingHistoryDetails(patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: specialistObj["froms"] as? String, to: specialistObj["to"] as? String, id: doctorDetails["id"] as? Int, name: doctorDetails["name"] as? String, type: doctorDetails["type"] as? Int, avatar: doctorDetails["avatar"] as? String, specialist: doctorDetails["specialist"] as? String, created_at: doctorDetails["created_at"] as? String, updated_at: doctorDetails["updated_at"] as? String)
                     let dateFormatterGet = DateFormatter()
                     let currentDateTime = Date()
@@ -102,34 +107,94 @@ class BookingsPatientViewController: UIViewController {
                     dateFormatterGet.dateFormat = "dd MMMM yyyy hh:mm aa"
                     let dateFormatterPrint = DateFormatter()
                     dateFormatterPrint.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                    let date = dateFormatterGet.date(from: (specialistObj["to"] as? String)!)
-                    print(dateFormatterPrint.string(from: date!))
-                    dateTymStamp = date!.timeIntervalSince1970
-                    print(dateTymStamp)
+                    if let date = dateFormatterGet.date(from: (specialistObj["to"] as? String)!){
+                        dateTymStamp = date.timeIntervalSince1970
+                        print(dateTymStamp)
+                    }
+                   // print(dateFormatterPrint.string(from: date!))
+                  
                     if currenTymSptamp>dateTymStamp{
                         self.doctorInfoArr.append(doctInfo)
-                         self.delete_Btn.isHidden = false
                     }
-                    if self.doctorInfoArr.count == 0 {
-                        self.no_historyImgage.isHidden = false
-                        self.no_appiontmentLbl.isHidden = false
-                    }
-                    self.bookingsTblView.reloadData()
                 }
-                self.bookingsTblView.isHidden = true
-                self.no_historyImgage.isHidden = false
-                self.no_appiontmentLbl.isHidden = false
+                if self.doctorInfoArr.count == 0 {
+                    self.bookingsTblView.isHidden = true
+                    self.no_historyImgage.isHidden = false
+                    self.no_appiontmentLbl.isHidden = false
+                    self.description_Lbl.isHidden = false
+                    self.delete_Btn.isHidden = true
+                }
+                self.stopProgress()
+                self.bookingsTblView.reloadData()
+
         }
     }
-
-
-
-
-@IBAction func actionNewComplaintBtn(_ sender: Any) {
-    let doctorsObj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController") as! AvailableDoctorsViewController
-    self.navigationController?.pushViewController(doctorsObj, animated: true)
     
-}
+    func BookingHistoryDeleteApi(){
+        let useid = UserDefaults.standard.integer(forKey: "userId")
+       self.showCustomProgress()
+        let param: [String: Any] = [
+            "doctor_id" : useid,
+            "from" : toStr_
+        ]
+        
+        print(param)
+        var api = String()
+        api = Configurator.baseURL + ApiEndPoints.delete_booking
+        Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
+            .responseJSON { response in
+                print(response)
+                self.stopProgress()
+                let resultDict = response.value as? [String: AnyObject]
+                if let sucessStr = resultDict!["success"] as? Bool{
+                    print(sucessStr)
+                    if sucessStr{
+                        print("sucessss")
+                        self.dismiss(animated: true, completion: nil)
+                        self.bookingsTblView.isHidden = true
+                        self.no_historyImgage.isHidden = false
+                        self.no_appiontmentLbl.isHidden = false
+                        self.description_Lbl.isHidden = false
+                        self.delete_Btn.isHidden = true
+                    }else {
+                        let alert = UIAlertController(title: "Alert", message: "sumthing woring!", preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                }
+        }
+    }
+    
+    func showCustomDialog(animated: Bool = true) {
+        
+        // Create a custom view controller
+        let deleteVc = self.storyboard?.instantiateViewController(withIdentifier: "DeleteConfirmViewController") as? DeleteConfirmViewController
+        
+        
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: deleteVc!,
+                                buttonAlignment: .horizontal,
+                                transitionStyle: .bounceDown,
+                                tapGestureDismissal: true,
+                                panGestureDismissal: true)
+        
+        deleteVc?.titleLabel.text = "Are you sure you want to clear History."
+        deleteVc!.yesBtn.addTargetClosure { _ in
+            self.BookingHistoryDeleteApi()
+            
+        }
+        deleteVc!.noBtn.addTargetClosure { _ in
+            popup.dismiss()
+            self.delete_Btn.isEnabled = true
+        }
+        
+        present(popup, animated: animated, completion: nil)
+    }
+    
+    @IBAction func actionDeleteBtn(_ sender: Any) {
+        showCustomDialog()
+    }
 }
 
 
@@ -159,8 +224,20 @@ extension BookingsPatientViewController : UITableViewDataSource{
         } else {
             print("There was an error decoding the string")
         }
-        let fromTime = doctorInfoArr[indexPath.row].from
-        let fromTym = fromTime!.suffix(8)
+        var fromTym = ""
+        if let fromTime = doctorInfoArr[indexPath.row].from{
+            if toStr_ == ""{
+                toStr_ = "\(toStr_) \(fromTime)"
+                print(toStr_)
+            }
+            else{
+                toStr_ = "\(toStr_), \(fromTime)"
+                print(toStr_)
+            }
+            print("toStr>>>>>>",toStr_)
+            fromTym = String(fromTime.suffix(8))
+        }
+        fromTym = String(fromTym.suffix(8))
         print(fromTym)
         let toTime = doctorInfoArr[indexPath.row].to
         let toTym = toTime!.suffix(8)
