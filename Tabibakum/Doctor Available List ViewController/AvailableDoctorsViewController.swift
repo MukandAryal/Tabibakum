@@ -134,11 +134,61 @@ class AvailableDoctorsViewController: BaseClassViewController, UITextFieldDelega
         return true
     }
     
-    
-    @IBAction func actionBackBtn(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+    func showCustomDialog(animated: Bool = true) {
+        
+        // Create a custom view controller
+        let exitVc = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireBackView") as? QuestionNaireBackView
+        
+        
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: exitVc!,
+                                buttonAlignment: .horizontal,
+                                transitionStyle: .bounceDown,
+                                tapGestureDismissal: true,
+                                panGestureDismissal: true)
+        
+        exitVc?.titleLabal.text = "Are you sure want to exit from the process ?"
+        exitVc!.exitBtn.addTargetClosure { _ in
+            popup.dismiss()
+            self.exitBtn()
+        }
+        exitVc!.continueBtn.addTargetClosure { _ in
+            popup.dismiss()
+            
+        }
+        present(popup, animated: animated, completion: nil)
     }
     
+    // handle notification
+    func exitBtn() {
+        let loginType = UserDefaults.standard.string(forKey: "loginType")
+        if loginType == "1" {
+            let obj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorHomeViewController") as! DoctorHomeViewController
+            self.navigationController?.pushViewController(obj, animated: true)
+        }else{
+            if indexingValue.questionNaireType == "singUpQuestionNaire"{
+                let obj = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                self.navigationController?.pushViewController(obj, animated: true)
+            }else{
+                let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                self.navigationController?.pushViewController(obj, animated: true)
+            }
+        }
+    }
+    
+    
+    @IBAction func actionBackBtn(_ sender: Any) {
+        if indexingValue.questionNaireType == "updateQuestionNaire"{
+            showCustomDialog()
+        }else if indexingValue.questionNaireType == "complaintQuestionNaire"{
+            showCustomDialog()
+        }
+        else{
+            self.navigationController?.popViewController(animated: true)
+            indexingValue.indexValue = indexingValue.indexValue - 1
+        }
+    }
 }
 
 extension AvailableDoctorsViewController : UITableViewDataSource{

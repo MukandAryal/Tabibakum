@@ -46,7 +46,6 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
     @IBOutlet weak var cross_btn: UIButton!
     @IBOutlet weak var secondView_tralingConstraints:
     NSLayoutConstraint!
-    
     @IBOutlet weak var thirdView_tralingConstraints: NSLayoutConstraint!
     @IBOutlet weak var third_crossIconBtn: UIButton!
     @IBOutlet weak var third_DeleteBtn: UIButton!
@@ -59,9 +58,11 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
     @IBOutlet weak var upload_fivePhotoLbl: UILabel!
     @IBOutlet weak var skip_Btn: UIBarButtonItem!
     @IBOutlet weak var back_Btn: UIBarButtonItem!
+    @IBOutlet weak var audio_crossBtn: UIButton!
+    
     
     var questionId = Int()
-    var imgToUpload = [Data]()
+    var imgToUpload = [UIImage]()
     var arrImg = [UIImage]()
     var intCount = Int()
     var skip = String()
@@ -69,10 +70,8 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
     var timer = Timer()
     var recordSeconds = 0
     var recordMinutes = 0
-    var settings = [String : Int]()
-    var btn_Index = 1252
-    var deleteBox_Index = 125
-    var boxCount = Int()
+    var settings         = [String : Int]()
+    static var audioUrl: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,6 +118,16 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
         upload_viewFourthHeightConstraints.constant = 0
         upload_viewFiveHeightConstraints.constant = 0
         intCount = 0
+        audio_crossBtn.isHidden = true
+        if QueestionNaireImgeAndTextViewController.audioUrl != nil{
+            upload_audio.text = "Audio1.mp3"
+            audio_crossBtn.isHidden = false
+        }
+        else{
+            upload_audio.text = "upload audio"
+            audio_crossBtn.isHidden = true
+        }
+        
     }
     
     func questionNaireApi(){
@@ -153,11 +162,12 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
                         }
                     }
                 }
-        }
+          }
     }
     
-    func questionNaireAnswer(question_id:String,type:String,token:String,text:String,profileImg:[Data]){
+    func questionNaireAnswer(question_id:String,type:String,token:String,text:String,profileImg:[UIImage],auido:URL?){
         self.showCustomProgress()
+        print(profileImg)
         var api = String()
         let loginType = UserDefaults.standard.string(forKey: "loginType")
         if loginType == "1" {
@@ -176,8 +186,17 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
                 multipartFormData.append(type.data(using: String.Encoding.utf8)!, withName: "type")
                 multipartFormData.append(token.data(using: String.Encoding.utf8)!, withName: "token")
                 multipartFormData.append(text.data(using: String.Encoding.utf8)!, withName: "text")
+                if let url = auido {
+                    print(url)
+                    let dataAudio = NSData(contentsOf: url as URL)!
+                    print(dataAudio)
+                    multipartFormData.append(dataAudio as Data , withName: "audio" , fileName: "\(String(NSDate().timeIntervalSince1970).replacingOccurrences(of: ".", with: "")).acc", mimeType: "audio/aac")
+                   
+                }
                 for img in profileImg {
-                    multipartFormData.append(img, withName: "image", fileName: "\(String(NSDate().timeIntervalSince1970).replacingOccurrences(of: ".", with: "")).jpeg", mimeType: "image/jpeg")
+                    print(img)
+                    let imgData = img.jpegData(compressionQuality: 0.5)
+                    multipartFormData.append(imgData!, withName: "image[]", fileName: "\(String(NSDate().timeIntervalSince1970).replacingOccurrences(of: ".", with: "")).jpeg", mimeType: "image/jpeg")
                 }
                 print(multipartFormData)
         },
@@ -188,12 +207,13 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
                 case .success(let upload, _, _):
                     upload.responseJSON { response in
                         print(response)
-                       self.stopProgress()
+                        self.stopProgress()
                         var resultDict = response.value as? [String:Any]
                         if let sucessStr = resultDict!["success"] as? Bool{
                             print(sucessStr)
                             if sucessStr{
                                 print("sucessss")
+                                indexingValue.indexCount = indexingValue.indexCount + 1
                                 if indexingValue.questionType.count == indexingValue.indexValue {
                                     let loginType = UserDefaults.standard.string(forKey: "loginType")
                                     if loginType == "1" {
@@ -202,7 +222,6 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
                                                 self.skipBtn.isEnabled = false
                                             }
                                             self.back_Btn.isEnabled = false
-                                            //   self.backGroundColorBlur()
                                         }else{
                                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
                                             self.navigationController?.pushViewController(Obj, animated:true)
@@ -255,7 +274,6 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
                                     self.navigationController?.pushViewController(Obj, animated:true)
                                 }
                                 indexingValue.indexValue = indexingValue.indexValue + 1
-                                
                             }else{
                                 let msg = resultDict!["message"] as? String
                                 let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: UIAlertController.Style.alert)
@@ -308,9 +326,7 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
         arrImg.append(selectedImage)
         print("arrimg>>>>>>.",arrImg)
         
-        if let imageData = selectedImage.jpegData(compressionQuality: 0.5) {
-            imgToUpload.append(imageData)
-        }
+        imgToUpload.append(selectedImage)
         
         if intCount == arrImg.count - 1{
             if intCount==0{
@@ -340,30 +356,6 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
         dismiss(animated: true, completion: nil)
     }
     
-    func showDocumentCustomDialog(animated: Bool = true, image : UIImage) {
-        
-        // Create a custom view controller
-        let documentShowVc = self.storyboard?.instantiateViewController(withIdentifier: "SelectionDocumentShowView") as? SelectionDocumentShowView
-        
-        
-        
-        // Create the dialog
-        let popup = PopupDialog(viewController: documentShowVc!,
-                                buttonAlignment: .horizontal,
-                                transitionStyle: .bounceDown,
-                                tapGestureDismissal: true,
-                                panGestureDismissal: true)
-        
-        documentShowVc!.crossDocumentBtn.addTargetClosure { _ in
-            popup.dismiss()
-            
-        }
-        documentShowVc?.document_ImgView.image = image
-        present(popup, animated: animated, completion: nil)
-    }
-    
-    
-
     @IBAction func actionAddMoreBtn(_ sender: Any) {
         if intCount == arrImg.count - 1{
             if intCount==0{
@@ -385,7 +377,6 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
     }
     
     @IBAction func actionDocumentCrossBtn(_ sender: Any) {
-        
         addmore_Btn.isHidden = false
         self.view.backgroundColor = UIColor.white
         uploadAudio_ViewFirst.backgroundColor =  UIColor.white
@@ -405,75 +396,70 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
     }
     
     @IBAction func actionAudioRecordingBtn(_ sender: Any) {
-        //
-        //        uploading_viewFive.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-        //        uploading_ViewSecond.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-        //        uploading_viewThird.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-        //        uploading_viewFourth.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-        //        uploadAudio_ViewFirst.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-        //        uploadProblem_txtView.backgroundColor =  UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1)
-        //
-        //
-        //
-        //        third_crossIconBtn.isEnabled = false
-        //        fourth_crossIconBtn.isEnabled = false
-        //        five_crossIcon.isEnabled = false
-        //        third_DeleteBtn.isEnabled = false
-        //        fourth_DeleteBtn.isEnabled = false
-        //        five_deleteIcon.isEnabled = false
-        
         
         let recordVc = self.storyboard?.instantiateViewController(withIdentifier: "RecorderViewController") as? RecorderViewController
         
         // Create the dialog
         let popup = PopupDialog(viewController: recordVc!,
                                 buttonAlignment: .horizontal,
-                                transitionStyle: .bounceDown,
+                                transitionStyle: .fadeIn,
                                 tapGestureDismissal: false,
                                 panGestureDismissal: false)
+        if QueestionNaireImgeAndTextViewController.audioUrl != nil{
+            let img = UIImage(named: "music_play.png")
+            recordVc!.startBtn.setImage(img, for: .normal)
+            recordVc!.startBtn.addTargetClosure { _ in
+                recordVc!.playSavedAc()
+            }
+        }
+        else{
+            recordVc!.startBtn.addTargetClosure { _ in
+                recordVc!.startAndStopAc()
+            }
+        }
         
-        recordVc!.startBtn.addTargetClosure { _ in
-            recordVc!.startAndStopAc()
+        recordVc!.submitBtn.addTargetClosure {_ in
+            if recordVc?.recording.getFileURL() != nil {
+                QueestionNaireImgeAndTextViewController.audioUrl = recordVc?.recording.getFileURL()
+                self.upload_audio.text = "Audio1.mp3"
+            }
+            popup.dismiss()
         }
         recordVc!.cancelBtn.addTargetClosure { _ in
             popup.dismiss()
             recordVc!.stop()
         }
+        recordVc!.resetBtn.addTargetClosure{ _ in
+            popup.dismiss()
+            QueestionNaireImgeAndTextViewController.audioUrl = nil
+            self.actionAudioRecordingBtn(self)
+        }
         present(popup, animated: true, completion: nil)
-        
     }
     
     @IBAction func actionRecodringCrossBtn(_ sender: Any) {
-        //timer.invalidate()
-        // let img = UIImage(named: "record_audio.png")
-        //recodringStart_Btn.setImage(img, for: .normal)
-        
-        self.view.backgroundColor = UIColor.white
-        uploading_viewFive.backgroundColor =  UIColor.white
-        uploading_ViewSecond.backgroundColor =  UIColor.white
-        uploading_viewThird.backgroundColor =  UIColor.white
-        uploading_viewFourth.backgroundColor =  UIColor.white
+        self.view.backgroundColor             = UIColor.white
+        uploading_viewFive.backgroundColor    =  UIColor.white
+        uploading_ViewSecond.backgroundColor  =  UIColor.white
+        uploading_viewThird.backgroundColor   =  UIColor.white
+        uploading_viewFourth.backgroundColor  =  UIColor.white
         uploadAudio_ViewFirst.backgroundColor =  UIColor.white
         uploadProblem_txtView.backgroundColor =  UIColor.white
         submit_Btn.isEnabled = true
-        back_Btn.isEnabled = true
-        cross_btn.isEnabled = true
-        third_crossIconBtn.isEnabled = true
+        back_Btn.isEnabled   = true
+        cross_btn.isEnabled  = true
+        third_crossIconBtn.isEnabled  = true
         fourth_crossIconBtn.isEnabled = true
-        five_crossIcon.isEnabled = true
-        third_DeleteBtn.isEnabled = true
+        five_crossIcon.isEnabled   = true
+        third_DeleteBtn.isEnabled  = true
         fourth_DeleteBtn.isEnabled = true
-        five_deleteIcon.isEnabled = true
+        five_deleteIcon.isEnabled  = true
     }
     
     @IBAction func actionSeconfImgUploadBtn(_ sender: Any) {
         if arrSelectedImg["imageFirst"] != nil {
             showDocumentCustomDialog(image: (arrSelectedImg["imageFirst"] as? UIImage)!)
         }else{
-            btn_Index = 1
-            secondUpload_ImgBtn.tag = 0
-            thirdUpload_ImgBtn.tag = 0
-            fourthUpload_ImgBtn.tag = 0
             showAlert()
         }
     }
@@ -482,10 +468,6 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
         if arrSelectedImg["imageSecond"] != nil {
             showDocumentCustomDialog(image: (arrSelectedImg["imageSecond"] as? UIImage)!)
         }else{
-            btn_Index = 2
-            firstUpload_imgBtn.tag = 0
-            thirdUpload_ImgBtn.tag = 0
-            fourthUpload_ImgBtn.tag = 0
             showAlert()
         }
     }
@@ -494,10 +476,6 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
         if arrSelectedImg["imageThird"] != nil {
             showDocumentCustomDialog(image: (arrSelectedImg["imageThird"] as? UIImage)!)
         }else{
-            btn_Index = 3
-            firstUpload_imgBtn.tag = 0
-            secondUpload_ImgBtn.tag = 0
-            fourthUpload_ImgBtn.tag = 0
             showAlert()
         }
     }
@@ -505,10 +483,6 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
         if arrSelectedImg["imageFourth"] != nil {
             showDocumentCustomDialog(image: (arrSelectedImg["imageFourth"] as? UIImage)!)
         }else{
-            btn_Index = 4
-            firstUpload_imgBtn.tag = 0
-            secondUpload_ImgBtn.tag = 0
-            thirdUpload_ImgBtn.tag = 0
             showAlert()
         }
     }
@@ -520,7 +494,15 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
             alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }else{
-            questionNaireAnswer(question_id: questionId.description, type: "tai", token: loginToken!, text: uploadProblem_txtView.text, profileImg: imgToUpload)
+            let questionInfo = indexingValue.newBookingQuestionListArr[indexingValue.indexCount]
+            print("questionInfo>>>>>",questionInfo)
+            let questionId = questionInfo["id"] as? Int
+            let questionType = questionInfo["value"] as? String
+            if let url = QueestionNaireImgeAndTextViewController.audioUrl {
+                questionNaireAnswer(question_id: questionId!.description, type:questionType!, token: loginToken!, text: uploadProblem_txtView.text, profileImg: imgToUpload, auido: url)
+            } else {
+                questionNaireAnswer(question_id: questionId!.description, type:questionType!, token: loginToken!, text: uploadProblem_txtView.text, profileImg: imgToUpload, auido: nil)
+            }
         }
     }
     
@@ -534,7 +516,6 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
                         self.skip_Btn.isEnabled = false
                     }
                     self.back_Btn.isEnabled = false
-                    //   self.backGroundColorBlur()
                 }else{
                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
                     self.navigationController?.pushViewController(Obj, animated:true)
@@ -555,7 +536,6 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
                         self.skip_Btn.isEnabled = false
                     }
                     self.back_Btn.isEnabled = false
-                    //  self.backGroundColorBlur()
                 }else {
                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
                     self.navigationController?.pushViewController(Obj, animated:true)
@@ -591,36 +571,15 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
             self.navigationController?.pushViewController(Obj, animated:true)
         }
-        
+        indexingValue.indexCount = indexingValue.indexCount + 1
         indexingValue.indexValue = indexingValue.indexValue + 1
     }
     
     @IBAction func actionAudio_crossIcon(_ sender: Any) {
-        upload_audio.text = "Upload audio"
-    }
-    
-    @IBAction func actionSubmitBtn(_ sender: Any) {
         
-        upload_audio.text = "audio1"
-        self.view.backgroundColor = UIColor.white
-        uploading_viewFive.backgroundColor =  UIColor.white
-        uploading_ViewSecond.backgroundColor =  UIColor.white
-        uploading_viewThird.backgroundColor =  UIColor.white
-        uploading_viewFourth.backgroundColor =  UIColor.white
-        uploadAudio_ViewFirst.backgroundColor =  UIColor.white
-        uploadProblem_txtView.backgroundColor =  UIColor.white
-        submit_Btn.isEnabled = true
-        back_Btn.isEnabled = true
-        cross_btn.isEnabled = true
-        third_crossIconBtn.isEnabled = true
-        fourth_crossIconBtn.isEnabled = true
-        five_crossIcon.isEnabled = true
-        third_DeleteBtn.isEnabled = true
-        fourth_DeleteBtn.isEnabled = true
-        five_deleteIcon.isEnabled = true
-    }
-    
-    @IBAction func actionResetBtn(_ sender: Any) {
+        QueestionNaireImgeAndTextViewController.audioUrl = nil
+        upload_audio.text = "Upload audio"
+        audio_crossBtn.isHidden = true
     }
     
     @IBAction func actionCrossBtn(_ sender: UIButton) {
@@ -714,6 +673,27 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
                 self.navigationController?.pushViewController(obj, animated: true)
             }
         }
+    }
+    func showDocumentCustomDialog(animated: Bool = true, image : UIImage) {
+        
+        // Create a custom view controller
+        let documentShowVc = self.storyboard?.instantiateViewController(withIdentifier: "SelectionDocumentShowView") as? SelectionDocumentShowView
+        
+        
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: documentShowVc!,
+                                buttonAlignment: .horizontal,
+                                transitionStyle: .bounceDown,
+                                tapGestureDismissal: true,
+                                panGestureDismissal: true)
+        
+        documentShowVc!.crossDocumentBtn.addTargetClosure { _ in
+            popup.dismiss()
+            
+        }
+        documentShowVc?.document_ImgView.image = image
+        present(popup, animated: animated, completion: nil)
     }
     
     @IBAction func actionBackBtn(_ sender: Any) {

@@ -22,6 +22,10 @@ class PatientBookingDoneViewController: UIViewController {
         timeSlot_Lbl.text = "Time Slot : " + " " + timeString
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
     @IBAction func actionDoneBtn(_ sender: Any) {
         let obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
       self.navigationController?.pushViewController(obj, animated: true)

@@ -12,6 +12,7 @@ import Alamofire
 class MenuViewController: BaseClassViewController {
     
     @IBOutlet weak var menuTblView: UITableView!
+    var questionListArr = [String:AnyObject]()
     static var selectedIndexPath: IndexPath = IndexPath(row: 0, section: 0)
     let patientMenuBarItem = ["BOOKINGS","HISTORY","NOTIFICATION","UPDATE QUESTIONNAIRE","PROFILE SETTING"]
     
@@ -42,6 +43,12 @@ class MenuViewController: BaseClassViewController {
                     print(specialistObj)
                     let type = specialistObj["type"] as? String
                     indexingValue.questionType.append(type!)
+                    let id = specialistObj["id"] as? Int
+                    self.questionListArr["value"] = type as AnyObject
+                    self.questionListArr["id"] = id as AnyObject
+                    indexingValue.newBookingQuestionListArr.append(self.questionListArr)
+                    print("questionList>>>>>>",indexingValue.newBookingQuestionListArr)
+                    indexingValue.indexCount = 0
                     print(indexingValue.questionType)
                     indexingValue.indexValue = 0
                 }
@@ -123,7 +130,7 @@ extension MenuViewController : UITableViewDataSource{
             cell.menuBar_Img?.tintColor = UIColor.white
         }else{
             cell.contentView.backgroundColor = UIColor.white
-            cell.menuBar_Lbl.textColor = UIColor.gray
+            cell.menuBar_Lbl.textColor = UIColor.black
             cell.menuBar_Img?.tintColor = UIColor.black
         }
         return cell
@@ -162,7 +169,7 @@ extension MenuViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell:MenuTableViewCell = tableView.cellForRow(at: indexPath) as! MenuTableViewCell
         cell.contentView.backgroundColor = UiInterFace.tabBackgroundColor
-        cell.menuBar_Lbl.textColor = UIColor.gray
+        cell.menuBar_Lbl.textColor = UIColor.black
         cell.menuBar_Img?.tintColor = UIColor.black
 
     }

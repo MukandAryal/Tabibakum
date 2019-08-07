@@ -264,8 +264,8 @@ public class GIFHUD: UIView {
   public static let shared = GIFHUD()
 
   public var hudSize: CGSize = CGSize(width: 250, height: 150)
-  public var fadeDuration: TimeInterval = 0.3
-  public var gifSpeed: CGFloat = 0.3
+  public var fadeDuration: TimeInterval = 0.1
+  public var gifSpeed: CGFloat = 0.6
   public var overlayAlpha: CGFloat = 0.3
 
   private(set) public var overlayView: UIView?

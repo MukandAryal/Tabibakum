@@ -12,6 +12,7 @@ import Alamofire
 class DoctorMenuViewController: BaseClassViewController {
     
     @IBOutlet weak var menuTblView: UITableView!
+    var questionListArr = [String:AnyObject]()
     static var selectedIndexPath_: IndexPath = IndexPath(row: 0, section: 0)
     let patientMenuBarItem = ["BOOKINGS","HISTORY","NOTIFICATION","UPDATE QUESTIONNAIRE","PROFILE SETTING"]
     
@@ -23,7 +24,7 @@ class DoctorMenuViewController: BaseClassViewController {
     
     var doctorMenuBarICon: [UIImage] = [
         UIImage(named: "booking_nav_dark.png")!,
-        UIImage(named: "history.png")!,UIImage(named: "notification.png")!,UIImage(named: "booking_nav_dark.png")!,UIImage(named: "updateQuestionNaire.png")!,UIImage(named: "booking_nav_dark.png")!,UIImage(named: "ProfileSetting.png")!]
+        UIImage(named: "history.png")!,UIImage(named: "schSlot.png")!,UIImage(named: "notification.png")!,UIImage(named: "updateQuestionNaire.png")!,UIImage(named: "reviews.png")!,UIImage(named: "ProfileSetting.png")!]
     
    
     override func viewDidLoad() {
@@ -44,25 +45,6 @@ class DoctorMenuViewController: BaseClassViewController {
         self.logoutView()
     }
     
-//    func getUserDetails(){
-//        let loginToken = UserDefaults.standard.string(forKey: "loginToken")
-//        // LoadingIndicatorView.show()
-//        let api = Configurator.baseURL + ApiEndPoints.user_details + "?token=\(loginToken ?? "")"
-//        
-//        Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
-//            .responseJSON { response in
-//                print(response)
-//                // LoadingIndicatorView.hide()
-//                let resultDict = response.value as? NSDictionary
-//                let userDetails = resultDict!["user"] as? NSDictionary
-//                self.loginType = userDetails?.object(forKey: "type") as! Int
-//                let img =  userDetails?.object(forKey: "avatar") as? String
-//                self.imageStr = Configurator.imageBaseUrl + img!
-//                self.userName = (userDetails?.object(forKey: "name") as? String)!
-//                self.menuTblView.reloadData()
-//        }
-//    }
-    
     func questionNaireApi(){
         self.showCustomProgress()
         let api = Configurator.baseURL + ApiEndPoints.doctorquestion
@@ -76,6 +58,12 @@ class DoctorMenuViewController: BaseClassViewController {
                     print(specialistObj)
                     let type = specialistObj["type"] as? String
                     indexingValue.questionType.append(type!)
+                    let id = specialistObj["id"] as? Int
+                    self.questionListArr["value"] = type as AnyObject
+                    self.questionListArr["id"] = id as AnyObject
+                    indexingValue.newBookingQuestionListArr.append(self.questionListArr)
+                    print("questionList>>>>>>",indexingValue.newBookingQuestionListArr)
+                    indexingValue.indexCount = 0
                     print(indexingValue.questionType)
                     indexingValue.indexValue = 0
                 }
@@ -143,7 +131,7 @@ extension DoctorMenuViewController: UITableViewDataSource{
             cell.menuBar_Img.tintColor = UIColor.white
         }else{
             cell.contentView.backgroundColor = UIColor.white
-            cell.menuBar_Lbl.textColor = UIColor.gray
+            cell.menuBar_Lbl.textColor = UIColor.black
             cell.menuBar_Img.tintColor = UIColor.black
         }
         
@@ -154,7 +142,7 @@ extension DoctorMenuViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell:MenuTableViewCell = tableView.cellForRow(at: indexPath) as! MenuTableViewCell
         cell.contentView.backgroundColor = UiInterFace.tabBackgroundColor
-        cell.menuBar_Lbl.textColor = UIColor.gray
+        cell.menuBar_Lbl.textColor = UIColor.black
         cell.menuBar_Img.tintColor = UIColor.black
 
     }

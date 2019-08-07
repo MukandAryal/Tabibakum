@@ -13,9 +13,6 @@ import SideMenu
 typealias UIButtonTargetClosure = (UIButton) -> ()
 
 class BaseClassViewController: UIViewController {
-    var loginType = Int()
-    var imageStr = String()
-    var userName = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,9 +38,10 @@ class BaseClassViewController: UIViewController {
         //        // Create first button
         let buttonOne = CancelButton(title: "Log Out", height: 40) {
             self.signOutAction()
+            UserDefaults.standard.removeObject(forKey: "loginPhoneNumber")
+            UserDefaults.standard.removeObject(forKey: "loginPasswordNumber")
             popup.dismiss()
         }
-        
         //        // Create second button
         let buttonTwo = DefaultButton(title: "Stay Logged In", height: 40) {
             self.signInAction()
@@ -78,7 +76,7 @@ class BaseClassViewController: UIViewController {
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
-               self.stopProgress()
+                self.stopProgress()
                 let resultDict = response.value as? [String: AnyObject]
                 if let sucessStr = resultDict!["success"] as? Bool{
                     print(sucessStr)
@@ -105,6 +103,7 @@ class BaseClassViewController: UIViewController {
     
     func showCustomProgress() {
         GIFHUD.shared.show(withOverlay: true)
+        
     }
     
     func stopProgress() {

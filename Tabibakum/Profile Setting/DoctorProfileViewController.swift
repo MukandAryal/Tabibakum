@@ -164,6 +164,27 @@ class DoctorProfileViewController: BaseClassViewController,UITextViewDelegate {
             info_view.addConstraint(infoViewHeightConstrains)
             profileViewHeight.constant = infoViewHeightConstrains.constant + appointment_view.frame.size.height
             
+        }else if type_str == "whatsAppHide"{
+//            whtsApp_Icon.isHidden = true
+//            appointment_view.isHidden = true
+//            bookAppoinment_Btn.isHidden = true
+//            bookAppointmentBtnHeightConstrains.constant = 40
+//            connectHeight.constant = 0
+//            bookAppointmentConstraints.constant = 20
+//            infoViewHeightConstrains.constant = (descString.height(withConstrainedWidth: self.view.frame.size.width-30, font: UIFont.systemFont(ofSize: 13.0))) + 160
+//            info_view.addConstraint(infoViewHeightConstrains)
+//            profileViewHeight.constant = infoViewHeightConstrains.constant + 60
+            
+            whtsApp_Icon.isHidden = true
+            connectHeight.constant = 0
+            bookAppoinment_Btn.isHidden = true
+            appointment_view.isHidden = false
+            bookAppointmentBtnHeightConstrains.constant = 0
+            infoViewHeightConstrains.constant = (descString.height(withConstrainedWidth: self.view.frame.size.width-30, font: UIFont.systemFont(ofSize: 13.0))) + 160
+            
+            info_view.addConstraint(infoViewHeightConstrains)
+            profileViewHeight.constant = infoViewHeightConstrains.constant + appointment_view.frame.size.height
+            
         }else{
             whtsApp_Icon.isHidden = true
             appointment_view.isHidden = true
@@ -222,13 +243,17 @@ class DoctorProfileViewController: BaseClassViewController,UITextViewDelegate {
                     self.education_Lbl.text = userData["education"] as? String
                     self.experience_Lbl.text = userData["experience"] as? String
                     self.gender_Lbl.text = userData["gender"] as? String
-                    self.setupProfile(descString: self.description_Lbl.text!)
+                    //if self.description_Lbl.text != nil{
+                    self.setupProfile(descString: self.description_Lbl.text ?? "")
+                    //}
                 }
                 for userData in dataDict! {
                     let feedbackData = userData["doctor_feedback"] as? [[String:AnyObject]]
                     for feedbackObj in feedbackData! {
                         let feedbackInfo = doctorFeedbackInfo.feedbackDetails(avatar: (feedbackObj["avatar"] as? String)!, created_at: (feedbackObj["created_at"] as? String)!, doctor_id: (feedbackObj["doctor_id"] as? Int)!, feedback: (feedbackObj["feedback"] as? String)!, id: (feedbackObj["id"] as? Int)!, patient_name: (feedbackObj["patient_name"] as? String)!, patient_id: (feedbackObj["patient_id"] as? Int)!, rating: (feedbackObj["rating"] as? Int)!)
                         self.feedBackArr.append(feedbackInfo)
+                        self.feedBackArr.reverse()
+                        self.feedTblView.reloadData()
                     }
                 }
         }
@@ -255,10 +280,9 @@ class DoctorProfileViewController: BaseClassViewController,UITextViewDelegate {
                 if resultDict!["success"]!  {
                     print("success")
                     self.addFeedbackBtn_Constraints.constant = 40
-                    
+                    self.userProfileApi()
                     self.feedTblView.reloadData()
                     self.rating_descriptionLbl.text = ""
-                    //self.userProfileApi()
                 }else{
                     print("failure")
                 }
@@ -278,6 +302,17 @@ class DoctorProfileViewController: BaseClassViewController,UITextViewDelegate {
             textView.textColor = UIColor.lightGray
         }
     }
+    @IBAction func actionWhtsAppBtn(_ sender: Any) {
+        var str = "Hello"
+        str = str.addingPercentEncoding(withAllowedCharacters: (NSCharacterSet.urlQueryAllowed))!
+        let whatsappURL = NSURL(string: "whatsapp://send?text=\(str)")
+        
+        if UIApplication.shared.canOpenURL(whatsappURL! as URL) {
+            UIApplication.shared.openURL(whatsappURL! as URL)
+        } else {
+            showAlert(message: "Whatsapp is not installed on this device. Please install Whatsapp and try again.")
+        }
+    }
     
     @IBAction func actionBackBtn(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
@@ -290,7 +325,9 @@ class DoctorProfileViewController: BaseClassViewController,UITextViewDelegate {
     }
     
     @IBAction func actionProfileBtn(_ sender: Any) {
-        setupProfile(descString: description_Lbl.text!)
+        if self.description_Lbl.text != nil{
+            self.setupProfile(descString: self.description_Lbl.text!)
+        }
         profileView.isHidden = false
         feedbackView.isHidden = true
         feedback_Btn.backgroundColor = UIColor.white

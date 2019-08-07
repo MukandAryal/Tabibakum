@@ -33,6 +33,7 @@ class ApiEndPoints: NSObject {
  static let delete_booking = "delete_booking"
  static let notificatonDelete = "deletenotification"
  static let doctorschedule = "doctorschedule"
+ static let post_lab_report = "post_lab_report"
 }
 
 class UiInterFace: NSObject {

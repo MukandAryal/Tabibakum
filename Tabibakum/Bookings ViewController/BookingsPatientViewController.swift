@@ -13,6 +13,7 @@ import SDWebImage
 
 struct allBookingHistory {
     struct bookingHistoryDetails {
+        var appointment_id : Int?
         var patient_id : Int?
         var doctor_id  : Int?
         var from : String?
@@ -37,6 +38,7 @@ class BookingsPatientViewController: BaseClassViewController {
     @IBOutlet weak var no_appiontmentLbl: UILabel!
     @IBOutlet weak var description_Lbl: UILabel!
     var toStr_ = ""
+    @IBOutlet weak var empty_View: UIView!
     
     var doctorInfoArr = [allBookingHistory.bookingHistoryDetails]()
     
@@ -97,8 +99,8 @@ class BookingsPatientViewController: BaseClassViewController {
                         self.no_appiontmentLbl.isHidden = false
                         self.description_Lbl.isHidden = false
                         self.delete_Btn.isHidden = true
-                    }
-                    let doctInfo = allBookingHistory.bookingHistoryDetails(patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: specialistObj["froms"] as? String, to: specialistObj["to"] as? String, id: doctorDetails["id"] as? Int, name: doctorDetails["name"] as? String, type: doctorDetails["type"] as? Int, avatar: doctorDetails["avatar"] as? String, specialist: doctorDetails["specialist"] as? String, created_at: doctorDetails["created_at"] as? String, updated_at: doctorDetails["updated_at"] as? String)
+                        self.empty_View.backgroundColor = UIColor(red: 246/254, green: 246/254, blue: 246/254, alpha: 1.0)                    }
+                    let doctInfo = allBookingHistory.bookingHistoryDetails(appointment_id: specialistObj["id"] as? Int,patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: specialistObj["froms"] as? String, to: specialistObj["to"] as? String, id: doctorDetails["id"] as? Int, name: doctorDetails["name"] as? String, type: doctorDetails["type"] as? Int, avatar: doctorDetails["avatar"] as? String, specialist: doctorDetails["specialist"] as? String, created_at: doctorDetails["created_at"] as? String, updated_at: doctorDetails["updated_at"] as? String)
                     let dateFormatterGet = DateFormatter()
                     let currentDateTime = Date()
                     let currenTymSptamp = currentDateTime.timeIntervalSince1970
@@ -111,8 +113,6 @@ class BookingsPatientViewController: BaseClassViewController {
                         dateTymStamp = date.timeIntervalSince1970
                         print(dateTymStamp)
                     }
-                   // print(dateFormatterPrint.string(from: date!))
-                  
                     if currenTymSptamp>dateTymStamp{
                         self.doctorInfoArr.append(doctInfo)
                     }
@@ -123,10 +123,10 @@ class BookingsPatientViewController: BaseClassViewController {
                     self.no_appiontmentLbl.isHidden = false
                     self.description_Lbl.isHidden = false
                     self.delete_Btn.isHidden = true
+                    self.empty_View.backgroundColor = UIColor(red: 246/254, green: 246/254, blue: 246/254, alpha: 1.0)
                 }
                 self.stopProgress()
                 self.bookingsTblView.reloadData()
-
         }
     }
     
@@ -251,5 +251,9 @@ extension BookingsPatientViewController : UITableViewDataSource{
 extension BookingsPatientViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorProfileViewController") as! DoctorProfileViewController
+        obj.doctorId = doctorInfoArr[indexPath.row].id
+        obj.type_str = "whatsAppHide"
+        self.navigationController?.pushViewController(obj, animated: true)
     }
 }

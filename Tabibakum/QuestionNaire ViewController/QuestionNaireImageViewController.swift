@@ -53,7 +53,7 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
     var btn_Index = 1252
     var deleteBox_Index = 125
     var questionId = Int()
-    var imgToUpload = [Data]()
+    var imgToUpload = [UIImage]()
     var skip = String()
     var arrSelectedImg = [String:AnyObject]()
     var boxCount = Int()
@@ -135,7 +135,7 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
     }
     
     
-    func questionNaireAnswer(question_id:String,type:String,token:String,profileImg:[Data]){
+    func questionNaireAnswer(question_id:String,type:String,token:String,profileImg:[UIImage]){
        self.showCustomProgress()
         var api = String()
         let loginType = UserDefaults.standard.string(forKey: "loginType")
@@ -155,7 +155,8 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
                 multipartFormData.append(type.data(using: String.Encoding.utf8)!, withName: "type")
                 multipartFormData.append(token.data(using: String.Encoding.utf8)!, withName: "token")
                 for img in profileImg {
-                    multipartFormData.append(img, withName: "image", fileName: "\(String(NSDate().timeIntervalSince1970).replacingOccurrences(of: ".", with: "")).jpeg", mimeType: "image/jpeg")
+                    let imgData = img.jpegData(compressionQuality: 0.5)
+                    multipartFormData.append(imgData!, withName: "image[]", fileName: "\(String(NSDate().timeIntervalSince1970).replacingOccurrences(of: ".", with: "")).jpeg", mimeType: "image/jpeg")
                 }
                 print(multipartFormData)
         },
@@ -168,10 +169,11 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
                         print(response)
                         self.stopProgress()
                         var resultDict = response.value as? [String:Any]
-                        if let sucessStr = resultDict!["success"] as? Bool{
+                        if let sucessStr = resultDict?["success"] as? Bool{
                             print(sucessStr)
                             if sucessStr{
                                 print("sucessss")
+                                indexingValue.indexCount = indexingValue.indexCount + 1
                                 if indexingValue.questionType.count == indexingValue.indexValue {
                                     let loginType = UserDefaults.standard.string(forKey: "loginType")
                                     if loginType == "1" {
@@ -288,9 +290,9 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
         guard let selectedImage = info[.originalImage] as? UIImage else {
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
-        if let imageData = selectedImage.jpegData(compressionQuality: 0.5) {
-            imgToUpload = [imageData]
-        }
+       // if let imageData = selectedImage.jpegData(compressionQuality: 0.5) {
+            imgToUpload.append(selectedImage)
+        //}
         
         if btn_Index == 1 {
             upload_photoFirstLbl.text = "Document 1.jpg"
@@ -590,7 +592,14 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
             alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }else{
-            questionNaireAnswer(question_id: questionId.description, type: "image", token: loginToken!, profileImg: imgToUpload)
+            let questionInfo = indexingValue.newBookingQuestionListArr[indexingValue.indexCount]
+            print("questionInfo>>>>>",questionInfo)
+            let questionImgId = questionInfo["id"] as? Int
+            print("question_Id>>>>",questionImgId)
+            let questionType = questionInfo["value"] as? String
+            print("questionType>>",questionType)
+            print(imgToUpload)
+            questionNaireAnswer(question_id: questionImgId!.description, type: questionType!, token: loginToken!, profileImg: imgToUpload)
         }
     }
     
@@ -660,7 +669,7 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
             self.navigationController?.pushViewController(Obj, animated:true)
         }
-        
+        indexingValue.indexCount = indexingValue.indexCount + 1
         indexingValue.indexValue = indexingValue.indexValue + 1
     }
     

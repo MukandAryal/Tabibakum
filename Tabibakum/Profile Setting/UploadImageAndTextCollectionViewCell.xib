@@ -13,35 +13,55 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="UploadImageAndTextCollectionViewCell" customModule="Tabibakum" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="452" height="129"/>
+            <rect key="frame" x="0.0" y="0.0" width="452" height="130"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="452" height="129"/>
+                <rect key="frame" x="0.0" y="0.0" width="452" height="130"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product-image-444101571_1200x1200" translatesAutoresizingMaskIntoConstraints="NO" id="SPM-xb-qL3">
-                        <rect key="frame" x="10" y="14" width="100" height="100"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lXx-67-32L">
+                        <rect key="frame" x="10" y="10" width="109" height="110"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   Patient Document 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hfp-B5-tSf">
+                                <rect key="frame" x="0.0" y="0.0" width="109" height="15"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="2Lu-Uk-cdh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dta-AO-PVq">
+                                <rect key="frame" x="0.0" y="15" width="109" height="95"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="100" id="Tjp-t8-vUz"/>
-                            <constraint firstAttribute="height" constant="100" id="dfT-16-KGN"/>
+                            <constraint firstItem="dta-AO-PVq" firstAttribute="leading" secondItem="lXx-67-32L" secondAttribute="leading" id="EEA-Z1-hIH"/>
+                            <constraint firstAttribute="trailing" secondItem="dta-AO-PVq" secondAttribute="trailing" id="H9u-do-TuQ"/>
+                            <constraint firstAttribute="trailing" secondItem="Hfp-B5-tSf" secondAttribute="trailing" id="JHe-Tb-6Hp"/>
+                            <constraint firstItem="dta-AO-PVq" firstAttribute="top" secondItem="Hfp-B5-tSf" secondAttribute="bottom" id="gzV-vF-SRP"/>
+                            <constraint firstItem="Hfp-B5-tSf" firstAttribute="top" secondItem="lXx-67-32L" secondAttribute="top" id="lSA-Lt-w0v"/>
+                            <constraint firstAttribute="width" constant="109" id="u58-Yi-BYS"/>
+                            <constraint firstAttribute="bottom" secondItem="dta-AO-PVq" secondAttribute="bottom" id="vKC-nY-HbZ"/>
+                            <constraint firstItem="Hfp-B5-tSf" firstAttribute="leading" secondItem="lXx-67-32L" secondAttribute="leading" id="vn9-mr-SnK"/>
                         </constraints>
-                    </imageView>
+                    </view>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="SPM-xb-qL3" secondAttribute="bottom" constant="15" id="JnO-Zc-UBI"/>
-                <constraint firstItem="SPM-xb-qL3" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="14" id="QmN-RQ-ISv"/>
-                <constraint firstItem="SPM-xb-qL3" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="tHj-Gt-g4J"/>
+                <constraint firstAttribute="bottom" secondItem="lXx-67-32L" secondAttribute="bottom" constant="10" id="Fr4-n4-5bd"/>
+                <constraint firstItem="lXx-67-32L" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="pZT-VA-rOx"/>
+                <constraint firstItem="lXx-67-32L" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="xQJ-jm-KgE"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
-            <size key="customSize" width="452" height="132"/>
+            <size key="customSize" width="452" height="143"/>
             <connections>
-                <outlet property="documentImgView" destination="SPM-xb-qL3" id="jaI-s0-BFp"/>
+                <outlet property="docuement_view" destination="lXx-67-32L" id="wR2-Xw-KBe"/>
+                <outlet property="documentImgView" destination="dta-AO-PVq" id="heu-GF-MGc"/>
             </connections>
-            <point key="canvasLocation" x="136" y="162.3688155922039"/>
+            <point key="canvasLocation" x="136" y="167.31634182908547"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="product-image-444101571_1200x1200" width="800" height="800"/>
-    </resources>
 </document>

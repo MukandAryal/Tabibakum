@@ -39,6 +39,18 @@ class DoctorProfileSettingViewController: BaseClassViewController {
         info_view.layer.cornerRadius = 10
         info_view.clipsToBounds = true
         userProfileApi()
+        self.name_Lbl.text = ""
+        self.phoneNumber_Lbl.text = ""
+        self.education_Lbl.text = ""
+        self.dateofBirth_Lbl.text = ""
+        self.gender_Lbl.text = ""
+        self.specialist_Lbl.text = ""
+        self.fees_Lbl.text = ""
+        self.description_Lbl.text = ""
+        self.facebooklink_Lbl.text = ""
+        self.address_Lbl.text = ""
+        self.experience_Lbl.text = ""
+        self.emailAddress_Lbl.text = ""
     }
     
     func userProfileApi(){

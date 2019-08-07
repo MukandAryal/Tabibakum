@@ -19,6 +19,14 @@ class doctorSingUpCompleteViewController: BaseClassViewController {
         next_Btn.clipsToBounds = true
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+    }
+    
     func totalPostApi(){
         self.showCustomProgress()
         let loginToken = UserDefaults.standard.string(forKey: "loginToken")

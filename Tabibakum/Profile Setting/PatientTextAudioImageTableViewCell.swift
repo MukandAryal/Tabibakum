@@ -11,41 +11,44 @@ import UIKit
 class PatientTextAudioImageTableViewCell: UITableViewCell {
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var patientQuestionLbl: UILabel!
-    @IBOutlet weak var audioImage_view: UIImageView!
+    var array = [String]()
+    var audioFile = String()
+    @IBOutlet weak var audioHeight_Constraints: NSLayoutConstraint!
+    @IBOutlet weak var text_lbl: UILabel!
+    @IBOutlet weak var audio_View: UIView!
+    @IBOutlet weak var collectionViewHeight_Constraints: NSLayoutConstraint!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        let nib = UINib(nibName: "UploadImageAndTextCollectionViewCell", bundle: nil)
-        imageCollectionView?.register(nib, forCellWithReuseIdentifier: "UploadImageAndTextCollectionViewCell")
-        imageCollectionView.delegate = self
-        imageCollectionView.dataSource = self
-        audioImage_view.layer.cornerRadius = 10
-        audioImage_view.clipsToBounds = true
+     imageCollectionView.tag = 22
+     audio_View.layer.cornerRadius = 10
+     audio_View.clipsToBounds = true
+     
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
+    
+    func fillCollectionView(with arrayStr: String,audioStr:String) {
+        let arr_ = arrayStr.split(separator: ",").map { String($0) }
+        self.array = arr_
+        print(self.array)
+        let nib = UINib(nibName: "UploadImageAndTextCollectionViewCell", bundle: nil)
+        imageCollectionView?.register(nib, forCellWithReuseIdentifier: "UploadImageAndTextCollectionViewCell")
+        self.imageCollectionView.reloadData()
+        if array.count == 0 {
+            collectionViewHeight_Constraints.constant = 0
+        }
+        if audioStr == ""{
+            audioHeight_Constraints.constant = 0
+        }
+    }
 }
 
-extension PatientTextAudioImageTableViewCell : UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.frame.width/2-20, height: 100)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier:
-            "UploadImageAndTextCollectionViewCell", for: indexPath) as! UploadImageAndTextCollectionViewCell
-        return cell
-    }
-}
 
-extension PatientTextAudioImageTableViewCell : UICollectionViewDelegate{
-    
-}
+
+
+
 

@@ -9,13 +9,13 @@
 import UIKit
 
 class UploadImageAndTextCollectionViewCell: UICollectionViewCell {
-
+    @IBOutlet weak var docuement_view: UIView!
+    
     @IBOutlet weak var documentImgView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-       documentImgView.layer.cornerRadius = 10
-       documentImgView.clipsToBounds = true
-        
+       docuement_view.layer.cornerRadius = 10
+       docuement_view.clipsToBounds = true
     }
 }

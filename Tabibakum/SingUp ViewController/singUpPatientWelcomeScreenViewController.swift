@@ -15,13 +15,15 @@ class singUpPatientWelcomeScreenViewController: BaseClassViewController {
     @IBOutlet weak var next_Btn: UIButton!
     //   var questionType = [String]()
     var descriptionStr = String()
+    var questionListArr = [String:AnyObject]()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let attributedText = NSMutableAttributedString(string: "Welcome to ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 32)])
+        let attributedText = NSMutableAttributedString(string: "Welcome to ", attributes: [NSAttributedString.Key.font: UIFont(name: "ProximaNova-Regular", size: 30)!])
         
-        attributedText.append(NSAttributedString(string: "Tabibakum", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 32)]))
+        attributedText.append(NSAttributedString(string: "Tabibakum", attributes: [NSAttributedString.Key.font: UIFont(name: "ProximaNova-Bold", size: 30)!]))
         
         welcome_Lbl.attributedText = attributedText
         next_Btn.layer.cornerRadius = next_Btn.frame.height/2
@@ -57,6 +59,12 @@ class singUpPatientWelcomeScreenViewController: BaseClassViewController {
                             print(specialistObj)
                             let type = specialistObj["type"] as? String
                             indexingValue.questionType.append(type!)
+                            let id = specialistObj["id"] as? Int
+                            self.questionListArr["value"] = type as AnyObject
+                            self.questionListArr["id"] = id as AnyObject
+                            indexingValue.newBookingQuestionListArr.append(self.questionListArr)
+                            print("questionList>>>>>>",indexingValue.newBookingQuestionListArr)
+                            indexingValue.indexCount = 0
                             print(indexingValue.questionType)
                             indexingValue.indexValue = 0
                         }

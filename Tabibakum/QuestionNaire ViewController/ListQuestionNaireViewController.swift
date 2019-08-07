@@ -82,10 +82,16 @@ class ListQuestionNaireViewController: BaseClassViewController {
     func questionNaireAnswerApi(){
         self.showCustomProgress()
         let loginToken = UserDefaults.standard.string(forKey: "loginToken")
+        let questionInfo = indexingValue.newBookingQuestionListArr[indexingValue.indexCount]
+        print("questionInfo>>>>>",questionInfo)
+        let question_Id = questionInfo["id"]
+        print("question_Id>>>>",question_Id)
+        let question_Type = questionInfo["value"]
+        print("questionType>>",question_Type)
         let param: [String: Any] = [
-            "question_id" : questionId,
+            "question_id" : question_Id!,
             "text" : select_txtFld.text!,
-            "type" : "list",
+            "type" : question_Type!,
             "token" : loginToken!
         ]
         
@@ -110,6 +116,7 @@ class ListQuestionNaireViewController: BaseClassViewController {
                     print(sucessStr)
                     if sucessStr{
                         print("sucessss")
+                        indexingValue.indexCount = indexingValue.indexCount + 1
                         if indexingValue.questionType.count == indexingValue.indexValue {
                             let loginType = UserDefaults.standard.string(forKey: "loginType")
                             if loginType == "1" {
@@ -274,9 +281,6 @@ class ListQuestionNaireViewController: BaseClassViewController {
         }
     }
     
-    func contineBtn() {
-        
-    }
     
     @IBAction func actionBackBtn(_ sender: Any) {
         if indexingValue.questionNaireType == "updateQuestionNaire"{
@@ -356,7 +360,7 @@ class ListQuestionNaireViewController: BaseClassViewController {
             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
             self.navigationController?.pushViewController(Obj, animated:true)
         }
-        
+        indexingValue.indexCount = indexingValue.indexCount + 1
         indexingValue.indexValue = indexingValue.indexValue + 1
     }
     

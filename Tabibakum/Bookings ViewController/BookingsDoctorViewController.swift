@@ -18,6 +18,7 @@ class BookingsDoctorViewController: BaseClassViewController {
     @IBOutlet weak var no_appiontmentLbl: UILabel!
     @IBOutlet weak var description_Lbl: UILabel!
     
+    @IBOutlet weak var empty_view: UIView!
     var doctorInfoArr = [allBookingHistory.bookingHistoryDetails]()
     var toStr = ""
     var toStr_ = ""
@@ -80,8 +81,9 @@ class BookingsDoctorViewController: BaseClassViewController {
                         self.no_appiontmentLbl.isHidden = false
                         self.description_Lbl.isHidden = false
                         self.delete_Btn.isHidden = true
+                       self.empty_view.backgroundColor = UIColor(red: 246/254, green: 246/254, blue: 246/254, alpha: 1.0)
                     }
-                    let doctInfo = allBookingHistory.bookingHistoryDetails(patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: specialistObj["froms"] as? String, to: specialistObj["to"] as? String, id: doctorDetails["id"] as? Int, name: doctorDetails["name"] as? String, type: doctorDetails["type"] as? Int, avatar: doctorDetails["avatar"] as? String, specialist: doctorDetails["specialist"] as? String, created_at: doctorDetails["created_at"] as? String, updated_at: doctorDetails["updated_at"] as? String)
+                    let doctInfo = allBookingHistory.bookingHistoryDetails(appointment_id: specialistObj["id"] as? Int,patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: specialistObj["froms"] as? String, to: specialistObj["to"] as? String, id: doctorDetails["id"] as? Int, name: doctorDetails["name"] as? String, type: doctorDetails["type"] as? Int, avatar: doctorDetails["avatar"] as? String, specialist: doctorDetails["specialist"] as? String, created_at: doctorDetails["created_at"] as? String, updated_at: doctorDetails["updated_at"] as? String)
                     let dateFormatterGet = DateFormatter()
                     let currentDateTime = Date()
                     let currenTymSptamp = currentDateTime.timeIntervalSince1970
@@ -95,27 +97,23 @@ class BookingsDoctorViewController: BaseClassViewController {
                         dateTymStamp = date.timeIntervalSince1970
                         print(dateTymStamp)
                     }
-                   
+                    
                     if currenTymSptamp>dateTymStamp{
                         self.doctorInfoArr.append(doctInfo)
                         self.delete_Btn.isHidden = false
-                        
-                        if self.doctorInfoArr.count == 0 {
-                            self.bookingsTblView.isHidden = true
-                            self.no_historyImgage.isHidden = false
-                            self.no_appiontmentLbl.isHidden = false
-                            self.description_Lbl.isHidden = false
-                            self.delete_Btn.isHidden = true
-                        }
-                    }else{
-                        self.bookingsTblView.isHidden = true
-                        self.no_historyImgage.isHidden = false
-                        self.no_appiontmentLbl.isHidden = false
-                        self.description_Lbl.isHidden = false
-                        self.delete_Btn.isHidden = true
                     }
-                    
                 }
+                
+                if self.doctorInfoArr.count == 0 {
+                    self.bookingsTblView.isHidden = true
+                    self.no_historyImgage.isHidden = false
+                    self.no_appiontmentLbl.isHidden = false
+                    self.description_Lbl.isHidden = false
+                    self.delete_Btn.isHidden = true
+                    self.empty_view.backgroundColor = UIColor(red: 246/254, green: 246/254, blue: 246/254, alpha: 1.0)
+                   
+                }
+                self.stopProgress()
                 self.bookingsTblView.reloadData()
         }
     }
@@ -134,12 +132,13 @@ class BookingsDoctorViewController: BaseClassViewController {
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
-               self.stopProgress()
+                self.stopProgress()
                 let resultDict = response.value as? [String: AnyObject]
                 if let sucessStr = resultDict!["success"] as? Bool{
                     print(sucessStr)
                     if sucessStr{
                         print("sucessss")
+                        self.doctorInfoArr.removeAll()
                         self.dismiss(animated: true, completion: nil)
                         self.bookingsTblView.isHidden = true
                         self.no_historyImgage.isHidden = false
@@ -241,7 +240,11 @@ extension BookingsDoctorViewController : UITableViewDataSource{
 
 extension BookingsDoctorViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: "PatientProfileViewController") as! PatientProfileViewController
+        print(doctorInfoArr[indexPath.row])
+        obj.doctorId = doctorInfoArr[indexPath.row].patient_id!
+        obj.appointmentId = doctorInfoArr[indexPath.row].appointment_id!
+        self.navigationController?.pushViewController(obj, animated: true)
     }
 }
 

@@ -34,21 +34,21 @@ class WelcomeViewController: UIViewController {
         signUpDoctorBtn.layer.borderWidth = 1
         signUpDoctorBtn.layer.borderColor = UIColor.white.cgColor
         
-        let attributedText = NSMutableAttributedString(string: "Welcome to ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22)])
+        let attributedText = NSMutableAttributedString(string: "Welcome to ", attributes: [NSAttributedString.Key.font: UIFont(name: "ProximaNova-Regular", size: 20)!])
         
-        attributedText.append(NSAttributedString(string: "Tabibakum", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 22), NSAttributedString.Key.foregroundColor: UIColor.white]))
+        attributedText.append(NSAttributedString(string: "Tabibakum", attributes: [NSAttributedString.Key.font: UIFont(name: "ProximaNova-Bold", size: 20)!]))
         
+
         welcomeLbl.attributedText = attributedText
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = false
-        
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     

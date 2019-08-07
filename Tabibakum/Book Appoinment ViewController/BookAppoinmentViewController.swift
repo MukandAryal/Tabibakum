@@ -58,7 +58,6 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
         self.selectedIndexPath = IndexPath(row: 0, section: 0)
         tagListView.delegate = self
         let tagView = tagListView.addTag("")
-        // tagView.tagBackgroundColor = UIColor.gray
         tagView.onTap = { tagView in
             print("Don’t tap me!")
         }
@@ -120,12 +119,13 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
                     dateFormatterGet.dateFormat = "dd MMMM yyyy hh:mm aa"
                     let dateFormatterPrint = DateFormatter()
                     dateFormatterPrint.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                    let date = dateFormatterGet.date(from: (specialistObj["to"] as? String)!)
-                    print(dateFormatterPrint.string(from: date!))
-                    dateTymStamp = date!.timeIntervalSince1970
+                    if let date = dateFormatterGet.date(from:specialistObj["to"] as? String ?? ""){
+                    print(dateFormatterPrint.string(from: date))
+                    dateTymStamp = date.timeIntervalSince1970
                     let dateFrmt = DateFormatter()
                     dateFrmt.dateFormat = "MMM dd"
-                    self.getBookingDate = (dateFrmt.string(from: date!))
+                    self.getBookingDate = (dateFrmt.string(from: date))
+                    }
                     // Output Formated
                     if currenTymSptamp<dateTymStamp{
                         let to = slot.to!.suffix(8).description
@@ -207,7 +207,8 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
                             obj.timeString = self.bookTimeSting
                             self.navigationController?.pushViewController(obj, animated: true)
                         }else {
-                            let alert = UIAlertController(title: "Alert", message: "sumthing woring!", preferredStyle: UIAlertController.Style.alert)
+                            let msgStr = resultDict["data"] as? String
+                            let alert = UIAlertController(title: "Alert", message: msgStr, preferredStyle: UIAlertController.Style.alert)
                             alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
                             self.present(alert, animated: true, completion: nil)
                         }
@@ -215,6 +216,7 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
                 }
         }
     }
+    
     @IBAction func actionBookingConfirm(_ sender: Any) {
         bookingConfimApi()
     }

@@ -77,7 +77,7 @@
                                 <color key="textColor" red="0.52549019610000003" green="0.59607843140000005" blue="0.62352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product-image-444101571_1200x1200.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Wy7-x9-mF2">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product-image-444101571_1200x1200.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Wy7-x9-mF2">
                                 <rect key="frame" x="8" y="24" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="7fe-uQ-AMa"/>

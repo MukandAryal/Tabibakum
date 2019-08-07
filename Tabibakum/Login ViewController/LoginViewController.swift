@@ -14,6 +14,7 @@ class LoginViewController: BaseClassViewController {
     @IBOutlet weak var password_txtFld: UITextField!
     @IBOutlet weak var loginBtn: UIButton!
     
+    @IBOutlet weak var back_btn: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
         phoneNumber_txtFld.layer.borderWidth = 0.5
@@ -28,9 +29,10 @@ class LoginViewController: BaseClassViewController {
         password_txtFld.setLeftPaddingPoints(10)
         loginBtn.layer.cornerRadius = loginBtn.frame.height/2
         loginBtn.clipsToBounds = true
-        phoneNumber_txtFld.text = "2222222222"
-        password_txtFld.text = "12345678"
+       // phoneNumber_txtFld.text = "2222222222"
+        //password_txtFld.text = "12345678"
         loginBtn.backgroundColor = UiInterFace.appThemeColor
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,20 +64,20 @@ class LoginViewController: BaseClassViewController {
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
-               
-                let resultDict = response.value as? [String: AnyObject]
-                if (resultDict?.keys.contains("sucesss"))! {
-                    let alert = UIAlertController(title: "Alert", message: "Invalid User Name or Password!", preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
-                    self.stopProgress()
-                    self.present(alert, animated: true, completion: nil)
+                let resultDict = response.value as? AnyObject
+                if let token = resultDict!["token"] as? String{
+                        print("sucessss")
+                        let token = resultDict!["token"] as? String
+                        UserDefaults.standard.set(token, forKey: "loginToken")
+                        indexingValue.questionNaireType = "singUpQuestionNaire"
+                       //setObject
+                      self.getUserDetails()
                 }else {
-                    let token = resultDict!["token"] as? String
-                    UserDefaults.standard.set(token, forKey: "loginToken")
-                    indexingValue.questionNaireType = "singUpQuestionNaire"
-                    self.getUserDetails()
+                    let alert = UIAlertController(title: "Alert", message: "Invalid User Name or Password!", preferredStyle: UIAlertController.Style.alert);                      alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
+                        self.stopProgress()
+                        self.present(alert, animated: true, completion: nil)
                 }
-        }
+         }
     }
     
     func getUserDetails(){
@@ -86,22 +88,25 @@ class LoginViewController: BaseClassViewController {
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
-               
+                self.stopProgress()
                 let resultDict = response.value as? NSDictionary
-                let userDetails = resultDict!["user"] as? NSDictionary
-                let totalfilled = userDetails?.object(forKey: "totalfilled") as! Int
-                let loginType =  userDetails?.object(forKey: "type") as! Int
-                let verified =  userDetails?.object(forKey: "verified") as! Int
-                let userid =  userDetails?.object(forKey: "id") as! Int
+                if let userDetails = resultDict!["user"] as? NSDictionary {
+                let totalfilled = userDetails.object(forKey: "totalfilled") as! Int
+                let loginType =  userDetails.object(forKey: "type") as! Int
+                let verified =  userDetails.object(forKey: "verified") as! Int
+                let userid =  userDetails.object(forKey: "id") as! Int
                 UserDefaults.standard.set(userid, forKey: "userid")
                 UserDefaults.standard.set(loginType, forKey: "loginType")
+                UserDefaults.standard.set(totalfilled, forKey: "totalfilled")
                 if loginType == 0 {
                     print(totalfilled)
                     if totalfilled == 1 {
-                        let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
-                        self.navigationController?.pushViewController(Obj, animated:true)
+                   if let OBj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as? HomeViewController {
+                    self.navigationController?.pushViewController(OBj, animated: true)
+                        }
+                        UserDefaults.standard.set(self.phoneNumber_txtFld.text, forKey: "loginPhoneNumber")
+                        UserDefaults.standard.set(self.password_txtFld.text, forKey: "loginPasswordNumber")
                         print("last index")
-                        self.stopProgress()
                     }else{
                         self.questionNaireApi()
                     }
@@ -114,12 +119,15 @@ class LoginViewController: BaseClassViewController {
                         }else {
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "DoctorHomeViewController")as! DoctorHomeViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
+                            UserDefaults.standard.set(self.phoneNumber_txtFld.text, forKey: "loginPhoneNumber")
+                            UserDefaults.standard.set(self.password_txtFld.text, forKey: "loginPasswordNumber")
                         }
                     }else{
                         indexingValue.questionNaireType = "DoctorSingUpQuestionNaire"
                         self.questionNaireApi()
                     }
                 }
+            }
         }
     }
     
@@ -208,11 +216,14 @@ class LoginViewController: BaseClassViewController {
     }
     
     @IBAction func actionBackBtn(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        let loginObj = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
+        self.navigationController?.pushViewController(loginObj
+            , animated:true)
+        
     }
     
     @IBAction func actionSingUp(_ sender: Any) {
-        let loginObj = self.storyboard?.instantiateViewController(withIdentifier: "SingUpViewController") as! SingUpViewController
+        let loginObj = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
         self.navigationController?.pushViewController(loginObj
             , animated:true)
     }
@@ -243,8 +254,8 @@ extension LoginViewController : UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == phoneNumber_txtFld  {
             let charsLimit = 10
-            let startingLength = phoneNumber_txtFld.text?.characters.count ?? 0
-            let lengthToAdd = string.characters.count
+            let startingLength = phoneNumber_txtFld.text?.count ?? 0
+            let lengthToAdd = string.count
             let lengthToReplace =  range.length
             let newLength = startingLength + lengthToAdd - lengthToReplace
             return newLength <= charsLimit

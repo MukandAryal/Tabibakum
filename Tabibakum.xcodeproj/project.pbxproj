@@ -76,8 +76,6 @@
 		510F444922D60EBC0055B4B4 /* UploadImageAndTextCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510F444722D60EBC0055B4B4 /* UploadImageAndTextCollectionViewCell.swift */; };
 		510F444A22D60EBC0055B4B4 /* UploadImageAndTextCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510F444822D60EBC0055B4B4 /* UploadImageAndTextCollectionViewCell.xib */; };
 		510FE77E229E4AF900E80C16 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510FE77D229E4AF900E80C16 /* ReviewViewController.swift */; };
-		510FE781229E4B9600E80C16 /* ReviewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510FE77F229E4B9600E80C16 /* ReviewHeaderView.swift */; };
-		510FE782229E4B9600E80C16 /* ReviewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510FE780229E4B9600E80C16 /* ReviewHeaderView.xib */; };
 		510FE785229E4D2500E80C16 /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510FE783229E4D2500E80C16 /* ReviewTableViewCell.swift */; };
 		510FE786229E4D2500E80C16 /* ReviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510FE784229E4D2500E80C16 /* ReviewTableViewCell.xib */; };
 		510FE788229E5B6700E80C16 /* DoctorProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510FE787229E5B6700E80C16 /* DoctorProfileSettingViewController.swift */; };
@@ -104,6 +102,13 @@
 		51356BAA22957858003ABBFA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51356BA922957858003ABBFA /* LoginViewController.swift */; };
 		51356BAC22957DB3003ABBFA /* SelectLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51356BAB22957DB3003ABBFA /* SelectLanguageViewController.swift */; };
 		513C64DA22969C3D009FD598 /* SingUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513C64D922969C3D009FD598 /* SingUpViewController.swift */; };
+		51B004EA22DEEAD800F62475 /* complaintAudioImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B004E822DEEAD800F62475 /* complaintAudioImageTableViewCell.swift */; };
+		51B004EB22DEEAD800F62475 /* complaintAudioImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51B004E922DEEAD800F62475 /* complaintAudioImageTableViewCell.xib */; };
+		51B004EE22DEF0F500F62475 /* complaintImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B004EC22DEF0F500F62475 /* complaintImageTableViewCell.swift */; };
+		51B004EF22DEF0F500F62475 /* complaintImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51B004ED22DEF0F500F62475 /* complaintImageTableViewCell.xib */; };
+		51B004F122DF04E500F62475 /* PlayAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B004F022DF04E500F62475 /* PlayAudioViewController.swift */; };
+		51B004F322DF0C4200F62475 /* ImageZoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B004F222DF0C4200F62475 /* ImageZoomViewController.swift */; };
+		51B004F522DF3E0900F62475 /* DoctorReviewDescriptionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B004F422DF3E0900F62475 /* DoctorReviewDescriptionController.swift */; };
 		51D19F4422D765EC009D287A /* PatientTextAudioImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D19F4222D765EC009D287A /* PatientTextAudioImageTableViewCell.swift */; };
 		51D19F4522D765EC009D287A /* PatientTextAudioImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51D19F4322D765EC009D287A /* PatientTextAudioImageTableViewCell.xib */; };
 		51D19F4822D76A4F009D287A /* PatientQuestionTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D19F4622D76A4F009D287A /* PatientQuestionTextTableViewCell.swift */; };
@@ -131,6 +136,7 @@
 		51F9EEA2229D13A1006632F9 /* NotificationPatientTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51F9EEA0229D13A1006632F9 /* NotificationPatientTableViewCell.xib */; };
 		51F9EEA5229D2F5F006632F9 /* ProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F9EEA4229D2F5F006632F9 /* ProfileSettingViewController.swift */; };
 		51F9EEA7229D5BC6006632F9 /* ProfileUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F9EEA6229D5BC6006632F9 /* ProfileUpdateViewController.swift */; };
+		51FEACC922EEF84000D0241E /* newsplash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 51FEACC822EEF84000D0241E /* newsplash.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -204,8 +210,6 @@
 		510F444722D60EBC0055B4B4 /* UploadImageAndTextCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageAndTextCollectionViewCell.swift; sourceTree = "<group>"; };
 		510F444822D60EBC0055B4B4 /* UploadImageAndTextCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UploadImageAndTextCollectionViewCell.xib; sourceTree = "<group>"; };
 		510FE77D229E4AF900E80C16 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
-		510FE77F229E4B9600E80C16 /* ReviewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewHeaderView.swift; sourceTree = "<group>"; };
-		510FE780229E4B9600E80C16 /* ReviewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReviewHeaderView.xib; sourceTree = "<group>"; };
 		510FE783229E4D2500E80C16 /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
 		510FE784229E4D2500E80C16 /* ReviewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReviewTableViewCell.xib; sourceTree = "<group>"; };
 		510FE787229E5B6700E80C16 /* DoctorProfileSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorProfileSettingViewController.swift; sourceTree = "<group>"; };
@@ -234,6 +238,13 @@
 		51356BA922957858003ABBFA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		51356BAB22957DB3003ABBFA /* SelectLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLanguageViewController.swift; sourceTree = "<group>"; };
 		513C64D922969C3D009FD598 /* SingUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingUpViewController.swift; sourceTree = "<group>"; };
+		51B004E822DEEAD800F62475 /* complaintAudioImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = complaintAudioImageTableViewCell.swift; sourceTree = "<group>"; };
+		51B004E922DEEAD800F62475 /* complaintAudioImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = complaintAudioImageTableViewCell.xib; sourceTree = "<group>"; };
+		51B004EC22DEF0F500F62475 /* complaintImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = complaintImageTableViewCell.swift; sourceTree = "<group>"; };
+		51B004ED22DEF0F500F62475 /* complaintImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = complaintImageTableViewCell.xib; sourceTree = "<group>"; };
+		51B004F022DF04E500F62475 /* PlayAudioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAudioViewController.swift; sourceTree = "<group>"; };
+		51B004F222DF0C4200F62475 /* ImageZoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageZoomViewController.swift; sourceTree = "<group>"; };
+		51B004F422DF3E0900F62475 /* DoctorReviewDescriptionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorReviewDescriptionController.swift; sourceTree = "<group>"; };
 		51D19F4222D765EC009D287A /* PatientTextAudioImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientTextAudioImageTableViewCell.swift; sourceTree = "<group>"; };
 		51D19F4322D765EC009D287A /* PatientTextAudioImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PatientTextAudioImageTableViewCell.xib; sourceTree = "<group>"; };
 		51D19F4622D76A4F009D287A /* PatientQuestionTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientQuestionTextTableViewCell.swift; sourceTree = "<group>"; };
@@ -262,6 +273,7 @@
 		51F9EEA0229D13A1006632F9 /* NotificationPatientTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationPatientTableViewCell.xib; sourceTree = "<group>"; };
 		51F9EEA4229D2F5F006632F9 /* ProfileSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingViewController.swift; sourceTree = "<group>"; };
 		51F9EEA6229D5BC6006632F9 /* ProfileUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUpdateViewController.swift; sourceTree = "<group>"; };
+		51FEACC822EEF84000D0241E /* newsplash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = newsplash.jpg; sourceTree = "<group>"; };
 		633CFEC9DBDDBEB39BAFAD6C /* Pods-Tabibakum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tabibakum.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tabibakum/Pods-Tabibakum.release.xcconfig"; sourceTree = "<group>"; };
 		8331F3FDE025481C84084FA1 /* Pods-Tabibakum.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tabibakum.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tabibakum/Pods-Tabibakum.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -397,8 +409,6 @@
 			children = (
 				510FE77D229E4AF900E80C16 /* ReviewViewController.swift */,
 				510DCBB022CB520000E4E90F /* DoctorReviewViewController.swift */,
-				510FE77F229E4B9600E80C16 /* ReviewHeaderView.swift */,
-				510FE780229E4B9600E80C16 /* ReviewHeaderView.xib */,
 				510FE783229E4D2500E80C16 /* ReviewTableViewCell.swift */,
 				510FE784229E4D2500E80C16 /* ReviewTableViewCell.xib */,
 			);
@@ -460,6 +470,7 @@
 				51EC1FD622D5ACE100457881 /* Tabibakum.entitlements */,
 				510AB53122D7258400393F21 /* dotted_loader.gif */,
 				510AB52F22D7257B00393F21 /* GiFHUD.swift */,
+				51FEACC822EEF84000D0241E /* newsplash.jpg */,
 				5105A50222CDF31C00D09B34 /* DynamicBlurView */,
 				5105A51422CDF32100D09B34 /* PopupDialog */,
 				51356B86229556C6003ABBFA /* AppDelegate.swift */,
@@ -574,6 +585,7 @@
 				510FE789229E6BCE00E80C16 /* PatientProfileUpdateViewController.swift */,
 				5102F7B3229F98AE00C96F4D /* DoctorProfileViewController.swift */,
 				51E4B65122D2F8640020A050 /* PatientProfileViewController.swift */,
+				51B004F222DF0C4200F62475 /* ImageZoomViewController.swift */,
 				51E4B65522D317CD0020A050 /* patientProfileHeaderView.swift */,
 				51D19F4622D76A4F009D287A /* PatientQuestionTextTableViewCell.swift */,
 				51D19F4722D76A4F009D287A /* PatientQuestionTextTableViewCell.xib */,
@@ -583,10 +595,16 @@
 				510F444822D60EBC0055B4B4 /* UploadImageAndTextCollectionViewCell.xib */,
 				51D19F4322D765EC009D287A /* PatientTextAudioImageTableViewCell.xib */,
 				51D19F4222D765EC009D287A /* PatientTextAudioImageTableViewCell.swift */,
+				51B004E822DEEAD800F62475 /* complaintAudioImageTableViewCell.swift */,
+				51B004E922DEEAD800F62475 /* complaintAudioImageTableViewCell.xib */,
+				51B004EC22DEF0F500F62475 /* complaintImageTableViewCell.swift */,
+				51B004ED22DEF0F500F62475 /* complaintImageTableViewCell.xib */,
 				510AB53322D73B1800393F21 /* EnterDescriptionTableViewCell.swift */,
 				510AB53422D73B1800393F21 /* EnterDescriptionTableViewCell.xib */,
 				5101440D22D86BBB00572BD0 /* DoctorReportTableViewCell.swift */,
 				5101440E22D86BBB00572BD0 /* DoctorReportTableViewCell.xib */,
+				51B004F022DF04E500F62475 /* PlayAudioViewController.swift */,
+				51B004F422DF3E0900F62475 /* DoctorReviewDescriptionController.swift */,
 			);
 			path = "Profile Setting";
 			sourceTree = "<group>";
@@ -634,6 +652,7 @@
 				TargetAttributes = {
 					51356B82229556C6003ABBFA = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -674,7 +693,6 @@
 				510D2F2E229BE35C009FDB31 /* menuHeaderView.xib in Resources */,
 				510AB53622D73B1800393F21 /* EnterDescriptionTableViewCell.xib in Resources */,
 				51356B94229556C8003ABBFA /* LaunchScreen.storyboard in Resources */,
-				510FE782229E4B9600E80C16 /* ReviewHeaderView.xib in Resources */,
 				510D2F36229C0231009FDB31 /* BookingHistoryTableViewCell.xib in Resources */,
 				510AB53222D7258C00393F21 /* dotted_loader.gif in Resources */,
 				51D19F4922D76A4F009D287A /* PatientQuestionTextTableViewCell.xib in Resources */,
@@ -682,9 +700,11 @@
 				51356B91229556C8003ABBFA /* Assets.xcassets in Resources */,
 				510FE791229EA50400E80C16 /* AvailableDoctorsTableViewCell.xib in Resources */,
 				5102F809229FE86400C96F4D /* CabinCondensed-SemiBold.ttf in Resources */,
+				51B004EB22DEEAD800F62475 /* complaintAudioImageTableViewCell.xib in Resources */,
 				510D2F2A229BCB45009FDB31 /* MenuTableViewCell.xib in Resources */,
 				5102F808229FE86400C96F4D /* AcariSans-SemiBold.ttf in Resources */,
 				5107ECDB22D345E300DBD55E /* UploadTextAndImageTableViewCell.xib in Resources */,
+				51FEACC922EEF84000D0241E /* newsplash.jpg in Resources */,
 				51356B8C229556C6003ABBFA /* Main.storyboard in Resources */,
 				5102F80A229FE86400C96F4D /* ProximaNovaCond-Bold.ttf in Resources */,
 				5108E79922D0BACD006AECA9 /* BookingPatientTableViewCell.xib in Resources */,
@@ -693,6 +713,7 @@
 				5102F80E229FE86400C96F4D /* ProximaNova-Regular.ttf in Resources */,
 				51D52A4D22BBAE5B0096E1D1 /* BookAppoinmentCollectionViewCell.xib in Resources */,
 				5102F80D229FE86400C96F4D /* SFOldRepublic-Bold.ttf in Resources */,
+				51B004EF22DEF0F500F62475 /* complaintImageTableViewCell.xib in Resources */,
 				510FE786229E4D2500E80C16 /* ReviewTableViewCell.xib in Resources */,
 				51D19F4522D765EC009D287A /* PatientTextAudioImageTableViewCell.xib in Resources */,
 				51D52A4022BB66D10096E1D1 /* LogOutView.xib in Resources */,
@@ -717,6 +738,7 @@
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/KMPlaceholderTextView/KMPlaceholderTextView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework",
@@ -731,6 +753,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPlaceholderTextView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SideMenu.framework",
@@ -815,6 +838,7 @@
 				510C368A22B104E1001563A8 /* QuestionNaireSingalTabCollectionViewCell.swift in Sources */,
 				5105A55122CDF41200D09B34 /* PopupDialog.swift in Sources */,
 				51D19F4822D76A4F009D287A /* PatientQuestionTextTableViewCell.swift in Sources */,
+				51B004F522DF3E0900F62475 /* DoctorReviewDescriptionController.swift in Sources */,
 				5105A55822CDF41200D09B34 /* TransitionAnimations.swift in Sources */,
 				51F9EE97229D09F1006632F9 /* BookingsPatientViewController.swift in Sources */,
 				5106488D22CF2B3B002140B1 /* PatientBookingDoneViewController.swift in Sources */,
@@ -824,11 +848,12 @@
 				5105A54E22CDF41200D09B34 /* UIImageView+Calculations.swift in Sources */,
 				51F9EEA1229D13A1006632F9 /* NotificationPatientTableViewCell.swift in Sources */,
 				51F9EE9E229D1387006632F9 /* NotificationPatientViewController.swift in Sources */,
-				510FE781229E4B9600E80C16 /* ReviewHeaderView.swift in Sources */,
 				5114367A22AFA4C5006D5827 /* QuestionNaireImageViewController.swift in Sources */,
 				510FE788229E5B6700E80C16 /* DoctorProfileSettingViewController.swift in Sources */,
 				51184B3C22B27B6D0016A5B2 /* patientSingUpSucessfullyViewController.swift in Sources */,
 				510DCBAF22CB3D9400E4E90F /* ScheduleBookingViewController.swift in Sources */,
+				51B004EA22DEEAD800F62475 /* complaintAudioImageTableViewCell.swift in Sources */,
+				51B004EE22DEF0F500F62475 /* complaintImageTableViewCell.swift in Sources */,
 				510FE78A229E6BCE00E80C16 /* PatientProfileUpdateViewController.swift in Sources */,
 				5105A51222CDF31C00D09B34 /* BlurLayer.swift in Sources */,
 				5108E79722D0BABD006AECA9 /* DoctorHomeViewController.swift in Sources */,
@@ -837,6 +862,7 @@
 				51356B9D22955944003ABBFA /* WelcomeViewController.swift in Sources */,
 				5105A51022CDF31C00D09B34 /* TrackingMode.swift in Sources */,
 				51E4B65422D3085B0020A050 /* DoctorSetSlotView.swift in Sources */,
+				51B004F322DF0C4200F62475 /* ImageZoomViewController.swift in Sources */,
 				510DCBAA22CB323A00E4E90F /* DoctorNotificationViewController.swift in Sources */,
 				51D52A4922BBAE320096E1D1 /* BookAppoinmentViewController.swift in Sources */,
 				51D52A4622BB74260096E1D1 /* BaseClassViewController.swift in Sources */,
@@ -864,6 +890,7 @@
 				510DCBB122CB520000E4E90F /* DoctorReviewViewController.swift in Sources */,
 				5105A55722CDF41200D09B34 /* PopupDialogDefaultViewController.swift in Sources */,
 				510DCBAC22CB341500E4E90F /* BookingsDoctorViewController.swift in Sources */,
+				51B004F122DF04E500F62475 /* PlayAudioViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -949,7 +976,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 5RUMHUAG45;
+				DEVELOPMENT_TEAM = C2Z5D227J5;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -970,7 +997,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE_SPECIFIER = tabibakum_developmentProfile;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1014,7 +1041,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 5RUMHUAG45;
+				DEVELOPMENT_TEAM = C2Z5D227J5;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1028,7 +1055,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PROVISIONING_PROFILE_SPECIFIER = tabibakum_developmentProfile;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -1056,8 +1083,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = osvin.Tabibakum.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = tabibakum_developmentProfile;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1080,8 +1107,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = osvin.Tabibakum.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = tabibakum_developmentProfile;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -16,8 +16,7 @@ import UserNotifications
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
         // Override point for customization after application launch.
@@ -37,11 +36,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
-        
         application.registerForRemoteNotifications()
         //   [END register_for_notifications]
-       
-        return true
+        if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
+            statusBar.backgroundColor = UiInterFace.appThemeColor
+        }
+        var initialViewController: UIViewController?
+        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        if let username = UserDefaults.standard.value(forKey: "loginPhoneNumber"), let password = UserDefaults.standard.value(forKey: "loginPasswordNumber") {
+             let loginType = UserDefaults.standard.string(forKey: "loginType")
+            let verified = UserDefaults.standard.integer(forKey: "totalfilled")
+             if loginType == "1" {
+                if verified == 0 {
+                     initialViewController = mainStoryboard.instantiateViewController(withIdentifier: "doctorSingUpCompleteViewController")
+                }else {
+                    initialViewController = mainStoryboard.instantiateViewController(withIdentifier: "DoctorHomeViewController_nav")
+                }
+            }else {
+                 initialViewController = mainStoryboard.instantiateViewController(withIdentifier: "HomeViewController_nav")
+            }
+        }else{
+            initialViewController = mainStoryboard.instantiateViewController(withIdentifier: "SelectLanguageViewController")
+        }
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.rootViewController = initialViewController
+        self.window?.makeKeyAndVisible()
+         return true
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -155,8 +175,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        
-        
         let userInfo = response.notification.request.content.userInfo
         
         print(userInfo)

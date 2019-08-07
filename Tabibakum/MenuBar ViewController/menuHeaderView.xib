@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Nova-Bold.ttf">
+        <array key="ProximaNova-Bold.ttf">
             <string>ProximaNova-Bold</string>
         </array>
     </customFonts>
@@ -21,7 +21,7 @@
             <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product-image-444101571_1200x1200.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="zM3-ly-VMB">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product-image-444101571_1200x1200.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="zM3-ly-VMB">
                     <rect key="frame" x="85" y="40" width="80" height="80"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="IqF-jM-Xno"/>

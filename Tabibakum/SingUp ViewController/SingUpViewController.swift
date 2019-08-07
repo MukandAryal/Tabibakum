@@ -69,9 +69,14 @@ class SingUpViewController: BaseClassViewController,UIImagePickerControllerDeleg
         //   confirmPassword_txtFld.text = "12345678"
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+    }
+
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
@@ -110,6 +115,13 @@ class SingUpViewController: BaseClassViewController,UIImagePickerControllerDeleg
                             if sucessStr{
                                 print("sucessss")
                                 let tokenDict = resultDict!["token"] as? [String:Any]
+                                if  let dataDict = resultDict!["data"] as? [String:Any] {
+                                    print("dataDict>>>>>>>",dataDict)
+                                    let loginType =  dataDict["type"] as? String
+                                    print("dataDict>>>>>>>",loginType)
+                                  UserDefaults.standard.set(loginType, forKey: "loginType")
+
+                                }
                                 if let original = tokenDict!["original"] as? [String:Any]{
                                     if let token = original["token"] as? String{
                                         UserDefaults.standard.set(token, forKey: "loginToken")
@@ -246,8 +258,8 @@ extension SingUpViewController : UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == phoneNumber_txtFld  {
             let charsLimit = 10
-            let startingLength = phoneNumber_txtFld.text?.characters.count ?? 0
-            let lengthToAdd = string.characters.count
+            let startingLength = phoneNumber_txtFld.text?.count ?? 0
+            let lengthToAdd = string.count
             let lengthToReplace =  range.length
             let newLength = startingLength + lengthToAdd - lengthToReplace
             return newLength <= charsLimit

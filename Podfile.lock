@@ -29,6 +29,7 @@ PODS:
   - GoogleUtilities/UserDefaults (5.3.7):
     - GoogleUtilities/Logger
   - IQKeyboardManagerSwift (6.2.0)
+  - KMPlaceholderTextView (1.4.0)
   - Protobuf (3.6.1)
   - SDWebImage (4.4.5):
     - SDWebImage/Core (= 4.4.5)
@@ -42,6 +43,7 @@ DEPENDENCIES:
   - DropDown
   - Firebase/Messaging
   - IQKeyboardManagerSwift
+  - KMPlaceholderTextView
   - SDWebImage
   - SideMenu
   - TagListView
@@ -58,6 +60,7 @@ SPEC REPOS:
     - FirebaseMessaging
     - GoogleUtilities
     - IQKeyboardManagerSwift
+    - KMPlaceholderTextView
     - Protobuf
     - SDWebImage
     - SideMenu
@@ -74,11 +77,12 @@ SPEC CHECKSUMS:
   FirebaseMessaging: acbd51fe1a172bf29abaaa6e93a60f98bbf8e4f9
   GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
+  KMPlaceholderTextView: 2206c3df39979e9396e2d96fa9f427a8951121b0
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   SDWebImage: ecc03494e973b93b80213649d32175f8d2d17d4d
   SideMenu: 1dcaabce84538c53325c287f7fe62999379a641c
   TagListView: 0c7e9c26b9aff858224ee6b155f5fcacd9e27c83
 
-PODFILE CHECKSUM: 25ff9253046177980b30d74924ff08bc2766754a
+PODFILE CHECKSUM: b52d0624b99c9fb3bdc1fde4e4156690d12c8b12
 
 COCOAPODS: 1.5.3

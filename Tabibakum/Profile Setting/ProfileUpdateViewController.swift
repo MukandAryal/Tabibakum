@@ -120,7 +120,7 @@ class ProfileUpdateViewController: BaseClassViewController,UIImagePickerControll
     }
     
     func userProfileApi(){
-      //  LoadingIndicatorView.show()
+        self.showCustomProgress()
         let useid = UserDefaults.standard.integer(forKey: "userId")
         let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
@@ -129,7 +129,7 @@ class ProfileUpdateViewController: BaseClassViewController,UIImagePickerControll
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for userData in dataDict! {
-                 //   LoadingIndicatorView.hide()
+                    self.stopProgress()
                     let img =  userData["avatar"] as? String
                     let imageStr = Configurator.imageBaseUrl + img!
                     self.profile_imgView.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))

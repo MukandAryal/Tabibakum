@@ -49,7 +49,6 @@ class ProfileSettingViewController: BaseClassViewController {
         self.description_Lbl.text = ""
         self.facebook_Lbl.text = ""
         self.address_Lbl.text = ""
-        
     }
     
     func userProfileApi(){

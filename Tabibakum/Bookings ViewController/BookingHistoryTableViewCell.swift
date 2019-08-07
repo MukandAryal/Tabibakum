@@ -21,11 +21,10 @@ class BookingHistoryTableViewCell: UITableViewCell {
         super.awakeFromNib()
         userImg_view.layer.cornerRadius = userImg_view.frame.height/2
         userImg_view.clipsToBounds = true
-        background_view.layer.cornerRadius = 10
+        background_view.layer.cornerRadius = 2
         background_view.clipsToBounds = true
-        background_view.layer.borderWidth = 0.5
+        background_view.layer.borderWidth = 2
         background_view.layer.borderColor = UIColor(red: 225/254, green: 228/254, blue: 228/254, alpha: 1.0).cgColor
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

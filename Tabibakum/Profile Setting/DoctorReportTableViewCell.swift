@@ -14,10 +14,12 @@ class DoctorReportTableViewCell: UITableViewCell {
     @IBOutlet weak var userName_Lbl: UILabel!
     @IBOutlet weak var date_Lbl: UILabel!
     @IBOutlet weak var description_Lbl: UILabel!
+
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-    profile_imgView.layer.cornerRadius = profile_imgView.frame.height/2
-    profile_imgView.clipsToBounds = true
+        profile_imgView.layer.cornerRadius = profile_imgView.frame.height/2
+       profile_imgView.clipsToBounds = true
         
     }
 

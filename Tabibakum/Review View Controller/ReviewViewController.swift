@@ -53,15 +53,15 @@ extension ReviewViewController : UITableViewDataSource{
         return 180
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
-    {
-        let headerView = reviewTblView.dequeueReusableHeaderFooterView(withIdentifier: "ReviewHeaderView" ) as! ReviewHeaderView
-        
-        return headerView
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+//    {
+//        let headerView = reviewTblView.dequeueReusableHeaderFooterView(withIdentifier: "ReviewHeaderView" ) as! ReviewHeaderView
+//        
+//        return headerView
+//    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

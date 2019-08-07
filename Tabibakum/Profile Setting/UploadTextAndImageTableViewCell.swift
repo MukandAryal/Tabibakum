@@ -17,19 +17,17 @@ class UploadTextAndImageTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+    }
+    
+    func fillCollectionView(with arrayStr: String) {
+        self.imageCollectionView.tag = 22
+        let arr_ = arrayStr.split(separator: ",").map { String($0) }
+        self.array = arr_
+        print(self.array)
         let nib = UINib(nibName: "UploadImageAndTextCollectionViewCell", bundle: nil)
         imageCollectionView?.register(nib, forCellWithReuseIdentifier: "UploadImageAndTextCollectionViewCell")
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
-    }
-    
-    func fillCollectionView(with array: String) {
-        self.array = [array]
-        
-        print(array.count)
-        docArr.append(array)
-        print(docArr.count)
         self.imageCollectionView.reloadData()
     }
 
@@ -42,11 +40,10 @@ class UploadTextAndImageTableViewCell: UITableViewCell {
 
 extension UploadTextAndImageTableViewCell : UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.frame.width/2-20, height: 100)
+        return CGSize(width: 120, height: 109)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(array.count)
         return array.count
     }
     
@@ -54,8 +51,10 @@ extension UploadTextAndImageTableViewCell : UICollectionViewDataSource,UICollect
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier:
             "UploadImageAndTextCollectionViewCell", for: indexPath) as! UploadImageAndTextCollectionViewCell
-        let imageStr = Configurator.imageBaseUrl + array[indexPath.row]
-        cell.documentImgView.sd_setImage(with: URL(string: imageStr), placeholderImage: UIImage(named: "user_pic"))
+        let imageStr = Configurator.uploadsImgUrl
+        let img = array[indexPath.item]
+         let finalImg = imageStr + img
+        cell.documentImgView.sd_setImage(with: URL(string: finalImg), placeholderImage: UIImage(named: "user_pic"))
         return cell
     }
     

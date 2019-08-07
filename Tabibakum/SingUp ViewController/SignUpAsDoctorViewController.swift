@@ -55,6 +55,8 @@ class SignUpAsDoctorViewController: BaseClassViewController,UIImagePickerControl
     var imgToUpload = Data()
     var specialistArr = [String]()
     var selectedLangCategries = [String]()
+    var questionListArr = [String:AnyObject]()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,16 +102,23 @@ class SignUpAsDoctorViewController: BaseClassViewController,UIImagePickerControl
         yourPassword_txtFld.setLeftPaddingPoints(10)
         
         imagePicker.delegate = self
-        userImg_View.layer.cornerRadius = userImg_View.frame.width/2
+        userImg_View.layer.cornerRadius = userImg_View.frame.height/2
         userImg_View.clipsToBounds = true
         
         specialization_dropDownView.isHidden = true
         specialization_dropDownView.layer.cornerRadius = 10
         specialization_dropDownView.clipsToBounds = true
-        
         specializationListApi()
-        
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+    }
+
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
@@ -254,6 +263,12 @@ class SignUpAsDoctorViewController: BaseClassViewController,UIImagePickerControl
                             print(specialistObj)
                             let type = specialistObj["type"] as? String
                             indexingValue.questionType.append(type!)
+                            let id = specialistObj["id"] as? Int
+                            self.questionListArr["value"] = type as AnyObject
+                            self.questionListArr["id"] = id as AnyObject
+                            indexingValue.newBookingQuestionListArr.append(self.questionListArr)
+                            print("questionList>>>>>>",indexingValue.newBookingQuestionListArr)
+                            indexingValue.indexCount = 0
                             print(indexingValue.questionType)
                             indexingValue.indexValue = 0
                         }
@@ -348,7 +363,7 @@ class SignUpAsDoctorViewController: BaseClassViewController,UIImagePickerControl
                 alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }else{
-                self.singUp(name: fullName_txtFld.text!, speciallzation: select_speciallzationLbl.text!, email: emailAddress_txtFld.text!, phone: phoneNumber_txtFld.text!, password: phoneNumber_txtFld.text!, type: "1", countyCode: "+964", device_token: deviceToken!, profileImg: imgToUpload)
+                self.singUp(name: fullName_txtFld.text!, speciallzation: select_speciallzationLbl.text!, email: emailAddress_txtFld.text!, phone: phoneNumber_txtFld.text!, password: yourPassword_txtFld.text!, type: "1", countyCode: "+964", device_token: deviceToken!, profileImg: imgToUpload)
             }
         }
     }
@@ -457,8 +472,8 @@ extension SignUpAsDoctorViewController : UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == phoneNumber_txtFld  {
             let charsLimit = 10
-            let startingLength = phoneNumber_txtFld.text?.characters.count ?? 0
-            let lengthToAdd = string.characters.count
+            let startingLength = phoneNumber_txtFld.text?.count ?? 0
+            let lengthToAdd = string.count
             let lengthToReplace =  range.length
             let newLength = startingLength + lengthToAdd - lengthToReplace
             return newLength <= charsLimit

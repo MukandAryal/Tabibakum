@@ -18,13 +18,21 @@ class RecorderViewController: UIViewController {
     var recording: Recording!
     var recordDuration = 0
     var timer = Timer()
-     var updater : CADisplayLink! = nil
+    var updater : CADisplayLink! = nil
     var recordSeconds = 0
     var recordMinutes = 0
+    
+    var currentSeconds = 0
+    var currentMinutes = 0
+    
+    var totalSeconds = 0
+    var totalMinutes = 0
+    
     @IBOutlet weak var startBtn: UIButton!
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var cancelBtn: UIButton!
-   
+    @IBOutlet weak var resetBtn: UIButton!
+    @IBOutlet weak var submitBtn: UIButton!
     @IBOutlet weak var slider: UISlider!
     // MARK: View Life Cycle
     
@@ -42,18 +50,13 @@ class RecorderViewController: UIViewController {
         
         let img = UIImage(named: "record_audio.png")
         startBtn.setImage(img, for: .normal)
-        recording = Recording(to: "recording.m4a")
-       slider.isHidden = true
+        recording = Recording()
+        slider.isHidden = true
         DispatchQueue.global().async {
             // Background thread
-            do {
-                try self.recording.prepare()
-            } catch {
-                print(error)
-            }
         }
     }
-
+    
     open func startRecording() {
         recordDuration = 0
         let img = UIImage(named: "record_stop.png")
@@ -65,7 +68,7 @@ class RecorderViewController: UIViewController {
             print(error)
         }
     }
-
+    
     open func stop() {
         let img = UIImage(named: "record_audio.png")
         startBtn.setImage(img, for: .normal)
@@ -80,28 +83,28 @@ class RecorderViewController: UIViewController {
     }
     
     @objc open func countdown() {
+        let record_ = Int(recording.recorder!.currentTime)
         
-        durationLabel.text = String( Double(recording.recorder!.currentTime/60).rounded(toPlaces: 2))
-        
-//        var seconds = "\(recordSeconds)"
-//        if recordSeconds < 10 {
-//            seconds = "0\(recordSeconds)"
-//        }
-//        var minutes = "\(recordMinutes)"
-//        if recordMinutes < 10 {
-//            minutes = "0\(recordMinutes)"
-//        }
-//        durationLabel.text = "\(minutes):\(seconds)"
-//        recordSeconds += 1
-//        if recordSeconds == 60 {
-//            recordMinutes += 1
-//            recordSeconds = 0
-//        }
+        var seconds = "\(record_)"
+        if recordSeconds < 10 {
+            seconds = "0\(record_)"
+        }
+        var minutes = "\(recordMinutes)"
+        if recordMinutes < 10 {
+            minutes = "0\(recordMinutes)"
+        }
+        durationLabel.text = "\(minutes):\(seconds)"
+        recordSeconds += 1
+        if record_ == 60 {
+            recordMinutes += 1
+            
+        }
     }
     
     open func startAndStopAc() {
         if recording.state == .record{
-           stop()
+            stop()
+            slider.isHidden = false
             let img = UIImage(named: "music_play.png")
             startBtn.setImage(img, for: .normal)
             startBtn.addTargetClosure { _ in
@@ -110,33 +113,58 @@ class RecorderViewController: UIViewController {
                 self.updater.preferredFramesPerSecond = 1
                 self.updater.add(to: RunLoop.current, forMode: RunLoop.Mode.default)
             }
-         }
+        }
         else{
-           startRecording()
+            startRecording()
         }
     }
-  @objc open func updateAudioProgressView()
+    @objc open func updateAudioProgressView()
     {
-        if recording.state == .play
+        if recording.state == .play && recording.player != nil
         {
-            let total = Double(recording.player!.duration/60).rounded(toPlaces: 2)
-            let current_time = Double(recording.player!.currentTime/60).rounded(toPlaces: 2)
+            
             slider.minimumValue = 0.0
             slider.maximumValue = Float(recording.player!.duration)
             slider.setValue(Float(recording.player!.currentTime), animated: true)
-            durationLabel.text = "\(current_time)/\(total)"
+            
+            let totel_ = Int(recording.player!.duration) - Int(recording.player!.currentTime)
+            
+            var seconds = "\(totel_)"
+            if currentSeconds < 10 {
+                seconds = "0\(totel_)"
+            }
+            var minutes = "\(currentMinutes)"
+            if currentMinutes < 10 {
+                minutes = "0\(currentMinutes)"
+            }
+            
+            currentSeconds += 1
+            if currentSeconds == 60 {
+                currentMinutes += 1
+                
+            }
+            durationLabel.text = "\(minutes) min : \(seconds) sec"
             
         }
     }
-   open func playAc() {
+    open func playAc() {
         do {
-             slider.isHidden = false
             try recording.play()
         } catch {
             print(error)
         }
     }
-
+    open func playSavedAc() {
+        do {
+            slider.isHidden = false
+            self.updater = CADisplayLink(target: self, selector: #selector(self.updateAudioProgressView))
+            self.updater.preferredFramesPerSecond = 1
+            self.updater.add(to: RunLoop.current, forMode: RunLoop.Mode.default)
+            try recording.playSaved()
+        } catch {
+            print(error)
+        }
+    }
 }
 extension Double {
     /// Rounds the double to decimal places value

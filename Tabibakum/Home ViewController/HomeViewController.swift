@@ -13,6 +13,7 @@ import SDWebImage
 
 struct allPatientInfo {
     struct patientDetails {
+        var appointment_id : Int?
         var patient_id : Int?
         var doctor_id  : Int?
         var from : String?
@@ -31,12 +32,12 @@ struct allPatientInfo {
 
 class HomeViewController: BaseClassViewController {
     @IBOutlet weak var bookingHistoryTblView: UITableView!
-    
     @IBOutlet weak var description_lbl: UILabel!
     @IBOutlet weak var clieckHere_Btn: UIButton!
     @IBOutlet weak var howcanHelp_lbl: UILabel!
     var patientInfoArr = [allPatientInfo.patientDetails]()
     var userId = Int()
+    var questionListArr = [String:AnyObject]()
     
     
     override func viewDidLoad() {
@@ -54,18 +55,19 @@ class HomeViewController: BaseClassViewController {
         howcanHelp_lbl.isHidden = true
         UserDetails()
         indexingValue.questionType.removeAll()
+        indexingValue.newBookingQuestionListArr.removeAll()
+        indexingValue.indexValue = 0
     }
     
     override func viewWillAppear(_ animated: Bool) {
         if indexingValue.logOutViewString == "logoutOutViewShow"{
-            
             self.logoutView()
         }
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     // handle notification
-
+    
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -75,10 +77,6 @@ class HomeViewController: BaseClassViewController {
     func bookingPatientListApi(){
         self.showCustomProgress()
         
-        self.bookingHistoryTblView.isHidden = true
-        self.description_lbl.isHidden = false
-        self.howcanHelp_lbl.isHidden = false
-        self.clieckHere_Btn.isHidden = false
         let useid = UserDefaults.standard.integer(forKey: "userId")
         let api = Configurator.baseURL + ApiEndPoints.currentbooking + "?doctor=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
@@ -87,12 +85,18 @@ class HomeViewController: BaseClassViewController {
                 
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
+                if dataDict?.count == 0{
+                    self.bookingHistoryTblView.isHidden = true
+                    self.description_lbl.isHidden = false
+                    self.howcanHelp_lbl.isHidden = false
+                    self.clieckHere_Btn.isHidden = false
+                }
                 var i = 0
                 for specialistObj in dataDict! {
                     i = i+1
                     let doctorDetails = specialistObj["doctor_detail"]! as? NSDictionary
                     
-                    let patientInfo = allPatientInfo.patientDetails(patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: (specialistObj["froms"] as? String)!, to: (specialistObj["to"] as? String)!, id: doctorDetails?["id"] as? Int, name: doctorDetails?["name"] as? String, type: doctorDetails?["type"] as? Int, avatar: doctorDetails?["avatar"] as? String, specialist: doctorDetails?["specialist"] as? String, created_at: doctorDetails?["created_at"] as? String, updated_at: doctorDetails?["updated_at"] as? String)
+                    let patientInfo = allPatientInfo.patientDetails(appointment_id: specialistObj["id"] as? Int,patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: (specialistObj["froms"] as? String)!, to: (specialistObj["to"] as? String)!, id: doctorDetails?["id"] as? Int, name: doctorDetails?["name"] as? String, type: doctorDetails?["type"] as? Int, avatar: doctorDetails?["avatar"] as? String, specialist: doctorDetails?["specialist"] as? String, created_at: doctorDetails?["created_at"] as? String, updated_at: doctorDetails?["updated_at"] as? String)
                     let dateFormatterGet = DateFormatter()
                     let currentDateTime = Date()
                     let currenTymSptamp = currentDateTime.timeIntervalSince1970
@@ -107,16 +111,21 @@ class HomeViewController: BaseClassViewController {
                     }
                     if currenTymSptamp<dateTymStamp{
                         self.patientInfoArr.append(patientInfo)
-                        
-                        if i == dataDict?.count{
-                            self.clieckHere_Btn.setTitle("New Booking", for: .normal)
-                            self.description_lbl.isHidden = true
-                            self.howcanHelp_lbl.isHidden = true
+    
+                    }
+                    if i == dataDict?.count{
+                        self.clieckHere_Btn.setTitle("New Booking", for: .normal)
+                        self.description_lbl.isHidden = true
+                        self.howcanHelp_lbl.isHidden = true
+                        self.clieckHere_Btn.isHidden = false
+                        self.bookingHistoryTblView.isHidden = false
+                        self.bookingHistoryTblView.reloadData()
+                        if self.patientInfoArr.count == 0{
+                            self.bookingHistoryTblView.isHidden = true
+                            self.description_lbl.isHidden = false
+                            self.howcanHelp_lbl.isHidden = false
                             self.clieckHere_Btn.isHidden = false
-                            self.bookingHistoryTblView.isHidden = false
-                            self.bookingHistoryTblView.reloadData()
                         }
-                        
                     }
                 }
                 self.stopProgress()
@@ -126,43 +135,24 @@ class HomeViewController: BaseClassViewController {
     func UserDetails(){
         let loginToken = UserDefaults.standard.string(forKey: "loginToken")
         let api = Configurator.baseURL + ApiEndPoints.user_details + "?token=\(loginToken ?? "")"
-        
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 print(response)
                 let resultDict = response.value as? NSDictionary
                 let userDetails = resultDict!["user"] as? NSDictionary
-                self.loginType = userDetails?.object(forKey: "type") as! Int
+                let loginType = userDetails?.object(forKey: "type") as! Int
+                let namestr = userDetails?.object(forKey: "name") as? String
+                let userId = userDetails?.object(forKey: "id") as? Int
                 let img =  userDetails?.object(forKey: "avatar") as? String
-                self.imageStr = Configurator.imageBaseUrl + img!
-                UserDefaults.standard.set(self.imageStr, forKey: "loginUserProfileImage")
-                UserDefaults.standard.set(self.imageStr, forKey: "loginUserName")
-                UserDefaults.standard.set(self.loginType, forKey: "loginType")
-                UserDefaults.standard.set(self.userId, forKey: "userId")
+                let imageStr = Configurator.imageBaseUrl + img!
+                UserDefaults.standard.set(imageStr, forKey: "loginUserProfileImage")
+                UserDefaults.standard.set(namestr, forKey: "loginUserName")
+                UserDefaults.standard.set(loginType, forKey: "loginType")
+                UserDefaults.standard.set(userId, forKey: "userId")
         }
     }
     
-//    func getUserDetails(){
-//        let loginToken = UserDefaults.standard.string(forKey: "loginToken")
-//
-//        let api = Configurator.baseURL + ApiEndPoints.user_details + "?token=\(loginToken ?? "")"
-//        Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
-//            .responseJSON { response in
-//                print(response)
-//                self.stopProgress()
-//                let resultDict = response.value as? NSDictionary
-//                let userDetails = resultDict!["user"] as? NSDictionary
-//                self.userId = userDetails?.object(forKey: "id") as! Int
-//                let type = userDetails?.object(forKey: "type") as! Int
-//                print(type)
-//                UserDefaults.standard.set(type, forKey: "loginType")
-//                UserDefaults.standard.set(self.userId, forKey: "userId")
-//
-//        }
-//    }
-    
     func complaintQuestionNaireApi(){
-        
         self.showCustomProgress()
         let api = Configurator.baseURL + ApiEndPoints.complaintquestions
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
@@ -180,8 +170,12 @@ class HomeViewController: BaseClassViewController {
                             print(specialistObj)
                             let type = specialistObj["type"] as? String
                             indexingValue.questionType.append(type!)
-                            print(indexingValue.questionType)
-                            indexingValue.indexValue = 0
+                            let id = specialistObj["id"] as? Int
+                            self.questionListArr["value"] = type as AnyObject
+                            self.questionListArr["id"] = id as AnyObject
+                            indexingValue.newBookingQuestionListArr.append(self.questionListArr)
+                            print("questionList>>>>>>",indexingValue.newBookingQuestionListArr)
+                            indexingValue.indexCount = 0
                         }
                         if indexingValue.questionType.count == indexingValue.indexValue {
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController")as! AvailableDoctorsViewController
@@ -228,9 +222,7 @@ class HomeViewController: BaseClassViewController {
     }
     
     @IBAction func actionClickHereBtn(_ sender: Any) {
-          complaintQuestionNaireApi()
-       // let obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController") as! AvailableDoctorsViewController
-        //self.navigationController?.pushViewController(obj, animated: true)
+        complaintQuestionNaireApi()
     }
 }
 
@@ -281,10 +273,7 @@ extension HomeViewController : UITableViewDelegate{
         var soon = Date()
         var later = Date()
         
-        
         let dateFormatterGet = DateFormatter()
-        
-        
         dateFormatterGet.dateFormat = "dd MMMM yyyy hh:mm aa"
         soon = dateFormatterGet.date(from: patientInfoArr[indexPath.row].from!)!
         later = dateFormatterGet.date(from: patientInfoArr[indexPath.row].to!)!

@@ -13,5 +13,6 @@ target 'Tabibakum' do
   pod 'DropDown'
   pod 'Firebase/Messaging'
   pod 'TagListView'
+  pod 'KMPlaceholderTextView'
 
 end

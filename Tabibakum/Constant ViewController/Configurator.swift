@@ -12,6 +12,8 @@ class Configurator: NSObject {
     
  static let baseURL = "http://18.224.27.255:8000/api/"
  static let imageBaseUrl = "http://18.224.27.255:8000/storage/avatars/"
+ static let uploadsImgUrl = "http://18.224.27.255:8000/uploads/"
+ static let audioBaseUrl = "http://18.224.27.255:8000/audio/"
 }
 
 class indexingValue : NSObject{
@@ -22,4 +24,6 @@ class indexingValue : NSObject{
     static var complaintQuestionNaireType = [String]()
     static var questionNaireType = String()
     static var logOutViewString = String()
+    static var newBookingQuestionListArr = [[String:Any]]()
+    static var indexCount = Int()
 }
