@@ -63,7 +63,7 @@ class LoginViewController: BaseClassViewController {
         let api = Configurator.baseURL + ApiEndPoints.login
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+               // print(response)
                 let resultDict = response.value as? AnyObject
                 if let token = resultDict!["token"] as? String{
                         print("sucessss")
@@ -87,7 +87,7 @@ class LoginViewController: BaseClassViewController {
         
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+              //  print(response)
                 self.stopProgress()
                 let resultDict = response.value as? NSDictionary
                 if let userDetails = resultDict!["user"] as? NSDictionary {
@@ -146,7 +146,7 @@ class LoginViewController: BaseClassViewController {
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
-                print(response)
+             //   print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for specialistObj in dataDict! {

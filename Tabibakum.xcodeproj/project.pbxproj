@@ -541,6 +541,43 @@
 			path = "SingUp ViewController";
 			sourceTree = "<group>";
 		};
+		5146F10E22FD3A800054DDA2 /* PatientCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				510F444722D60EBC0055B4B4 /* UploadImageAndTextCollectionViewCell.swift */,
+				510F444822D60EBC0055B4B4 /* UploadImageAndTextCollectionViewCell.xib */,
+			);
+			path = PatientCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		5146F10F22FD3AF10054DDA2 /* DoctorReviewCell */ = {
+			isa = PBXGroup;
+			children = (
+				510AB53322D73B1800393F21 /* EnterDescriptionTableViewCell.swift */,
+				510AB53422D73B1800393F21 /* EnterDescriptionTableViewCell.xib */,
+				5101440D22D86BBB00572BD0 /* DoctorReportTableViewCell.swift */,
+				5101440E22D86BBB00572BD0 /* DoctorReportTableViewCell.xib */,
+			);
+			path = DoctorReviewCell;
+			sourceTree = "<group>";
+		};
+		5146F11022FD3B350054DDA2 /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				51D19F4622D76A4F009D287A /* PatientQuestionTextTableViewCell.swift */,
+				51D19F4722D76A4F009D287A /* PatientQuestionTextTableViewCell.xib */,
+				5107ECD822D345E300DBD55E /* UploadTextAndImageTableViewCell.swift */,
+				5107ECD922D345E300DBD55E /* UploadTextAndImageTableViewCell.xib */,
+				51D19F4322D765EC009D287A /* PatientTextAudioImageTableViewCell.xib */,
+				51D19F4222D765EC009D287A /* PatientTextAudioImageTableViewCell.swift */,
+				51B004E822DEEAD800F62475 /* complaintAudioImageTableViewCell.swift */,
+				51B004E922DEEAD800F62475 /* complaintAudioImageTableViewCell.xib */,
+				51B004EC22DEF0F500F62475 /* complaintImageTableViewCell.swift */,
+				51B004ED22DEF0F500F62475 /* complaintImageTableViewCell.xib */,
+			);
+			path = TableViewCell;
+			sourceTree = "<group>";
+		};
 		51D52A4722BBADA40096E1D1 /* Book Appoinment ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -586,25 +623,12 @@
 				5102F7B3229F98AE00C96F4D /* DoctorProfileViewController.swift */,
 				51E4B65122D2F8640020A050 /* PatientProfileViewController.swift */,
 				51B004F222DF0C4200F62475 /* ImageZoomViewController.swift */,
-				51E4B65522D317CD0020A050 /* patientProfileHeaderView.swift */,
-				51D19F4622D76A4F009D287A /* PatientQuestionTextTableViewCell.swift */,
-				51D19F4722D76A4F009D287A /* PatientQuestionTextTableViewCell.xib */,
-				5107ECD822D345E300DBD55E /* UploadTextAndImageTableViewCell.swift */,
-				5107ECD922D345E300DBD55E /* UploadTextAndImageTableViewCell.xib */,
-				510F444722D60EBC0055B4B4 /* UploadImageAndTextCollectionViewCell.swift */,
-				510F444822D60EBC0055B4B4 /* UploadImageAndTextCollectionViewCell.xib */,
-				51D19F4322D765EC009D287A /* PatientTextAudioImageTableViewCell.xib */,
-				51D19F4222D765EC009D287A /* PatientTextAudioImageTableViewCell.swift */,
-				51B004E822DEEAD800F62475 /* complaintAudioImageTableViewCell.swift */,
-				51B004E922DEEAD800F62475 /* complaintAudioImageTableViewCell.xib */,
-				51B004EC22DEF0F500F62475 /* complaintImageTableViewCell.swift */,
-				51B004ED22DEF0F500F62475 /* complaintImageTableViewCell.xib */,
-				510AB53322D73B1800393F21 /* EnterDescriptionTableViewCell.swift */,
-				510AB53422D73B1800393F21 /* EnterDescriptionTableViewCell.xib */,
-				5101440D22D86BBB00572BD0 /* DoctorReportTableViewCell.swift */,
-				5101440E22D86BBB00572BD0 /* DoctorReportTableViewCell.xib */,
 				51B004F022DF04E500F62475 /* PlayAudioViewController.swift */,
 				51B004F422DF3E0900F62475 /* DoctorReviewDescriptionController.swift */,
+				51E4B65522D317CD0020A050 /* patientProfileHeaderView.swift */,
+				5146F11022FD3B350054DDA2 /* TableViewCell */,
+				5146F10E22FD3A800054DDA2 /* PatientCollectionViewCell */,
+				5146F10F22FD3AF10054DDA2 /* DoctorReviewCell */,
 			);
 			path = "Profile Setting";
 			sourceTree = "<group>";

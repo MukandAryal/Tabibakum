@@ -81,8 +81,7 @@ class HomeViewController: BaseClassViewController {
         let api = Configurator.baseURL + ApiEndPoints.currentbooking + "?doctor=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
-                
+                //print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 if dataDict?.count == 0{
@@ -95,8 +94,8 @@ class HomeViewController: BaseClassViewController {
                 for specialistObj in dataDict! {
                     i = i+1
                     let doctorDetails = specialistObj["doctor_detail"]! as? NSDictionary
-                    
                     let patientInfo = allPatientInfo.patientDetails(appointment_id: specialistObj["id"] as? Int,patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: (specialistObj["froms"] as? String)!, to: (specialistObj["to"] as? String)!, id: doctorDetails?["id"] as? Int, name: doctorDetails?["name"] as? String, type: doctorDetails?["type"] as? Int, avatar: doctorDetails?["avatar"] as? String, specialist: doctorDetails?["specialist"] as? String, created_at: doctorDetails?["created_at"] as? String, updated_at: doctorDetails?["updated_at"] as? String)
+                    print(patientInfo)
                     let dateFormatterGet = DateFormatter()
                     let currentDateTime = Date()
                     let currenTymSptamp = currentDateTime.timeIntervalSince1970
@@ -105,13 +104,12 @@ class HomeViewController: BaseClassViewController {
                     let dateFormatterPrint = DateFormatter()
                     dateFormatterPrint.dateFormat = "yyyy-MM-dd HH:mm:ss"
                     if let date = dateFormatterGet.date(from: (specialistObj["to"] as? String)!){
-                        print(dateFormatterPrint.string(from: date))
+                       // print(dateFormatterPrint.string(from: date))
                         dateTymStamp = date.timeIntervalSince1970
-                        print(dateTymStamp)
+                        //print(dateTymStamp)
                     }
                     if currenTymSptamp<dateTymStamp{
                         self.patientInfoArr.append(patientInfo)
-    
                     }
                     if i == dataDict?.count{
                         self.clieckHere_Btn.setTitle("New Booking", for: .normal)
@@ -137,7 +135,7 @@ class HomeViewController: BaseClassViewController {
         let api = Configurator.baseURL + ApiEndPoints.user_details + "?token=\(loginToken ?? "")"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+               // print(response)
                 let resultDict = response.value as? NSDictionary
                 let userDetails = resultDict!["user"] as? NSDictionary
                 let loginType = userDetails?.object(forKey: "type") as! Int
@@ -158,56 +156,44 @@ class HomeViewController: BaseClassViewController {
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 self.stopProgress()
-                print(response)
+              //  print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 if let sucessStr = resultDict!["success"] as? Bool{
-                    print(sucessStr)
                     if sucessStr{
-                        print("sucessss")
                         indexingValue.questionNaireType = "complaintQuestionNaire"
                         for specialistObj in dataDict! {
-                            print(specialistObj)
                             let type = specialistObj["type"] as? String
                             indexingValue.questionType.append(type!)
                             let id = specialistObj["id"] as? Int
                             self.questionListArr["value"] = type as AnyObject
                             self.questionListArr["id"] = id as AnyObject
                             indexingValue.newBookingQuestionListArr.append(self.questionListArr)
-                            print("questionList>>>>>>",indexingValue.newBookingQuestionListArr)
                             indexingValue.indexCount = 0
                         }
                         if indexingValue.questionType.count == indexingValue.indexValue {
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController")as! AvailableDoctorsViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
-                            print("last index")
                         }
                         else if indexingValue.questionType[indexingValue.indexValue] == "text"{
-                            print("text")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }else if indexingValue.questionType[indexingValue.indexValue] == "yesno"{
-                            print("yes")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }else if indexingValue.questionType[indexingValue.indexValue] == "list"{
-                            print("list")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "ListQuestionNaireViewController")as! ListQuestionNaireViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }else if indexingValue.questionType[indexingValue.indexValue] == "image"{
-                            print("image")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireImageViewController")as! QuestionNaireImageViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }else if indexingValue.questionType[indexingValue.indexValue] == "tab1"{
-                            print("tab1")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireSingalTabViewController")as! QuestionNaireSingalTabViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }else if indexingValue.questionType[indexingValue.indexValue] == "tab2"{
-                            print("tab2")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireMultipleTabViewController")as! QuestionNaireMultipleTabViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }else if indexingValue.questionType[indexingValue.indexValue] == "tai"{
-                            print("tai")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }
@@ -222,7 +208,9 @@ class HomeViewController: BaseClassViewController {
     }
     
     @IBAction func actionClickHereBtn(_ sender: Any) {
-        complaintQuestionNaireApi()
+        //complaintQuestionNaireApi()
+        let obj =  self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController") as! AvailableDoctorsViewController
+        self.navigationController?.pushViewController(obj, animated: true)
     }
 }
 
@@ -247,14 +235,13 @@ extension HomeViewController : UITableViewDataSource{
         dateFormatterPrint.dateFormat = "dd MMMM yyyy"
         
         if let date = dateFormatterGet.date(from:  patientInfoArr[indexPath.row].from!) {
-            print(dateFormatterPrint.string(from: date))
+           // print(dateFormatterPrint.string(from: date))
             cell.date_Lbl.text = dateFormatterPrint.string(from: date)
         } else {
-            print("There was an error decoding the string")
+           // print("There was an error decoding the string")
         }
         let fromTime = patientInfoArr[indexPath.row].from
         let fromTym = fromTime!.suffix(8)
-        print(fromTym)
         let toTime = patientInfoArr[indexPath.row].to
         let toTym = toTime!.suffix(8)
         cell.time_lbl.text = fromTym.description + " " + toTym.description
@@ -277,8 +264,11 @@ extension HomeViewController : UITableViewDelegate{
         dateFormatterGet.dateFormat = "dd MMMM yyyy hh:mm aa"
         soon = dateFormatterGet.date(from: patientInfoArr[indexPath.row].from!)!
         later = dateFormatterGet.date(from: patientInfoArr[indexPath.row].to!)!
+        let fromDate = dateFormatterGet.string(from: soon)
+        let toDate = dateFormatterGet.string(from: later)
+        obj.bookingFromDate = fromDate
+        obj.bookingToDate = toDate
         let range = soon...later
-        
         if range.contains(now) {
             obj.type_str = "whtsApp"
         } else {

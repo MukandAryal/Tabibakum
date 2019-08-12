@@ -114,12 +114,11 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
-                print(response)
+              //  print(response)
                 self.stopProgress()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for specialistObj in dataDict! {
-                    print(specialistObj)
                     let type = specialistObj["type"] as? String
                     if type == "image"{
                         self.questionId = specialistObj["id"] as! Int
@@ -166,13 +165,10 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
                 switch encodingResult {
                 case .success(let upload, _, _):
                     upload.responseJSON { response in
-                        print(response)
                         self.stopProgress()
                         var resultDict = response.value as? [String:Any]
                         if let sucessStr = resultDict?["success"] as? Bool{
-                            print(sucessStr)
                             if sucessStr{
-                                print("sucessss")
                                 indexingValue.indexCount = indexingValue.indexCount + 1
                                 if indexingValue.questionType.count == indexingValue.indexValue {
                                     let loginType = UserDefaults.standard.string(forKey: "loginType")
@@ -208,35 +204,27 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
                                         }else {
                                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
                                             self.navigationController?.pushViewController(Obj, animated:true)
-                                            print("last index")
                                         }
                                     }
                                 }else if indexingValue.questionType[indexingValue.indexValue] == "text"{
-                                    print("text")
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
                                 }else if indexingValue.questionType[indexingValue.indexValue] == "yesno"{
-                                    print("yes")
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionYesNoViewController")as! QuestionYesNoViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
                                 }else if indexingValue.questionType[indexingValue.indexValue] == "list"{
-                                    print("list")
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "ListQuestionNaireViewController")as! ListQuestionNaireViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
                                 }else if indexingValue.questionType[indexingValue.indexValue] == "image"{
-                                    print("image")
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireImageViewController")as! QuestionNaireImageViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
                                 }else if indexingValue.questionType[indexingValue.indexValue] == "tab1"{
-                                    print("tab1")
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireSingalTabViewController")as! QuestionNaireSingalTabViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
                                 }else if indexingValue.questionType[indexingValue.indexValue] == "tab2"{
-                                    print("tab2")
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireMultipleTabViewController")as! QuestionNaireMultipleTabViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
                                 }else if indexingValue.questionType[indexingValue.indexValue] == "tai"{
-                                    print("tai")
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
                                 }
@@ -251,7 +239,7 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
                         }
                         }
                         .uploadProgress { progress in // main queue by default
-                            print("Upload Progress: \(progress.fractionCompleted)")
+                           // print("Upload Progress: \(progress.fractionCompleted)")
                     }
                     return
                 case .failure(let encodingError):
@@ -290,9 +278,7 @@ class QuestionNaireImageViewController: BaseClassViewController,UIImagePickerCon
         guard let selectedImage = info[.originalImage] as? UIImage else {
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
-       // if let imageData = selectedImage.jpegData(compressionQuality: 0.5) {
             imgToUpload.append(selectedImage)
-        //}
         
         if btn_Index == 1 {
             upload_photoFirstLbl.text = "Document 1.jpg"

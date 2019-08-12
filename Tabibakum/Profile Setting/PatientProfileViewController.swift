@@ -78,10 +78,13 @@ class PatientProfileViewController: BaseClassViewController, UITextViewDelegate 
     var audioData = String()
     var player: AVAudioPlayer?
     var playerCurrentTime : float4?
-   // var complaintArray = [String]()
-    var complaintArray =  [patientQuestionInfo.questionDetails]()
+    var complaintArray = [String]()
     var complaintTaiArr = [String]()
-    var patientArray = [String]()
+    var complaintImageArr = [String]()
+    var patientTaiArray = [String]()
+    var patientImageArray = [String]()
+    var checkImgStr = String()
+    var checkTaiImgStr = String()
     
     
     override func viewDidLoad() {
@@ -153,7 +156,7 @@ class PatientProfileViewController: BaseClassViewController, UITextViewDelegate 
         api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(doctorId)" + "&appoint_id=\(appointmentId)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+            //    print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for userData in dataDict! {
@@ -192,10 +195,10 @@ class PatientProfileViewController: BaseClassViewController, UITextViewDelegate 
                             self.complaintQuestionArr.append(questionNaire)
                         }
                         self.complaintTblView.reloadData()
-                      self.complaintTblView.layoutIfNeeded()
+                        self.complaintTblView.layoutIfNeeded()
                         self.complaintView_HeightConstraints.constant = CGFloat(self.complaintTblView.contentSize.height + 40)
                         self.complaintTblView.isScrollEnabled = true
-                     
+                        
                     }
                     
                     if let patientanserDict = userData["patientansers"] as? [[String:AnyObject]] {
@@ -220,7 +223,7 @@ class PatientProfileViewController: BaseClassViewController, UITextViewDelegate 
                         self.profileTblView.reloadData()
                         self.profileTblView.layoutIfNeeded()
                         self.patientInformation_HeightConstraints.constant = CGFloat(self.profileTblView.contentSize.height + 40)
-                       
+                        
                     }
                     
                     if let reportDict = userData["report"] as? [[String:AnyObject]] {
@@ -241,10 +244,10 @@ class PatientProfileViewController: BaseClassViewController, UITextViewDelegate 
                         self.doctorReviewTblView.reloadData()
                         self.doctorReviewTblView.layoutIfNeeded()
                         self.doctorReview_HeightConstraints.constant = CGFloat(self.doctorReviewTblView.contentSize.height + 40)
-                       
+                        
                     }
                 }
-        }
+          }
     }
     
     func priescriptionDescriptionApi(){
@@ -261,7 +264,7 @@ class PatientProfileViewController: BaseClassViewController, UITextViewDelegate 
         api = Configurator.baseURL + ApiEndPoints.post_lab_report
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+              //  print(response)
                 self.stopProgress()
                 if let resultDict = response.value as? [String: AnyObject]{
                     if let sucessStr = resultDict["success"] as? Bool{
@@ -412,12 +415,9 @@ class PatientProfileViewController: BaseClassViewController, UITextViewDelegate 
         } catch {
             print("AVAudioPlayer init failed")
         }
-        
     }
     
-    
     @IBAction func actionSubmitBtn(_ sender: Any) {
-        
         if descriptionStr == "" {
             let alert = UIAlertController(title: "Alert", message: "Please enter description!", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
@@ -431,7 +431,6 @@ class PatientProfileViewController: BaseClassViewController, UITextViewDelegate 
         }
     }
     
-    
     @IBAction func actionBackBtn(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
@@ -439,7 +438,6 @@ class PatientProfileViewController: BaseClassViewController, UITextViewDelegate 
         if textView.tag == 1{
             descriptionStr = textView.text
         }else{
-            
             prescriptionStr = textView.text
         }
     }
@@ -503,9 +501,7 @@ extension PatientProfileViewController : UITableViewDataSource{
                     cell.fillCollectionView(with: imgStr)
                 }
                 let arr_ = complaintQuestionArr[indexPath.row].image?.split(separator: ",").map { String($0) }
-               // self.complaintArray = arr_ ?? [""]
-                self.complaintArray = [complaintQuestionArr[indexPath.row]]
-                print(self.complaintArray)
+                self.complaintImageArr = arr_ ?? [""]
                 cell.imageCollectionView.reloadData()
                 cell.imageCollectionView.delegate = self
                 cell.imageCollectionView.dataSource = self
@@ -517,9 +513,7 @@ extension PatientProfileViewController : UITableViewDataSource{
                 cell.answerLbl.text = complaintQuestionArr[indexPath.row].text
                 cell.fillCollectionView(with: complaintQuestionArr[indexPath.row].image ?? "", audioStr: complaintQuestionArr[indexPath.row].audio ?? "")
                 let arr_ = complaintQuestionArr[indexPath.row].image?.split(separator: ",").map { String($0) }
-                //self.complaintArray = arr_ ?? [""]
-                self.complaintArray = [complaintQuestionArr[indexPath.row]]
-                print(self.complaintArray)
+                self.complaintTaiArr = arr_ ?? [""]
                 cell.complaintCollectionView.reloadData()
                 cell.complaintCollectionView.delegate = self
                 cell.complaintCollectionView.dataSource = self
@@ -560,8 +554,7 @@ extension PatientProfileViewController : UITableViewDataSource{
                     cell.fillCollectionView(with: imgStr)
                 }
                 let arr_ = patientQuestionArr[indexPath.row].image?.split(separator: ",").map { String($0) }
-                self.patientArray = arr_ ?? [""]
-                print(self.patientArray)
+                self.patientImageArray = arr_ ?? [""]
                 cell.imageCollectionView.reloadData()
                 cell.imageCollectionView.delegate = self
                 cell.imageCollectionView.dataSource = self
@@ -573,13 +566,10 @@ extension PatientProfileViewController : UITableViewDataSource{
                 cell.text_lbl.text = patientQuestionArr[indexPath.row].text
                 cell.fillCollectionView(with: patientQuestionArr[indexPath.row].image ?? "", audioStr: patientQuestionArr[indexPath.row].audio ?? "")
                 let arr_ = patientQuestionArr[indexPath.row].image?.split(separator: ",").map { String($0) }
-                self.patientArray = arr_ ?? [""]
-                print(self.patientArray)
+                self.patientTaiArray = arr_ ?? [""]
                 cell.imageCollectionView.reloadData()
                 cell.imageCollectionView.delegate = self
                 cell.imageCollectionView.dataSource = self
-              //  cell.imageCollectionView.tag = indexPath.row
-     //           indexPathIndex = indexPath.row
                 return cell
             }
         }else{
@@ -605,7 +595,6 @@ extension PatientProfileViewController : UITableViewDataSource{
                 cell.date_Lbl.text = doctorReportArr[indexPath.row].created_at!.prefix(11).description
                 return cell
             }
-            
         }
     }
 }
@@ -642,11 +631,13 @@ extension PatientProfileViewController : UICollectionViewDataSource,UICollection
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView.tag == 11 {
-            print("complaintArr>>>>>>>>>>>>>......")
-            return complaintArray.count
+            return complaintImageArr.count
+        }else if collectionView.tag == 22 {
+            return complaintTaiArr.count
+        }else if collectionView.tag == 33{
+            return patientImageArray.count
         }else{
-             print("patientArray>>>>>>>>>>>>>......")
-            return patientArray.count
+            return patientTaiArray.count
         }
     }
     
@@ -654,27 +645,32 @@ extension PatientProfileViewController : UICollectionViewDataSource,UICollection
         if collectionView.tag == 11 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier:
                 "UploadImageAndTextCollectionViewCell", for: indexPath) as! UploadImageAndTextCollectionViewCell
-            if complaintArray[indexPath.row].type == "image"{
             let imageStr = Configurator.uploadsImgUrl
-            let img = complaintArray[indexPath.item].image ?? ""
+            let img = complaintImageArr[indexPath.item]
             let finalImg = imageStr + img
             cell.documentImgView.sd_setImage(with: URL(string: finalImg), placeholderImage: UIImage(named: "user_pic"))
-                return cell
-            }else{
-                if complaintArray[indexPath.row].type == "tai"{
-                    let imageStr = Configurator.uploadsImgUrl
-                    let img = complaintArray[indexPath.item].image ?? ""
-                    let finalImg = imageStr + img
-                    cell.documentImgView.sd_setImage(with: URL(string: finalImg), placeholderImage: UIImage(named: "user_pic"))
-                   return cell
-            }
-                return cell
-        }
+            return cell
+        }else if collectionView.tag == 22{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier:
+                "UploadImageAndTextCollectionViewCell", for: indexPath) as! UploadImageAndTextCollectionViewCell
+            let imageStr = Configurator.uploadsImgUrl
+            let img = complaintTaiArr[indexPath.item]
+            let finalImg = imageStr + img
+            cell.documentImgView.sd_setImage(with: URL(string: finalImg), placeholderImage: UIImage(named: "user_pic"))
+            return cell
+        }else if collectionView.tag == 33{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier:
+                "UploadImageAndTextCollectionViewCell", for: indexPath) as! UploadImageAndTextCollectionViewCell
+            let imageStr = Configurator.uploadsImgUrl
+            let img = patientImageArray[indexPath.item]
+            let finalImg = imageStr + img
+            cell.documentImgView.sd_setImage(with: URL(string: finalImg), placeholderImage: UIImage(named: "user_pic"))
+            return cell
         }else{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier:
                 "UploadImageAndTextCollectionViewCell", for: indexPath) as! UploadImageAndTextCollectionViewCell
             let imageStr = Configurator.uploadsImgUrl
-            let img = patientArray[indexPath.item]
+            let img = patientTaiArray[indexPath.item]
             let finalImg = imageStr + img
             cell.documentImgView.sd_setImage(with: URL(string: finalImg), placeholderImage: UIImage(named: "user_pic"))
             return cell
@@ -682,30 +678,33 @@ extension PatientProfileViewController : UICollectionViewDataSource,UICollection
     }
 }
 
+
 extension PatientProfileViewController : UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("complaintArray>>>>>>>>>>>.",complaintArray[indexPath.row])
         if collectionView.tag == 11 {
-            if complaintArray[indexPath.row].type == "image"{
-            print(complaintArray[indexPath.row])
-            let imgstr = complaintArray[indexPath.row].image
-            let obj = self.storyboard?.instantiateViewController(withIdentifier: "ImageZoomViewController") as? ImageZoomViewController
-            obj?.imageStr = imgstr ?? ""
-            self.present(obj!, animated: true, completion: nil)
-            }else if complaintArray[indexPath.row].type == "tai"{
-                print(complaintArray[indexPath.row])
-                let imgstr = complaintArray[indexPath.row].image
-                let obj = self.storyboard?.instantiateViewController(withIdentifier: "ImageZoomViewController") as? ImageZoomViewController
-                obj?.imageStr = imgstr ?? ""
-                self.present(obj!, animated: true, completion: nil)
-            }
-        }else {
-            print(patientArray[indexPath.row])
-            let imgstr = patientArray[indexPath.row]
+            let imgstr = complaintImageArr[indexPath.item]
             let obj = self.storyboard?.instantiateViewController(withIdentifier: "ImageZoomViewController") as? ImageZoomViewController
             obj?.imageStr = imgstr
             self.present(obj!, animated: true, completion: nil)
-       }
+        }else if collectionView.tag  == 22{
+            print(complaintTaiArr[indexPath.row])
+            let imgstr = complaintTaiArr[indexPath.row]
+            let obj = self.storyboard?.instantiateViewController(withIdentifier: "ImageZoomViewController") as? ImageZoomViewController
+            obj?.imageStr = imgstr
+            self.present(obj!, animated: true, completion: nil)
+        }else if collectionView.tag  == 33 {
+            print(patientImageArray[indexPath.row])
+            let imgstr = patientImageArray[indexPath.row]
+            let obj = self.storyboard?.instantiateViewController(withIdentifier: "ImageZoomViewController") as? ImageZoomViewController
+            obj?.imageStr = imgstr
+            self.present(obj!, animated: true, completion: nil)
+        }else{
+            print(patientTaiArray[indexPath.row])
+            let imgstr = patientTaiArray[indexPath.row]
+            let obj = self.storyboard?.instantiateViewController(withIdentifier: "ImageZoomViewController") as? ImageZoomViewController
+            obj?.imageStr = imgstr
+            self.present(obj!, animated: true, completion: nil)
+        }
     }
 }
 

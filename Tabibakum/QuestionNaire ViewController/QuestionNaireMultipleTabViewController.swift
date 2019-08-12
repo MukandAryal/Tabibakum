@@ -50,7 +50,7 @@ class QuestionNaireMultipleTabViewController: BaseClassViewController {
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 self.stopProgress()
-                print(response)
+               // print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for specialistObj in dataDict! {
@@ -103,7 +103,7 @@ class QuestionNaireMultipleTabViewController: BaseClassViewController {
         }
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+               /// print(response)
                 self.stopProgress()
                 let resultDict = response.value as? [String: AnyObject]
                 if let sucessStr = resultDict!["success"] as? Bool{

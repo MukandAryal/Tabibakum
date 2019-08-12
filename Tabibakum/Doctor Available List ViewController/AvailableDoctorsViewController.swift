@@ -74,7 +74,7 @@ class AvailableDoctorsViewController: BaseClassViewController, UITextFieldDelega
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 
-                print(response)
+                //print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for specialistObj in dataDict! {

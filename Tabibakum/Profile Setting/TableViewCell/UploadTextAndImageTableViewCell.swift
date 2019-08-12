@@ -20,7 +20,7 @@ class UploadTextAndImageTableViewCell: UITableViewCell {
     }
     
     func fillCollectionView(with arrayStr: String) {
-        self.imageCollectionView.tag = 22
+        self.imageCollectionView.tag = 33
         let arr_ = arrayStr.split(separator: ",").map { String($0) }
         self.array = arr_
         print(self.array)

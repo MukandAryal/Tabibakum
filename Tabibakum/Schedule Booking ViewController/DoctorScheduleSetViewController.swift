@@ -67,7 +67,6 @@ class DoctorScheduleSetViewController: BaseClassViewController,UIPickerViewDeleg
         let today = Date()
         for i in 0..<7{
             let finalDate = Calendar.current.date(byAdding: .day, value: i, to: today)!
-            print(finalDate)
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             // again convert your date to string
@@ -81,7 +80,6 @@ class DoctorScheduleSetViewController: BaseClassViewController,UIPickerViewDeleg
             var dayInfoDic = [String: String]()
             
             let completeDate = completeDateForm.string(from: formateDate!)
-            print(completeDate)
             dayInfoDic["day"] = dayInWeek
             dayInfoDic["date"] = formatedate_
             dayInfoDic["completeDate"] = completeDate
@@ -105,7 +103,7 @@ class DoctorScheduleSetViewController: BaseClassViewController,UIPickerViewDeleg
         api = Configurator.baseURL + ApiEndPoints.timeSlot + "?doctor_id=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+             //   print(response)
                 self.stopProgress()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
@@ -114,7 +112,6 @@ class DoctorScheduleSetViewController: BaseClassViewController,UIPickerViewDeleg
                 var i = 0
                 for specialistObj in dataDict! {
                     i = i+1
-                    print(specialistObj)
                     let slot = timeSlot.timeSlotInfo(
                         id: specialistObj["id"] as? Int,
                         doctor_id: specialistObj["doctor_id"] as? Int,
@@ -131,7 +128,7 @@ class DoctorScheduleSetViewController: BaseClassViewController,UIPickerViewDeleg
                     dateFormatterPrint.dateFormat = "yyyy-MM-dd HH:mm:ss"
                     if let toStr = specialistObj["to"] as? String{
                         if let date = dateFormatterGet.date(from: toStr){
-                            print(dateFormatterPrint.string(from: date))
+                           // print(dateFormatterPrint.string(from: date))
                             dateTymStamp = date.timeIntervalSince1970
                             
                             self.getBookingDate = (self.monthDayForm.string(from: date))
@@ -164,26 +161,21 @@ class DoctorScheduleSetViewController: BaseClassViewController,UIPickerViewDeleg
     
     func addTags(date_ : String, completeDate : String){
         
-        print(recordArr[date_])
+       // print(recordArr[date_])
         arrEmptyVal["date"] = date_
         arrEmptyVal["completeDate"] = completeDate
          arrDicFromTo = []
         if let arr_m = recordArr[date_]{
-            print(recordArr)
             self.tagListView.removeAllTags()
            
             arrEmptyVal = [:]
            
-            print(arrEmptyVal)
             for tagValue in arr_m {
                 if tagValue != "-"{
                     arrEmptyVal = [:]
                     let splitArr = tagValue.split(separator: "-")
                     let fromVal = splitArr[0]
                     let toVal = splitArr[1]
-                    print(splitArr)
-                    print(fromVal)
-                    print(toVal)
                     var dic = [String:String]()
                     dic["from"] = "\(completeDate) \(fromVal)"
                     dic["to"] = "\(completeDate) \(toVal)"
@@ -273,9 +265,6 @@ class DoctorScheduleSetViewController: BaseClassViewController,UIPickerViewDeleg
         dateFormatterGet.dateFormat = "dd MMMM yyyy hh:mm aa"
         var i = 0
         if arrEmptyVal["date"] != nil {
-            print(arrEmptyVal["date"])
-            print(arrEmptyVal["completeDate"])
-            
             slotSetApi(date: arrEmptyVal["date"]!, CompleteDate: arrEmptyVal["completeDate"]!)
         }
         for value in arrDicFromTo{
@@ -283,8 +272,8 @@ class DoctorScheduleSetViewController: BaseClassViewController,UIPickerViewDeleg
             soon = dateFormatterGet.date(from: value["from"]!)!
             later = dateFormatterGet.date(from: value["to"]!)!
             let range = soon...later
-            print(fromDate)
-            print(toDate)
+           // print(fromDate)
+           // print(toDate)
             
             if range.contains(fromDate) || range.contains(toDate){
                 self.toStr = ""
@@ -314,10 +303,7 @@ class DoctorScheduleSetViewController: BaseClassViewController,UIPickerViewDeleg
                     self.showAlert(message: "slot not available")
                     return
                 }
-                
-                print(value["date"])
-                print(value["completeDate"])
-                self.timePicker.minimumDate = nil
+                                self.timePicker.minimumDate = nil
                 self.timePicker.maximumDate = nil
                 slotSetApi(date: value["date"]!, CompleteDate: value["completeDate"]!)
                 
@@ -342,18 +328,15 @@ class DoctorScheduleSetViewController: BaseClassViewController,UIPickerViewDeleg
             "from" : "\(CompleteDate) \(formatedate_)",
             "to" : "\(CompleteDate) \(todate_)"
         ]
-        print(param)
         var api = String()
         api = Configurator.baseURL + ApiEndPoints.doctorschedule
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+               // print(response)
                 self.stopProgress()
                 if let resultDict = response.value as? [String: AnyObject]{
                     if let sucessStr = resultDict["success"] as? Bool{
-                        print(sucessStr)
                         if sucessStr{
-                            print("sucessss")
                             if let arr_ = self.recordArr[date]{
                            
                                var arr2 = arr_
@@ -367,14 +350,13 @@ class DoctorScheduleSetViewController: BaseClassViewController,UIPickerViewDeleg
                             
                             //// issue in record Array
                             
-                            print(self.recordArr)
                             self.toStr = ""
                             self.fromStr = ""
                             self.addTags(date_: date, completeDate: CompleteDate)
                         }else {
                             self.toStr = ""
                             self.fromStr = ""
-                            let alert = UIAlertController(title: "Alert", message: "sumthing woring!", preferredStyle: UIAlertController.Style.alert)
+                            let alert = UIAlertController(title: "Alert", message: "sumthing woring! please try again", preferredStyle: UIAlertController.Style.alert)
                             alert.addAction(UIAlertAction(title: "ok", style: UIAlertAction.Style.default, handler: nil))
                             self.present(alert, animated: true, completion: nil)
                         }
@@ -494,10 +476,7 @@ extension DoctorScheduleSetViewController : UICollectionViewDelegate{
             let date = dayInfoArr[indexPath.row]["date"]
             DayString = dayInfoArr[indexPath.row]["day"]!
             DateString = dayInfoArr[indexPath.row]["completeDate"]!
-            print(date)
-            print(DateString)
             addTags(date_: date!, completeDate: DateString)
-            
             self.timePicker.maximumDate = nil
         }
     }

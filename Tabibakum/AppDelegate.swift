@@ -90,27 +90,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //MARK: - [START receive_message] --
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-
-            print(userInfo)
         }
         
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-            print(userInfo)
             completionHandler(UIBackgroundFetchResult.newData)
     }
     // [END receive_message]
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Unable to register for remote notifications: \(error.localizedDescription)")
     }
     
     // This function is added here only for debugging purposes, and can be removed if swizzling is enabled.
     // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
     // the FCM registration token.
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("APNs token retrieved: \(deviceToken)")
         // With swizzling disabled you must set the APNs token here.
          Messaging.messaging().apnsToken = deviceToken
     }
@@ -177,8 +172,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         
-        print(userInfo)
-
             completionHandler()
         }
 
@@ -189,7 +182,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 extension AppDelegate : MessagingDelegate {
     // [START refresh_token]
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("Firebase registration token: \(fcmToken)")
+       // print("Firebase registration token: \(fcmToken)")
       UserDefaults.standard.set(fcmToken, forKey: "DeviceToken")
         
         // TODO: If necessary send token to application server.
@@ -200,7 +193,7 @@ extension AppDelegate : MessagingDelegate {
     // Receive data messages on iOS 10+ directly from FCM (bypassing APNs) when the app is in the foreground.
     // To enable direct data messages, you can set Messaging.messaging().shouldEstablishDirectChannel to true.
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        print("Received data message: \(remoteMessage.appData)")
+        //print("Received data message: \(remoteMessage.appData)")
     }
     // [END ios_10_data_message]
 }

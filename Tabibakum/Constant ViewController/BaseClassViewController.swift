@@ -40,6 +40,7 @@ class BaseClassViewController: UIViewController {
             self.signOutAction()
             UserDefaults.standard.removeObject(forKey: "loginPhoneNumber")
             UserDefaults.standard.removeObject(forKey: "loginPasswordNumber")
+            UserDefaults.standard.removeObject(forKey: "userId")
             popup.dismiss()
         }
         //        // Create second button
@@ -75,7 +76,7 @@ class BaseClassViewController: UIViewController {
         api =  Configurator.baseURL + ApiEndPoints.logout + "?token=\(loginToken ?? "")"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+             //   print(response)
                 self.stopProgress()
                 let resultDict = response.value as? [String: AnyObject]
                 if let sucessStr = resultDict!["success"] as? Bool{

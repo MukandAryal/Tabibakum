@@ -74,7 +74,7 @@ class NotificationPatientViewController: BaseClassViewController {
         let api = Configurator.baseURL + ApiEndPoints.notification + "?id=\(userId)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+              //  print(response)
                 self.stopProgress()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
@@ -109,7 +109,7 @@ class NotificationPatientViewController: BaseClassViewController {
         api = Configurator.baseURL + ApiEndPoints.notificatonDelete
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+             //   print(response)
                 self.stopProgress()
                 let resultDict = response.value as? [String: AnyObject]
                 if let sucessStr = resultDict!["success"] as? Bool{

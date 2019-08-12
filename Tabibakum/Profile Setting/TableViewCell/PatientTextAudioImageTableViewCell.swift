@@ -20,7 +20,7 @@ class PatientTextAudioImageTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-     imageCollectionView.tag = 22
+     imageCollectionView.tag = 44
      audio_View.layer.cornerRadius = 10
      audio_View.clipsToBounds = true
      

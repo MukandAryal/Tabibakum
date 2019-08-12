@@ -34,7 +34,7 @@ class patientSingUpSucessfullyViewController: BaseClassViewController {
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
                self.stopProgress()
-                print(response)
+             //   print(response)
                 var resultDict = response.value as? [String:Any]
                 if let sucessStr = resultDict!["success"] as? Bool{
                     print(sucessStr)

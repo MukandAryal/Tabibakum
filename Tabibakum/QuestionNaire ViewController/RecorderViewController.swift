@@ -141,7 +141,6 @@ class RecorderViewController: UIViewController {
             currentSeconds += 1
             if currentSeconds == 60 {
                 currentMinutes += 1
-                
             }
             durationLabel.text = "\(minutes) min : \(seconds) sec"
             

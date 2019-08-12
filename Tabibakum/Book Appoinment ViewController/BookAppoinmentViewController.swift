@@ -41,6 +41,7 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
     var toTimeString = String()
     var bookTimeSting = String()
     var DayString = String()
+    let today = Date()
     
     
     override func viewDidLoad() {
@@ -59,13 +60,19 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
         tagListView.delegate = self
         let tagView = tagListView.addTag("")
         tagView.onTap = { tagView in
-            print("Don’t tap me!")
+           // print("Don’t tap me!")
         }
-        let today = Date()
         print(today)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        let todayDate = dateFormatter.string(from: today)
+        print(todayDate)
+        fromTimeString = ""
+        toTimeString = ""
+        fromTimeString = todayDate
+        toTimeString = todayDate
         for i in 0..<7{
             let finalDate = Calendar.current.date(byAdding: .day, value: i, to: today)!
-            print(finalDate)
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             // again convert your date to string
@@ -79,7 +86,6 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
             let dayInWeek = dateFormatter.string(from: formateDate!)
             dateFormatter.dateFormat = "dd MMMM yyyy"
             let completeDate = dateFormatter.string(from: formateDate!)
-            print(completeDate)
             var dayInfoDic = [String: String]()
             dayInfoDic["day"] = dayInWeek
             dayInfoDic["date"] = formatedate_
@@ -98,13 +104,12 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
         api = Configurator.baseURL + ApiEndPoints.timeSlot + "?doctor_id=\(doctorId)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+              //  print(response)
              
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 var arr_ = [String]()
                 for specialistObj in dataDict! {
-                    print(specialistObj)
                     let slot = timeSlot.timeSlotInfo(
                         id: specialistObj["id"] as? Int,
                         doctor_id: specialistObj["doctor_id"] as? Int,
@@ -120,7 +125,6 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
                     let dateFormatterPrint = DateFormatter()
                     dateFormatterPrint.dateFormat = "yyyy-MM-dd HH:mm:ss"
                     if let date = dateFormatterGet.date(from:specialistObj["to"] as? String ?? ""){
-                    print(dateFormatterPrint.string(from: date))
                     dateTymStamp = date.timeIntervalSince1970
                     let dateFrmt = DateFormatter()
                     dateFrmt.dateFormat = "MMM dd"
@@ -149,7 +153,6 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
     
     func addTags(date_ : String){
         if let arr_m = recordArr[date_]{
-            print("ARRAYYYYY \(arr_m)")
             self.tagListView.removeAllTags()
             for tagValue in arr_m {
                 self.tagListView.addTags([tagValue])
@@ -161,8 +164,6 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
         }else{
             self.tagListView.isHidden = true
             noSlotView.isHidden = false
-            print(DateString)
-            print(DayString)
             noSlotViewDay_Lbl.text = DateString.dropLast(4) + "(\(DayString))"
             submit_Btn.isHidden = true
         }
@@ -172,6 +173,15 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
         print("Tag pressed: \(title), \(sender)")
         let fromTime = title.dropLast(9)
         let toTime = title.suffix(8)
+        if DateString == "" {
+            fromTimeString = fromTimeString + " " + fromTime
+            toTimeString = toTimeString + " " + toTime
+            bookTimeSting = String(" " + fromTime + " - " + toTime)
+            tagListView.tagViews.forEach {
+                $0.isSelected = false
+            }
+            tagView.isSelected = !tagView.isSelected
+        }else{
         fromTimeString = DateString + " " + fromTime
         toTimeString = DateString + " " + toTime
         bookTimeSting = String(" " + fromTime + " - " + toTime)
@@ -179,6 +189,7 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
             $0.isSelected = false
         }
         tagView.isSelected = !tagView.isSelected
+        }
     }
     
     func bookingConfimApi(){
@@ -190,18 +201,16 @@ class BookAppoinmentViewController: BaseClassViewController,TagListViewDelegate 
             "from" : fromTimeString,
             "to" : toTimeString
         ]
-        print(param)
+        print("param>>>",param)
         var api = String()
         api = Configurator.baseURL + ApiEndPoints.patient_post_booking
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+               // print(response)
                 self.stopProgress()
                 if let resultDict = response.value as? [String: AnyObject]{
                     if let sucessStr = resultDict["success"] as? Bool{
-                        print(sucessStr)
                         if sucessStr{
-                            print("sucessss")
                             let obj = self.storyboard?.instantiateViewController(withIdentifier: "PatientBookingDoneViewController") as! PatientBookingDoneViewController
                             obj.dateString = self.DateString
                             obj.timeString = self.bookTimeSting
@@ -273,10 +282,8 @@ extension BookAppoinmentViewController : UICollectionViewDelegate{
             cell.month_Lbl.textColor = UiInterFace.appThemeColor
             cell.day_Lbl.textColor = UiInterFace.appThemeColor
             self.selectedIndexPath = indexPath
-            print(selectDate)
             bookingDateCollectionView.reloadData()
             DayString = dayInfoArr[indexPath.row]["day"]!
-            print(DayString)
             DateString = dayInfoArr[indexPath.row]["completeDate"]!
             let date = dayInfoArr[indexPath.row]["date"]
             addTags(date_: date!)

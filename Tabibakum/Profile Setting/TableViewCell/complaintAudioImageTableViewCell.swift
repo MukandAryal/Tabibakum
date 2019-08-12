@@ -21,7 +21,7 @@ class complaintAudioImageTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.complaintCollectionView.tag = 11
+        self.complaintCollectionView.tag = 22
         auiod_View.layer.cornerRadius = 10
         auiod_View.clipsToBounds = true
     }

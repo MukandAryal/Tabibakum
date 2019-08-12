@@ -125,7 +125,7 @@ class ProfileUpdateViewController: BaseClassViewController,UIImagePickerControll
         let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+              //  print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for userData in dataDict! {
@@ -151,7 +151,7 @@ class ProfileUpdateViewController: BaseClassViewController,UIImagePickerControll
         let api = Configurator.baseURL + ApiEndPoints.specialist_list
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+              //  print(response)
                 let resultDict = response.value as? NSDictionary
                 let data = resultDict!["data"] as? [NSDictionary]
                 for specialistObj in data! {
@@ -192,7 +192,7 @@ class ProfileUpdateViewController: BaseClassViewController,UIImagePickerControll
                 switch encodingResult {
                 case .success(let upload, _, _):
                     upload.responseJSON { response in
-                        print(response)
+                      //  print(response)
                         self.stopProgress()
                         var resultDict = response.value as? [String:AnyObject]
                         if let sucessStr = resultDict!["success"] as? Bool{
@@ -207,7 +207,7 @@ class ProfileUpdateViewController: BaseClassViewController,UIImagePickerControll
                          }
                         }
                         .uploadProgress { progress in // main queue by default
-                            print("Upload Progress: \(progress.fractionCompleted)")
+                           // print("Upload Progress: \(progress.fractionCompleted)")
                     }
                     return
                 case .failure(let encodingError):

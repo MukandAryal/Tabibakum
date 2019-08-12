@@ -63,7 +63,7 @@ class BookingsDoctorViewController: BaseClassViewController {
         api = Configurator.baseURL + ApiEndPoints.currentbooking + "?doctor_id=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+            //    print(response)
                 self.stopProgress()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as! [[String:AnyObject]]
@@ -84,6 +84,7 @@ class BookingsDoctorViewController: BaseClassViewController {
                        self.empty_view.backgroundColor = UIColor(red: 246/254, green: 246/254, blue: 246/254, alpha: 1.0)
                     }
                     let doctInfo = allBookingHistory.bookingHistoryDetails(appointment_id: specialistObj["id"] as? Int,patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: specialistObj["froms"] as? String, to: specialistObj["to"] as? String, id: doctorDetails["id"] as? Int, name: doctorDetails["name"] as? String, type: doctorDetails["type"] as? Int, avatar: doctorDetails["avatar"] as? String, specialist: doctorDetails["specialist"] as? String, created_at: doctorDetails["created_at"] as? String, updated_at: doctorDetails["updated_at"] as? String)
+                    print(doctInfo)
                     let dateFormatterGet = DateFormatter()
                     let currentDateTime = Date()
                     let currenTymSptamp = currentDateTime.timeIntervalSince1970
@@ -131,8 +132,8 @@ class BookingsDoctorViewController: BaseClassViewController {
         api = Configurator.baseURL + ApiEndPoints.delete_booking
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
-                self.stopProgress()
+             //   print(response)
+               self.stopProgress()
                 let resultDict = response.value as? [String: AnyObject]
                 if let sucessStr = resultDict!["success"] as? Bool{
                     print(sucessStr)
@@ -206,10 +207,9 @@ extension BookingsDoctorViewController : UITableViewDataSource{
         cell.user_NameLbl.text = doctorInfoArr[indexPath.row].name!.capitalized
         cell.spcialist_Lbl.text = doctorInfoArr[indexPath.row].specialist
         let dateFormatterGet = DateFormatter()
-        dateFormatterGet.dateFormat = "dd-mm-yyyy-"
+        dateFormatterGet.dateFormat = "dd MMMM yyyy hh:mm aa"
         let dateFormatterPrint = DateFormatter()
-        dateFormatterPrint.dateFormat = "MMM d, yyyy"
-        
+        dateFormatterPrint.dateFormat = "dd MMMM yyyy"
         if let date = dateFormatterGet.date(from:  doctorInfoArr[indexPath.row].from!) {
             print(dateFormatterPrint.string(from: date))
             cell.date_Lbl.text = dateFormatterPrint.string(from: date)

@@ -107,7 +107,7 @@ class SingUpViewController: BaseClassViewController,UIImagePickerControllerDeleg
                 switch encodingResult {
                 case .success(let upload, _, _):
                     upload.responseJSON { response in
-                        print(response)
+                      //  print(response)
                         self.stopProgress()
                         var resultDict = response.value as? [String:Any]
                         if let sucessStr = resultDict!["success"] as? Bool{

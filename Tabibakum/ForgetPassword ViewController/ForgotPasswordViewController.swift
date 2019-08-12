@@ -39,12 +39,12 @@ class ForgotPasswordViewController: BaseClassViewController {
             Alamofire.request(api, method: .post, parameters: nil, encoding: JSONEncoding.default)
                 .responseJSON { response in
                  self.stopProgress()
-                    print(response)
+                  //  print(response)
                     let resultDict = response.value as? [String: AnyObject]
                     print(resultDict)
                      let sucessStr = resultDict!["success"] as? String
                      let message = resultDict!["message"] as? String
-                        print(sucessStr)
+                      //  print(sucessStr)
                     if sucessStr == "true"{
                             self.showCustomDialog()
                         }else{

@@ -139,7 +139,7 @@ class PatientProfileUpdateViewController: BaseClassViewController,UINavigationCo
         let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+              //  print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for userData in dataDict! {
@@ -192,7 +192,7 @@ class PatientProfileUpdateViewController: BaseClassViewController,UINavigationCo
                 switch encodingResult {
                 case .success(let upload, _, _):
                     upload.responseJSON { response in
-                        print(response)
+                      //  print(response)
                         self.stopProgress()
                         let resultDict = response.value as? [String:AnyObject]
                         if let sucessStr = resultDict!["success"] as? Bool{
@@ -207,7 +207,7 @@ class PatientProfileUpdateViewController: BaseClassViewController,UINavigationCo
                         }
                         }
                         .uploadProgress { progress in // main queue by default
-                            print("Upload Progress: \(progress.fractionCompleted)")
+                          ///  print("Upload Progress: \(progress.fractionCompleted)")
                     }
                     return
                 case .failure(let encodingError):

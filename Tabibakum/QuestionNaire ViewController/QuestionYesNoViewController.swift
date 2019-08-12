@@ -52,7 +52,7 @@ class QuestionYesNoViewController: BaseClassViewController {
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                self.stopProgress()
-                print(response)
+               // print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for specialistObj in dataDict! {
@@ -75,11 +75,8 @@ class QuestionYesNoViewController: BaseClassViewController {
         self.showCustomProgress()
         let loginToken = UserDefaults.standard.string(forKey: "loginToken")
         let questionInfo = indexingValue.newBookingQuestionListArr[indexingValue.indexCount]
-        print("questionInfo>>>>>",questionInfo)
         let question_Id = questionInfo["id"]
-        print("question_Id>>>>",question_Id)
         let question_Type = questionInfo["value"]
-        print("questionType>>",question_Type)
         let param: [String: Any] = [
             "question_id" : question_Id!,
             "text" : selectString,
@@ -87,7 +84,6 @@ class QuestionYesNoViewController: BaseClassViewController {
             "token" : loginToken!
         ]
         
-        print(param)
         var api = String()
         let loginType = UserDefaults.standard.string(forKey: "loginType")
         if loginType == "1" {
@@ -101,11 +97,10 @@ class QuestionYesNoViewController: BaseClassViewController {
         }
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+              //  print(response)
                self.stopProgress()
                 let resultDict = response.value as? [String: AnyObject]
                 if let sucessStr = resultDict!["success"] as? Bool{
-                    print(sucessStr)
                     if sucessStr{
                         print("sucessss")
                         indexingValue.indexCount = indexingValue.indexCount + 1
@@ -121,18 +116,15 @@ class QuestionYesNoViewController: BaseClassViewController {
                                 }else{
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
-                                    print("last index")
                                 }
                             }else {
                                 if indexingValue.questionNaireType == "singUpQuestionNaire" {
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
-                                    print("last index")
                                 }
                                 else if indexingValue.questionNaireType == "complaintQuestionNaire" {
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController")as! AvailableDoctorsViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
-                                    print("last index")
                                 }else if indexingValue.questionNaireType == "updateQuestionNaire"{
                                     if self.skip != "0" {
                                         self.skip_Btn.isEnabled = false

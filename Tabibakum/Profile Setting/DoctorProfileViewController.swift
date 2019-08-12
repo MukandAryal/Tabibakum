@@ -47,7 +47,6 @@ class DoctorProfileViewController: BaseClassViewController,UITextViewDelegate {
     @IBOutlet weak var addFeedback_View: UIView!
     @IBOutlet weak var enterFeedBack_View: UIView!
     @IBOutlet weak var addFeedbackBtn_Constraints: NSLayoutConstraint!
-    
     @IBOutlet weak var profileViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tableHeight: NSLayoutConstraint!
     @IBOutlet weak var name_Lbl: UILabel!
@@ -71,6 +70,8 @@ class DoctorProfileViewController: BaseClassViewController,UITextViewDelegate {
     var type_str = String()
     var feedBackArr = [doctorFeedbackInfo.feedbackDetails]()
     var doctorInfoDetailsArr = allDoctorList.doctorDetails()
+    var bookingFromDate = String()
+    var bookingToDate = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,8 +127,11 @@ class DoctorProfileViewController: BaseClassViewController,UITextViewDelegate {
         education_Lbl.text = doctorInfoDetailsArr.education
         experience_Lbl.text = doctorInfoDetailsArr.experience
         gender_Lbl.text = doctorInfoDetailsArr.gender
-        
-        
+        let dateStr = bookingFromDate.dropLast(8)
+        let timeFromStr = bookingFromDate.suffix(8)
+        let timeToStr = bookingToDate.suffix(8)
+        appointmentDate_Lbl.text = dateStr.description
+        appointmentTime_Lbl.text = timeFromStr + "-" + timeToStr
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -165,16 +169,7 @@ class DoctorProfileViewController: BaseClassViewController,UITextViewDelegate {
             profileViewHeight.constant = infoViewHeightConstrains.constant + appointment_view.frame.size.height
             
         }else if type_str == "whatsAppHide"{
-//            whtsApp_Icon.isHidden = true
-//            appointment_view.isHidden = true
-//            bookAppoinment_Btn.isHidden = true
-//            bookAppointmentBtnHeightConstrains.constant = 40
-//            connectHeight.constant = 0
-//            bookAppointmentConstraints.constant = 20
-//            infoViewHeightConstrains.constant = (descString.height(withConstrainedWidth: self.view.frame.size.width-30, font: UIFont.systemFont(ofSize: 13.0))) + 160
-//            info_view.addConstraint(infoViewHeightConstrains)
-//            profileViewHeight.constant = infoViewHeightConstrains.constant + 60
-            
+
             whtsApp_Icon.isHidden = true
             connectHeight.constant = 0
             bookAppoinment_Btn.isHidden = true
@@ -228,7 +223,7 @@ class DoctorProfileViewController: BaseClassViewController,UITextViewDelegate {
         let api = Configurator.baseURL + ApiEndPoints.userdata + "?user_id=\(doctorId ?? 0)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+           //     print(response)
                 self.stopProgress()
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
@@ -243,9 +238,7 @@ class DoctorProfileViewController: BaseClassViewController,UITextViewDelegate {
                     self.education_Lbl.text = userData["education"] as? String
                     self.experience_Lbl.text = userData["experience"] as? String
                     self.gender_Lbl.text = userData["gender"] as? String
-                    //if self.description_Lbl.text != nil{
                     self.setupProfile(descString: self.description_Lbl.text ?? "")
-                    //}
                 }
                 for userData in dataDict! {
                     let feedbackData = userData["doctor_feedback"] as? [[String:AnyObject]]
@@ -274,7 +267,7 @@ class DoctorProfileViewController: BaseClassViewController,UITextViewDelegate {
         let api = Configurator.baseURL + ApiEndPoints.feedback_post
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+            //    print(response)
                 self.stopProgress()
                 var resultDict = response.value as? [String:Bool]
                 if resultDict!["success"]!  {

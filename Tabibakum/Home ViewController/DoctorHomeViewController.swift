@@ -68,7 +68,6 @@ class DoctorHomeViewController: BaseClassViewController {
         api = Configurator.baseURL + ApiEndPoints.currentbooking + "?doctor_id=\(useid)"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 var i = 0
@@ -79,36 +78,28 @@ class DoctorHomeViewController: BaseClassViewController {
                     self.howcanHelp_lbl.isHidden = false
                 }
                 for specialistObj in dataDict! {
-                    
                     i = i+1
-                    var doctorDetails = [String:AnyObject]()
-                    if  UserDefaults.standard.integer(forKey: "loginType") == 0{
-                        doctorDetails = (specialistObj["doctor_detail"] as? [String:AnyObject])!
-                    }else{
-                        doctorDetails = (specialistObj["patient_detail"] as? [String:AnyObject])!
-                    }
-                    let patientInfo = allPatientInfo.patientDetails(appointment_id: specialistObj["id"] as? Int,patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: (specialistObj["froms"] as? String)!, to: (specialistObj["to"] as? String)!, id: doctorDetails["id"] as? Int, name: doctorDetails["name"] as? String, type: doctorDetails["type"] as? Int, avatar: doctorDetails["avatar"] as? String, specialist: doctorDetails["specialist"] as? String, created_at: doctorDetails["created_at"] as? String, updated_at: doctorDetails["updated_at"] as? String)
+                    let doctorDetails = specialistObj["patient_detail"]! as? NSDictionary
+                    let patientInfo = allPatientInfo.patientDetails(appointment_id: specialistObj["id"] as? Int,patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: (specialistObj["froms"] as? String)!, to: (specialistObj["to"] as? String)!, id: doctorDetails?["id"] as? Int, name: doctorDetails?["name"] as? String, type: doctorDetails?["type"] as? Int, avatar: doctorDetails?["avatar"] as? String, specialist: doctorDetails?["specialist"] as? String, created_at: doctorDetails?["created_at"] as? String, updated_at: doctorDetails?["updated_at"] as? String)
+                    print(patientInfo)
                     let dateFormatterGet = DateFormatter()
                     let currentDateTime = Date()
                     let currenTymSptamp = currentDateTime.timeIntervalSince1970
-                    print(currenTymSptamp)
                     var dateTymStamp = TimeInterval()
                     dateFormatterGet.dateFormat = "dd MMMM yyyy hh:mm aa"
                     let dateFormatterPrint = DateFormatter()
                     dateFormatterPrint.dateFormat = "yyyy-MM-dd HH:mm:ss"
                     if let date = dateFormatterGet.date(from: (specialistObj["to"] as? String)!){
-                        print(dateFormatterPrint.string(from: date))
                         dateTymStamp = date.timeIntervalSince1970
-                        print(dateTymStamp)
                     }
                     if currenTymSptamp<dateTymStamp{
                         self.patientInfoArr.append(patientInfo)
                     }
                     if i == dataDict?.count{
                         self.doctorBookingHistoryTblView.isHidden = false
-                        self.noApponitment_ImgView.isHidden = false
-                        self.description_lbl.isHidden = false
-                        self.howcanHelp_lbl.isHidden = false
+                        self.noApponitment_ImgView.isHidden = true
+                        self.description_lbl.isHidden = true
+                        self.howcanHelp_lbl.isHidden = true
                         self.doctorBookingHistoryTblView.reloadData()
                         if self.patientInfoArr.count == 0{
                             self.doctorBookingHistoryTblView.isHidden = true
@@ -127,7 +118,6 @@ class DoctorHomeViewController: BaseClassViewController {
         let api = Configurator.baseURL + ApiEndPoints.user_details + "?token=\(loginToken ?? "")"
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
                 self.stopProgress()
                 let resultDict = response.value as? NSDictionary
                 let userDetails = resultDict!["user"] as? NSDictionary
@@ -137,7 +127,6 @@ class DoctorHomeViewController: BaseClassViewController {
                 let img =  userDetails?.object(forKey: "avatar") as? String
                 let userId = userDetails?.object(forKey: "id") as? Int
                 let imageStr = Configurator.imageBaseUrl + img!
-                print(type)
                 UserDefaults.standard.set(type, forKey: "loginType")
                 UserDefaults.standard.set(userId, forKey: "userId")
                 UserDefaults.standard.set(imageStr, forKey: "loginUserProfileImage")
@@ -165,15 +154,12 @@ extension DoctorHomeViewController : UITableViewDataSource{
         let dateFormatterPrint = DateFormatter()
         dateFormatterPrint.dateFormat = "dd MMMM yyyy"
         if let date = dateFormatterGet.date(from:  patientInfoArr[indexPath.row].from!) {
-            print(dateFormatterPrint.string(from: date))
             cell.date_Lbl.text = dateFormatterPrint.string(from: date)
             cell.date_Lbl.textColor = UiInterFace.appThemeColor
         } else {
-            print("There was an error decoding the string")
         }
         let fromTime = patientInfoArr[indexPath.row].from
         let fromTym = fromTime!.suffix(8)
-        print(fromTym)
         let toTime = patientInfoArr[indexPath.row].to
         let toTym = toTime!.suffix(8)
         cell.time_lbl.text = fromTym.description + " " + toTym.description
@@ -186,7 +172,6 @@ extension DoctorHomeViewController : UITableViewDataSource{
 extension DoctorHomeViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let obj = self.storyboard?.instantiateViewController(withIdentifier: "PatientProfileViewController") as! PatientProfileViewController
-        print(patientInfoArr[indexPath.row])
         obj.doctorId = patientInfoArr[indexPath.row].patient_id!
         obj.appointmentId = patientInfoArr[indexPath.row].appointment_id!
         self.navigationController?.pushViewController(obj, animated: true)

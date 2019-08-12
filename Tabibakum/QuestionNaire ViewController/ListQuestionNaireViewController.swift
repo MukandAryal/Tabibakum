@@ -55,7 +55,7 @@ class ListQuestionNaireViewController: BaseClassViewController {
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 // LoadingIndicatorView.hide()
-                print(response)
+              //  print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for specialistObj in dataDict! {
@@ -83,19 +83,14 @@ class ListQuestionNaireViewController: BaseClassViewController {
         self.showCustomProgress()
         let loginToken = UserDefaults.standard.string(forKey: "loginToken")
         let questionInfo = indexingValue.newBookingQuestionListArr[indexingValue.indexCount]
-        print("questionInfo>>>>>",questionInfo)
         let question_Id = questionInfo["id"]
-        print("question_Id>>>>",question_Id)
         let question_Type = questionInfo["value"]
-        print("questionType>>",question_Type)
         let param: [String: Any] = [
             "question_id" : question_Id!,
             "text" : select_txtFld.text!,
             "type" : question_Type!,
             "token" : loginToken!
         ]
-        
-        print(param)
         var api = String()
         let loginType = UserDefaults.standard.string(forKey: "loginType")
         if loginType == "1" {
@@ -109,13 +104,11 @@ class ListQuestionNaireViewController: BaseClassViewController {
         }
         Alamofire.request(api, method: .post, parameters: param, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+               // print(response)
                 self.stopProgress()
                 let resultDict = response.value as? [String: AnyObject]
                 if let sucessStr = resultDict!["success"] as? Bool{
-                    print(sucessStr)
                     if sucessStr{
-                        print("sucessss")
                         indexingValue.indexCount = indexingValue.indexCount + 1
                         if indexingValue.questionType.count == indexingValue.indexValue {
                             let loginType = UserDefaults.standard.string(forKey: "loginType")
@@ -129,18 +122,15 @@ class ListQuestionNaireViewController: BaseClassViewController {
                                 }else{
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
-                                    print("last index")
                                 }
                             }else {
                                 if indexingValue.questionNaireType == "singUpQuestionNaire" {
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "TermsAndConditionsViewController")as! TermsAndConditionsViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
-                                    print("last index")
                                 }
                                 else if indexingValue.questionNaireType == "complaintQuestionNaire" {
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController")as! AvailableDoctorsViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
-                                    print("last index")
                                 }else if indexingValue.questionNaireType == "updateQuestionNaire"{
                                     if self.skip != "0" {
                                         self.skip_Btn.isEnabled = false
@@ -150,35 +140,27 @@ class ListQuestionNaireViewController: BaseClassViewController {
                                 }else {
                                     let Obj = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController")as! HomeViewController
                                     self.navigationController?.pushViewController(Obj, animated:true)
-                                    print("last index")
                                 }
                             }
                         }else if indexingValue.questionType[indexingValue.indexValue] == "text"{
-                            print("text")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireTextViewController")as! QuestionNaireTextViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }else if indexingValue.questionType[indexingValue.indexValue] == "yesno"{
-                            print("yes")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionYesNoViewController")as! QuestionYesNoViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }else if indexingValue.questionType[indexingValue.indexValue] == "list"{
-                            print("list")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "ListQuestionNaireViewController")as! ListQuestionNaireViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }else if indexingValue.questionType[indexingValue.indexValue] == "image"{
-                            print("image")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireImageViewController")as! QuestionNaireImageViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }else if indexingValue.questionType[indexingValue.indexValue] == "tab1"{
-                            print("tab1")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireSingalTabViewController")as! QuestionNaireSingalTabViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }else if indexingValue.questionType[indexingValue.indexValue] == "tab2"{
-                            print("tab2")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QuestionNaireMultipleTabViewController")as! QuestionNaireMultipleTabViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }else if indexingValue.questionType[indexingValue.indexValue] == "tai"{
-                            print("tai")
                             let Obj = self.storyboard?.instantiateViewController(withIdentifier: "QueestionNaireImgeAndTextViewController")as! QueestionNaireImgeAndTextViewController
                             self.navigationController?.pushViewController(Obj, animated:true)
                         }

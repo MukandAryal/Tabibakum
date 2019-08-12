@@ -146,7 +146,7 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                 self.stopProgress()
-                print(response)
+              //  print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 for specialistObj in dataDict! {
@@ -206,7 +206,7 @@ class QueestionNaireImgeAndTextViewController: BaseClassViewController,UIImagePi
                 switch encodingResult {
                 case .success(let upload, _, _):
                     upload.responseJSON { response in
-                        print(response)
+                     //   print(response)
                         self.stopProgress()
                         var resultDict = response.value as? [String:Any]
                         if let sucessStr = resultDict!["success"] as? Bool{

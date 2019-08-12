@@ -193,7 +193,7 @@ class SignUpAsDoctorViewController: BaseClassViewController,UIImagePickerControl
                 switch encodingResult {
                 case .success(let upload, _, _):
                     upload.responseJSON { response in
-                        print(response)
+                     //   print(response)
                         self.stopProgress()
                         var resultDict = response.value as? [String:AnyObject]
                         if let sucessStr = resultDict!["success"] as? Bool{
@@ -233,7 +233,7 @@ class SignUpAsDoctorViewController: BaseClassViewController,UIImagePickerControl
         let api = Configurator.baseURL + ApiEndPoints.specialist_list
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
-                print(response)
+             //   print(response)
                 let resultDict = response.value as? NSDictionary
                 let data = resultDict!["data"] as? [NSDictionary]
                 for specialistObj in data! {
@@ -251,7 +251,7 @@ class SignUpAsDoctorViewController: BaseClassViewController,UIImagePickerControl
         Alamofire.request(api, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
                
-                print(response)
+               // print(response)
                 let resultDict = response.value as? NSDictionary
                 let dataDict = resultDict!["data"] as? [[String:AnyObject]]
                 if let sucessStr = resultDict!["success"] as? Bool{
