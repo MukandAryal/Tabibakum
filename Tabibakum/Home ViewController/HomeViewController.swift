@@ -208,9 +208,9 @@ class HomeViewController: BaseClassViewController {
     }
     
     @IBAction func actionClickHereBtn(_ sender: Any) {
-        //complaintQuestionNaireApi()
-        let obj =  self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController") as! AvailableDoctorsViewController
-        self.navigationController?.pushViewController(obj, animated: true)
+        complaintQuestionNaireApi()
+        //let obj =  self.storyboard?.instantiateViewController(withIdentifier: "AvailableDoctorsViewController") as! AvailableDoctorsViewController
+        //self.navigationController?.pushViewController(obj, animated: true)
     }
 }
 

@@ -56,7 +56,7 @@ class DoctorHomeViewController: BaseClassViewController {
         indexingValue.newBookingQuestionListArr.removeAll()
         indexingValue.indexValue = 0
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }

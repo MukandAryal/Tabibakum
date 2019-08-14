@@ -289,7 +289,6 @@ public class GIFHUD: UIView {
     layer.masksToBounds = true
     imageView?.contentMode = .center
     imageView = GIFHUDImageView(frame: CGRect(x: -50, y: -50, width: 350, height: 250))
-    
     addSubview(imageView!)
   }
 

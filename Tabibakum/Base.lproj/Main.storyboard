@@ -1637,13 +1637,13 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No new notification !" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FTP-NH-phy">
-                                                <rect key="frame" x="30" y="180" width="315" height="17.5"/>
+                                                <rect key="frame" x="30" y="180" width="315" height="15"/>
                                                 <fontDescription key="fontDescription" name="ProximaNova-Bold" family="Proxima Nova" pointSize="15"/>
                                                 <color key="textColor" red="0.23921568630000001" green="0.25490196079999999" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We'll let you know when we've got sumthing new for you" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ise-l1-Ybw">
-                                                <rect key="frame" x="10" y="207.5" width="355" height="35"/>
+                                                <rect key="frame" x="10" y="205" width="355" height="30"/>
                                                 <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="15"/>
                                                 <color key="textColor" red="0.23921568630000001" green="0.25490196079999999" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -5727,12 +5727,12 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Appontment Yet!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8C-wC-s0h">
-                                <rect key="frame" x="20" y="374" width="335" height="17.5"/>
+                                <rect key="frame" x="20" y="374" width="335" height="15"/>
                                 <fontDescription key="fontDescription" name="ProximaNova-Bold" family="Proxima Nova" pointSize="15"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You Don't have any upcoming appoinment." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O0V-Dg-FtM">
-                                <rect key="frame" x="20" y="401.5" width="335" height="17.5"/>
+                                <rect key="frame" x="20" y="399" width="335" height="15"/>
                                 <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="15"/>
                                 <color key="textColor" red="0.5450980392" green="0.61176470589999998" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -6316,7 +6316,7 @@
         <scene sceneID="R5k-Eu-GQP">
             <objects>
                 <viewController storyboardIdentifier="DoctorScheduleSetViewController" id="guJ-gf-EuH" customClass="DoctorScheduleSetViewController" customModule="Tabibakum" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="BIC-Ac-oxM">
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="BIC-Ac-oxM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -6403,7 +6403,7 @@
                                     <constraint firstItem="Jqw-pA-C5g" firstAttribute="top" secondItem="xdx-N6-Bfv" secondAttribute="top" constant="10" id="vxP-Be-Ctu"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PY9-Ia-rNy">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PY9-Ia-rNy">
                                 <rect key="frame" x="152.5" y="547" width="70" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="EHS-cR-Dtc"/>
@@ -8816,6 +8816,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="wFs-jq-qm8"/>
-        <segue reference="eO0-Nw-PZl"/>
+        <segue reference="jmX-Sm-IFE"/>
     </inferredMetricsTieBreakers>
 </document>

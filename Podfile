@@ -14,5 +14,7 @@ target 'Tabibakum' do
   pod 'Firebase/Messaging'
   pod 'TagListView'
   pod 'KMPlaceholderTextView'
+  pod 'JGProgressHUD'
+  pod 'ANLoader'
 
 end

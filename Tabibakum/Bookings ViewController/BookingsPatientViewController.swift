@@ -44,12 +44,12 @@ class BookingsPatientViewController: BaseClassViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        delete_Btn.isHidden = true
         setupSideMenu()
         setDefaults()
         self.no_historyImgage.isHidden = true
         self.no_appiontmentLbl.isHidden = true
         self.description_Lbl.isHidden = true
+        delete_Btn.isHidden = true
         bookingsTblView.register(UINib(nibName: "BookingHistoryTableViewCell", bundle: nil), forCellReuseIdentifier: "BookingHistoryTableViewCell")
         bookingHistoryListApi()
     }
@@ -98,7 +98,7 @@ class BookingsPatientViewController: BaseClassViewController {
                         self.no_historyImgage.isHidden = false
                         self.no_appiontmentLbl.isHidden = false
                         self.description_Lbl.isHidden = false
-                        self.delete_Btn.isHidden = true
+                        self.delete_Btn.isHidden = false
                         self.empty_View.backgroundColor = UIColor(red: 246/254, green: 246/254, blue: 246/254, alpha: 1.0)
                     }
                     let doctInfo = allBookingHistory.bookingHistoryDetails(appointment_id: specialistObj["id"] as? Int,patient_id: specialistObj["patient_id"] as? Int, doctor_id: specialistObj["doctor_id"] as? Int, from: specialistObj["from"] as? String, froms: specialistObj["froms"] as? String, to: specialistObj["to"] as? String, id: doctorDetails["id"] as? Int, name: doctorDetails["name"] as? String, type: doctorDetails["type"] as? Int, avatar: doctorDetails["avatar"] as? String, specialist: doctorDetails["specialist"] as? String, created_at: doctorDetails["created_at"] as? String, updated_at: doctorDetails["updated_at"] as? String)
@@ -123,11 +123,12 @@ class BookingsPatientViewController: BaseClassViewController {
                     self.no_historyImgage.isHidden = false
                     self.no_appiontmentLbl.isHidden = false
                     self.description_Lbl.isHidden = false
-                    self.delete_Btn.isHidden = true
+                    self.delete_Btn.isHidden = false
                     self.empty_View.backgroundColor = UIColor(red: 246/254, green: 246/254, blue: 246/254, alpha: 1.0)
                 }
                 self.stopProgress()
                 self.bookingsTblView.reloadData()
+                self.delete_Btn.isHidden = false
         }
     }
     

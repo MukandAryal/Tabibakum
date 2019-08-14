@@ -31,8 +31,7 @@ class ProfileUpdateViewController: BaseClassViewController,UIImagePickerControll
     @IBOutlet weak var dropDownTblView: UITableView!
     
     var genderArr = ["Male","Female"]
-    
-    var expArr = ["0 year","1 year","2 year","3 year","4 year","5 year","6 year","7 year","8 year","9 year","10 year","11 year","12 year","13 year","14 year","15 year","16 year","17 year","18 year","19 year","20 year","21 year","22 year","23 year","24 year","24 year","26 year","27 year","28 year","29 year","30 year","31 year","32 year","33 year","34 year","35 year","36 year","37 year","38 year","39 year"]
+    var expArr = [String]()
     
     let dropDownSingle = DropDown()
     let dropDownMultiple = DropDown()
@@ -44,7 +43,11 @@ class ProfileUpdateViewController: BaseClassViewController,UIImagePickerControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        countLoop()
+        customUiDesign()
+    }
+    
+    func customUiDesign(){
         profile_imgView.layer.cornerRadius = profile_imgView.frame.height/2
         profile_imgView.clipsToBounds = true
         
@@ -117,6 +120,13 @@ class ProfileUpdateViewController: BaseClassViewController,UIImagePickerControll
         userProfileApi()
         showDatePicker()
         specializationListApi()
+    }
+    
+    func countLoop(){
+        for number in 1...39 {
+            print(number)
+            expArr.append(number.description + " " + "year")
+        }
     }
     
     func userProfileApi(){

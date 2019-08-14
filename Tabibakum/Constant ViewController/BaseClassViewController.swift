@@ -9,14 +9,18 @@
 import UIKit
 import Alamofire
 import SideMenu
+import JGProgressHUD
+import ANLoader
 
 typealias UIButtonTargetClosure = (UIButton) -> ()
+    let hud = JGProgressHUD(style: .light)
 
 class BaseClassViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        GIFHUD.shared.setGif(named: "dotted_loader.gif")
+       // GIFHUD.shared.setGif(named: "dotted_loader.gif")
+
     }
     
     func logoutView() {
@@ -103,12 +107,16 @@ class BaseClassViewController: UIViewController {
     }
     
     func showCustomProgress() {
-        GIFHUD.shared.show(withOverlay: true)
-        
+     //   ANLoader.showLoading("Loading", disableUI: true)
+        hud.textLabel.text = "Loading"
+        hud.show(in: self.view)
+      //  hud.dismiss(afterDelay: 3.0)
     }
     
     func stopProgress() {
-        GIFHUD.shared.dismiss()
+       // ANLoader.hide()
+        hud.dismiss()
+       // hud.isHidden = true
     }
 }
 
